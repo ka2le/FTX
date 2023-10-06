@@ -11,16 +11,32 @@ import {
   Divider,
   IconButton,
   DialogTitle,
+  styled  
 } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+
+const SmallTabs = styled(Tabs)({
+  fontSize: '0.7rem',
+});
+
+const SelectionField = styled('div')({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+});
+
+const SmallIcon = styled('span')({
+  fontSize: '1rem',
+});
 
 function App() {
   const [currentTab, setCurrentTab] = useState(0);
   const [showSelected, setShowSelected] = useState(false);
   const [tableHeight, setTableHeight] = useState(300); // Initial height in pixels
-
   // Sample Data for DataGrids
 
   const combos = [{
@@ -89,24 +105,26 @@ function App() {
 
   return (
     <div>
-      {/* Fixed Section */}
-      <AppBar position="sticky">
+     {/* Fixed Section */}
+     <AppBar position="sticky">
         {/* Selection-Tabs */}
-        <Tabs value={currentTab} onChange={(e, newVal) => setCurrentTab(newVal)}>
+        <SmallTabs value={currentTab} onChange={(e, newVal) => setCurrentTab(newVal)}>
           <Tab label="Tab 1" />
           <Tab label="Tab 2" />
           {/* Add Tab Button */}
           <Button color="inherit">Add Tab</Button>
-        </Tabs>
-        {/* Selection-Field and "+" Button */}
-        <div>
-          <span>Selected Ingredients Here</span>
-          <Button color="inherit">+</Button>
-        </div>
-        {/* Toggle Button */}
-        <Button color="inherit" onClick={() => setShowSelected(!showSelected)}>
-          {showSelected ? 'Show All' : 'Show Only Selected'}
-        </Button>
+        </SmallTabs>
+        <SelectionField>
+          {/* Selection-Field and "+" Button */}
+          <div>
+            <span>Selected Ingredients Here</span>
+            <Button color="inherit">+</Button>
+          </div>
+          {/* Toggle Button */}
+          <IconButton color="inherit" onClick={() => setShowSelected(!showSelected)}>
+            {showSelected ? <VisibilityOffIcon fontSize="small" /> : <VisibilityIcon fontSize="small" />}
+          </IconButton>
+        </SelectionField>
       </AppBar>
 
       {/* Scrollable Section */}
@@ -119,16 +137,17 @@ function App() {
             columns={[{ field: 'combo', headerName: 'Name' }, { field: 'items', headerName: 'Ingredients' }]}
           />
         </Paper>
-        {/* Draggable Divider */}
-        <Divider orientation="horizontal" />
+         {/* Draggable Divider */}
+         <Divider orientation="horizontal" />
         <div>
           <IconButton onClick={() => setTableHeight(tableHeight - 20)}>
-            <ArrowUpwardIcon />
+            <ArrowUpwardIcon fontSize="small" />
           </IconButton>
           <IconButton onClick={() => setTableHeight(tableHeight + 20)}>
-            <ArrowDownwardIcon />
+            <ArrowDownwardIcon fontSize="small" />
           </IconButton>
         </div>
+
         {/* Ingredient Utility Table */}
         <Paper style={{ flex: 1, height: `calc(100vh - ${tableHeight + 128}px)`, overflow: 'auto' }}>
           <DataGrid
