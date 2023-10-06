@@ -90,13 +90,23 @@ function App() {
     // Logic for draggable divider
   };
 
+  const StyledDataGrid = styled(DataGrid)({
+    '& .MuiDataGrid-cell': {
+      fontSize: '0.6rem',
+    },
+    '& .MuiDataGrid-columnHeader': {
+      fontSize: '0.8rem',
+      height: '20px !important',
+    },
+  });
 
   const tableSettings = {
     hideFooter: true,
     rowsPerPageOptions: [100],
     pageSize: 100,
     autoHeight: true,
-    rowHeight: 30,
+    rowHeight: 25,
+
     disableExtendRowFullWidth: true,
     disableColumnMenu: true,
   };
@@ -131,29 +141,29 @@ function App() {
       <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 128px)' }}>
         {/* Combos Table */}
         <Paper style={{ height: tableHeight, overflow: 'auto' }}>
-          <DataGrid
+          <StyledDataGrid
            {...tableSettings}
             rows={combos.map(combo => ({ id: combo.combo, ...combo }))}
-            columns={[{ field: 'combo', headerName: 'Name' }, { field: 'items', headerName: 'Ingredients' }]}
+            columns={[{ field: 'combo', headerName: 'Name',flex: 0.5 }, { field: 'items', headerName: 'Ingredients' , flex: 1}]}
           />
         </Paper>
          {/* Draggable Divider */}
          <Divider orientation="horizontal" />
         <div>
-          <IconButton onClick={() => setTableHeight(tableHeight - 20)}>
+          <IconButton onClick={() => setTableHeight(tableHeight - 150)}>
             <ArrowUpwardIcon fontSize="small" />
           </IconButton>
-          <IconButton onClick={() => setTableHeight(tableHeight + 20)}>
+          <IconButton onClick={() => setTableHeight(tableHeight + 150)}>
             <ArrowDownwardIcon fontSize="small" />
           </IconButton>
         </div>
 
         {/* Ingredient Utility Table */}
         <Paper style={{ flex: 1, height: `calc(100vh - ${tableHeight + 128}px)`, overflow: 'auto' }}>
-          <DataGrid
-           {...tableSettings}
+          <StyledDataGrid
+           {...tableSettings }
             rows={ingredients.map(ingredient => ({ id: ingredient.name, ...ingredient }))}
-            columns={[{ field: 'name', headerName: 'Ingredient' }, { field: 'level', headerName: 'Lvl' }]}
+            columns={[{ field: 'name', headerName: 'Ingredient' , flex: 1}, { field: 'level', headerName: 'Lvl' }]}
           />
         </Paper>
       </div>
