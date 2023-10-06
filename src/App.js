@@ -94,9 +94,10 @@ function App() {
     '& .MuiDataGrid-cell': {
       fontSize: '0.6rem',
     },
-    '& .MuiDataGrid-columnHeader': {
+    '& .MuiDataGrid-columnHeader, & .MuiDataGrid-columnHeaders': {
       fontSize: '0.8rem',
-      height: '20px !important',
+      height: '24px !important',
+      minHeight: '24px !important',
     },
   });
 
@@ -106,9 +107,8 @@ function App() {
     pageSize: 100,
     autoHeight: true,
     rowHeight: 25,
-
     disableExtendRowFullWidth: true,
-    disableColumnMenu: true,
+    disableColumnMenu: false,
   };
 
   
@@ -144,7 +144,7 @@ function App() {
           <StyledDataGrid
            {...tableSettings}
             rows={combos.map(combo => ({ id: combo.combo, ...combo }))}
-            columns={[{ field: 'combo', headerName: 'Name',flex: 0.5 }, { field: 'items', headerName: 'Ingredients' , flex: 1}]}
+            columns={[{ field: 'combo', headerName: 'Name',flex: 0.5 }, { field: 'items', headerName: 'Ingredients' , flex: 1, filterable:true}]}
           />
         </Paper>
          {/* Draggable Divider */}
@@ -157,7 +157,7 @@ function App() {
             <ArrowDownwardIcon fontSize="small" />
           </IconButton>
         </div>
-
+        <Divider orientation="horizontal" />
         {/* Ingredient Utility Table */}
         <Paper style={{ flex: 1, height: `calc(100vh - ${tableHeight + 128}px)`, overflow: 'auto' }}>
           <StyledDataGrid
