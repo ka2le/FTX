@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/ftx/static/css/main.07cb9608.css",
-    "main.js": "/ftx/static/js/main.508db18e.js",
+    "main.css": "/ftx/static/css/main.9981af77.css",
+    "main.js": "/ftx/static/js/main.0221e24f.js",
     "static/js/787.a5396179.chunk.js": "/ftx/static/js/787.a5396179.chunk.js",
     "static/media/CaveatBrush-Regular.ttf": "/ftx/static/media/CaveatBrush-Regular.dae368f31d8ab9261b85.ttf",
     "static/media/LoveYaLikeASister-Regular.ttf": "/ftx/static/media/LoveYaLikeASister-Regular.5783571c335ed23cc13f.ttf",
@@ -15,12 +15,12 @@
     "static/media/slick.ttf": "/ftx/static/media/slick.c94f7671dcc99dce43e2.ttf",
     "static/media/slick.woff": "/ftx/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/ftx/index.html",
-    "main.07cb9608.css.map": "/ftx/static/css/main.07cb9608.css.map",
-    "main.508db18e.js.map": "/ftx/static/js/main.508db18e.js.map",
+    "main.9981af77.css.map": "/ftx/static/css/main.9981af77.css.map",
+    "main.0221e24f.js.map": "/ftx/static/js/main.0221e24f.js.map",
     "787.a5396179.chunk.js.map": "/ftx/static/js/787.a5396179.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.07cb9608.css",
-    "static/js/main.508db18e.js"
+    "static/css/main.9981af77.css",
+    "static/js/main.0221e24f.js"
   ]
 }
