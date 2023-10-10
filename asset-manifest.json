@@ -1,8 +1,9 @@
 {
   "files": {
-    "main.css": "/ftx/static/css/main.5eb59b57.css",
-    "main.js": "/ftx/static/js/main.a8a4385b.js",
+    "main.css": "/ftx/static/css/main.9ba8092c.css",
+    "main.js": "/ftx/static/js/main.afe865a3.js",
     "static/js/787.a5396179.chunk.js": "/ftx/static/js/787.a5396179.chunk.js",
+    "static/media/board.jpg": "/ftx/static/media/board.93692a923c40796a6898.jpg",
     "static/media/CaveatBrush-Regular.ttf": "/ftx/static/media/CaveatBrush-Regular.dae368f31d8ab9261b85.ttf",
     "static/media/LoveYaLikeASister-Regular.ttf": "/ftx/static/media/LoveYaLikeASister-Regular.5783571c335ed23cc13f.ttf",
     "static/media/GrechenFuemen-Regular.ttf": "/ftx/static/media/GrechenFuemen-Regular.86f59879d9a1eb0ede9c.ttf",
@@ -15,12 +16,12 @@
     "static/media/slick.ttf": "/ftx/static/media/slick.c94f7671dcc99dce43e2.ttf",
     "static/media/slick.woff": "/ftx/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/ftx/index.html",
-    "main.5eb59b57.css.map": "/ftx/static/css/main.5eb59b57.css.map",
-    "main.a8a4385b.js.map": "/ftx/static/js/main.a8a4385b.js.map",
+    "main.9ba8092c.css.map": "/ftx/static/css/main.9ba8092c.css.map",
+    "main.afe865a3.js.map": "/ftx/static/js/main.afe865a3.js.map",
     "787.a5396179.chunk.js.map": "/ftx/static/js/787.a5396179.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.5eb59b57.css",
-    "static/js/main.a8a4385b.js"
+    "static/css/main.9ba8092c.css",
+    "static/js/main.afe865a3.js"
   ]
 }
