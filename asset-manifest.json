@@ -1,19 +1,21 @@
 {
   "files": {
-    "main.css": "/ftx/static/css/main.18cee071.css",
-    "main.js": "/ftx/static/js/main.ca4484e2.js",
+    "main.css": "/ftx/static/css/main.e33c50b1.css",
+    "main.js": "/ftx/static/js/main.a4114f96.js",
     "static/js/787.a5396179.chunk.js": "/ftx/static/js/787.a5396179.chunk.js",
+    "static/media/PermanentMarker-Regular.ttf": "/ftx/static/media/PermanentMarker-Regular.109a10dca0508e41aa12.ttf",
+    "static/media/GloriaHallelujah-Regular.ttf": "/ftx/static/media/GloriaHallelujah-Regular.c9da976c6f9088d1b3c9.ttf",
     "static/media/slick.svg": "/ftx/static/media/slick.2630a3e3eab21c607e21.svg",
     "static/media/slick.eot": "/ftx/static/media/slick.a4e97f5a2a64f0ab1323.eot",
     "static/media/slick.ttf": "/ftx/static/media/slick.c94f7671dcc99dce43e2.ttf",
     "static/media/slick.woff": "/ftx/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/ftx/index.html",
-    "main.18cee071.css.map": "/ftx/static/css/main.18cee071.css.map",
-    "main.ca4484e2.js.map": "/ftx/static/js/main.ca4484e2.js.map",
+    "main.e33c50b1.css.map": "/ftx/static/css/main.e33c50b1.css.map",
+    "main.a4114f96.js.map": "/ftx/static/js/main.a4114f96.js.map",
     "787.a5396179.chunk.js.map": "/ftx/static/js/787.a5396179.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.18cee071.css",
-    "static/js/main.ca4484e2.js"
+    "static/css/main.e33c50b1.css",
+    "static/js/main.a4114f96.js"
   ]
 }
