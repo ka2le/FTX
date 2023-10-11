@@ -1,174 +1,1041 @@
-import React, { useState } from 'react';
-import {
-  AppBar,
-  Tabs,
-  Tab,
-  Button,
-  Paper,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  Divider,
-  IconButton,
-  DialogTitle,
-  styled  
-} from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import React, { useRef, useState, useEffect  } from 'react';
+import Slider from 'react-slick';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
 
-const SmallTabs = styled(Tabs)({
-  fontSize: '0.7rem',
-});
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import './App.css'; // your custom css
 
-const SelectionField = styled('div')({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-});
+export default function App() {
+  const slider1 = useRef(null);
+  const slider2 = useRef(null);
+  const loadFromLocalStorage = () => {
+    const storedIngredients = localStorage.getItem('ingredients');
+    return storedIngredients ? JSON.parse(storedIngredients) : initialIngredients.map((ingredient) => ({ ...ingredient, amount: 0 }));
+  };
 
-const SmallIcon = styled('span')({
-  fontSize: '1rem',
-});
+  const [ingredients, setIngredients] = useState(loadFromLocalStorage);
+  useEffect(() => {
+    localStorage.setItem('ingredients', JSON.stringify(ingredients));
+  }, [ingredients]);
+  const reset = () => {
+    const userConfirmed = window.confirm('Are you sure you want to reset all ingredients?');
+    if (userConfirmed) {
+      localStorage.removeItem('ingredients');
+      setIngredients(initialIngredients.map((ingredient) => ({ ...ingredient, amount: 0 })));
+    }
+  };
+  
+  const [open, setOpen] = useState(false);
+  const handleClose = () => {
 
-function App() {
-  const [currentTab, setCurrentTab] = useState(0);
-  const [showSelected, setShowSelected] = useState(false);
-  const [tableHeight, setTableHeight] = useState(300); // Initial height in pixels
-  // Sample Data for DataGrids
+    setOpen(false);
+  };
 
-  const combos = [{
-    combo: "Cheeseburger", items: ["Beef", "Cheese", "Lettuce", "Tomato",
-      "Hamburger Buns"]
-  }, { combo: "Chicken Burger", items: ["Chicken", "Onion", "Lettuce", "Hamburger Buns",] }, { combo: "BBQ Pork", items: ["Pork", "Onion", "Cheese", "Hamburger Buns",] }, {
-    combo: "Vegan Burger",
-    items: ["Tofu", "Mushroom", "Lettuce", "Hamburger Buns",]
-  }, { combo: "Fish Burger", items: ["Fish", "Lemon", "Lettuce", "Hamburger Buns",] }, {
-    combo: "Shrimp-Avocado", items: ["Shrimp", "Avocado", "Lettuce",
-      "Hamburger Buns",]
-  }, { combo: "Loaded Fries", items: ["Potato", "Cheese", "Garlic", "Oil",] }, { combo: "Carne Asada", items: ["Beef", "Onion", "Lime", "Tortilla",] }, {
-    combo: "Chicken Taco", items: ["Chicken",
-      "Avocado", "Cilantro", "Tortilla",]
-  }, { combo: "Baja Fish", items: ["Fish", "Cabbage", "Lime", "Tortilla",] }, { combo: "Shrimp Taco", items: ["Shrimp", "Garlic", "Chili", "Tortilla", "Pineapple"] }, {
-    combo: "Al Pastor",
-    items: ["Pork", "Pineapple", "Cilantro", "Tortilla",]
-  }, { combo: "Vegan Taco", items: ["Tofu", "Mushroom", "Avocado", "Tortilla",] }, { combo: "Bean Burrito", items: ["Beans", "Rice", "Cheese", "Tortilla", "Lime"] },
-  { combo: "Elote", items: ["Corn", "Cheese", "Chili", "Lime",] }, { combo: "Smoky Pork", items: ["Pork", "Spices", "Garlic", "Corn Bread",] }, {
-    combo: "Lemon Chicken",
-    items: ["Chicken", "Lemon", "Spices", "Corn Bread",]
-  }, { combo: "Beef Brisket", items: ["Beef", "Corn Bread", "Spices", "Corn",] }, {
-    combo: "Grilled Fish",
-    items: ["Fish", "Lemon", "Oil", "Corn Bread",]
-  }, { combo: "Spicy Shrimp", items: ["Shrimp", "Chili", "Garlic", "Corn Bread", "Corn"] }, {
-    combo: "Vegan Platter",
-    items: ["Tofu", "Spices", "Mushroom", "Corn Bread", "Corn"]
-  }, { combo: "Rice & Beans", items: ["Beans", "Rice", "Oil", ,] }, {
-    combo: "Marinara",
-    items: ["Pasta", "Beef", "Tomato", ,]
-  }, { combo: "Alfredo", items: ["Pasta", "Chicken", "Garlic", ,] }, {
-    combo: "Seafood Linguini",
-    items: ["Pasta", "Fish", "Lemon", ,]
-  }, { combo: "Scampi", items: ["Pasta", "Shrimp", "Tomato", ,] }, { combo: "Carbonara", items: ["Pasta", "Egg", "Cheese", "Pork",] },
-  { combo: "Risotto", items: ["Rice", "Mushroom", "Cheese", ,] }, { combo: "Pancakes", items: ["Egg", "Flour", "Milk", ,] }, { combo: "Curry", items: ["Chicken", "Naan", "Spices", ,] },
-  { combo: "Korma", items: ["Beef", "Naan", "Garlic", "Peanuts",] }, { combo: "Vindaloo", items: ["Pork", "Naan", "Chili", ,] }, { combo: "Seafood Curry", items: ["Fish", "Rice", "Spices", "Shrimp",] },
-  { combo: "Tikka", items: ["Shrimp", "Naan", "Spices", ,] }, { combo: "Samosas", items: ["Flour", "Beans", "Spices", ,] }, { combo: "Bhurji", items: ["Egg", "Naan", "Onion", ,] },
-  { combo: "Dal", items: ["Rice", "Beans", "Spices", ,] }, { combo: "Souvlaki", items: ["Chicken", "Pita", "Cucumber", ,] }, { combo: "Gyro", items: ["Beef", "Pita", "Tomato", "Cucumber", "Potato"] },
-  { combo: "Pork Wrap", items: ["Pork", "Pita", "Onion", ,] }, { combo: "Fish Pita", items: ["Fish", "Pita", "Lemon", ,] }, { combo: "Saganaki", items: ["Shrimp", "Pita", "Garlic", ,] },
-  { combo: "Vegan Pocket", items: ["Tofu", "Pita", "Lettuce", "Cucumber", "Basil"] }, { combo: "Ham Omelette", items: ["Egg", "Cheese", "Pork", ,] },
-  { combo: "Tomato Omelette", items: ["Egg", "Cheese", "Tomato", ,] }, { combo: "Char Siu", items: ["Pork", "Bao Buns", "Soy Sauce", ,] },
-  { combo: "Chicken Bao", items: ["Chicken", "Bao Buns", "Ginger", "Peanuts",] }, { combo: "Beef Bao", items: ["Beef", "Bao Buns", "Onion", "Ginger",] },
-  { combo: "Fish Bao", items: ["Fish", "Bao Buns", "Lemon", "Cabbage",] }, { combo: "Shrimp Bao", items: ["Shrimp", "Bao Buns", "Garlic", ,] }
-    , { combo: "Tofu Bao", items: ["Tofu", "Bao Buns", "Cucumber", "Soy Sauce", "Peanuts"] }, { combo: "Shitake Stir Fry", items: ["Rice", "Ginger", "Mushroom", "Oil", "Onion"] }];
-  const ingredients = [
-    { name: "Cheese", level: 2, copies: 4 }, { name: "Spices", level: 2, copies: 4 }, { name: "Pork", level: 1, copies: 4 }, { name: "Shrimp", level: 1, copies: 4 }, { name: "Garlic", level: 1, copies: 4 }, { name: "Beef", level: 2, copies: 3 }, { name: "Chicken", level: 2, copies: 3 }, { name: "Fish", level: 2, copies: 3 }, { name: "Onion", level: 2, copies: 3 }, { name: "Tortilla", level: 2, copies: 3 }, { name: "Rice", level: 3, copies: 2 }, { name: "Lemon", level: 3, copies: 2 }, { name: "Corn Bread", level: 3, copies: 2 }, { name: "Pita", level: 3, copies: 2 }, { name: "Bao Buns", level: 3, copies: 2 }, { name: "Lettuce", level: 3, copies: 2 }, { name: "Hamburger Buns", level: 3, copies: 2 }, { name: "Tofu", level: 2, copies: 2 }, { name: "Pasta", level: 2, copies: 2 }, { name: "Egg", level: 2, copies: 2 }, { name: "Mushroom", level: 2, copies: 2 }, { name: "Naan", level: 2, copies: 2 }, { name: "Tomato", level: 2, copies: 2 }, { name: "Beans", level: 1, copies: 2 }, { name: "Corn", level: 1, copies: 2 }, { name: "Chili", level: 1, copies: 2 }, { name: "Lime", level: 1, copies: 2 }, { name: "Oil", level: 1, copies: 2 }, { name: "Cucumber", level: 1, copies: 2 }, { name: "Peanuts", level: 1, copies: 2 }, { name: "Avocado", level: 1, copies: 2 }, { name: "Ginger", level: 1, copies: 2 }, { name: "Potato", level: 1, copies: 1 }, { name: "Flour", level: 1, copies: 1 }, { name: "Cabbage", level: 1, copies: 1 }, { name: "Pineapple", level: 1, copies: 1 }, { name: "Cilantro", level: 1, copies: 1 }, { name: "Soy Sauce", level: 1, copies: 1 }, { name: "Basil", level: 1, copies: 1 }, { name: "Milk", level: 1, copies: 1 }
-    // ... more ingredients
+
+
+  const images = [
+    'img/bao.jpg',
+    'img/bbq.jpg',
+    'img/burger.jpg',
+    'img/indian.jpg',
+    'img/pasta.jpg',
+    'img/taco.jpg'
   ];
 
-  const handleDividerDrag = (e) => {
-    // Logic for draggable divider
+  const borderColors = [
+    '#a8e4ff',
+    '#dfa35b',
+    '#cc4f33',
+    '#ffc701',
+    '#6788f8',
+    '#fff065'
+  ];
+  const goTo = (index) => {
+    slider1.current.slickGoTo(index);
+  };
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    asNavFor: slider2.current
   };
 
-  const StyledDataGrid = styled(DataGrid)({
-    '& .MuiDataGrid-cell': {
-      fontSize: '0.6rem',
-    },
-    '& .MuiDataGrid-columnHeader, & .MuiDataGrid-columnHeaders': {
-      fontSize: '0.8rem',
-      height: '24px !important',
-      minHeight: '24px !important',
-    },
-  });
-
-  const tableSettings = {
-    hideFooter: true,
-    rowsPerPageOptions: [100],
-    pageSize: 100,
-    autoHeight: true,
-    rowHeight: 25,
-    disableExtendRowFullWidth: true,
-    disableColumnMenu: false,
+  const thumbnailSettings = {
+    infinite: true,
+    focusOnSelect: true,
+    slidesToShow: 6,
+    swipeToSlide: true,
+    arrows: false,
+    asNavFor: slider1.current
   };
-
-  
-
+  console.log(combos)
   return (
-    <div>
-     {/* Fixed Section */}
-     <AppBar position="sticky">
-        {/* Selection-Tabs */}
-        <SmallTabs value={currentTab} onChange={(e, newVal) => setCurrentTab(newVal)}>
-          <Tab label="Tab 1" />
-          <Tab label="Tab 2" />
-          {/* Add Tab Button */}
-          <Button color="inherit">Add Tab</Button>
-        </SmallTabs>
-        <SelectionField>
-          {/* Selection-Field and "+" Button */}
-          <div>
-            <span>Selected Ingredients Here</span>
-            <Button color="inherit">+</Button>
-          </div>
-          {/* Toggle Button */}
-          <IconButton color="inherit" onClick={() => setShowSelected(!showSelected)}>
-            {showSelected ? <VisibilityOffIcon fontSize="small" /> : <VisibilityIcon fontSize="small" />}
-          </IconButton>
-        </SelectionField>
-      </AppBar>
+    <div className="container" >
+      {/* <div className="title">FTX</div> */}
+      <Slider ref={slider1} {...settings}>
+        {combos.map((truck, index) =>
+          (<TruckMenu key={index} truckData={truck} ingredientsState={ingredients}></TruckMenu>)
+        )}
 
-      {/* Scrollable Section */}
-      <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 128px)' }}>
-        {/* Combos Table */}
-        <Paper style={{ height: tableHeight, overflow: 'auto' }}>
-          <StyledDataGrid
-           {...tableSettings}
-            rows={combos.map(combo => ({ id: combo.combo, ...combo }))}
-            columns={[{ field: 'combo', headerName: 'Name',flex: 0.5 }, { field: 'items', headerName: 'Ingredients' , flex: 1, filterable:true}]}
-          />
-        </Paper>
-         {/* Draggable Divider */}
-         <Divider orientation="horizontal" />
-        <div>
-          <IconButton onClick={() => setTableHeight(tableHeight - 150)}>
-            <ArrowUpwardIcon fontSize="small" />
-          </IconButton>
-          <IconButton onClick={() => setTableHeight(tableHeight + 150)}>
-            <ArrowDownwardIcon fontSize="small" />
-          </IconButton>
+      </Slider>
+      <div  className="score-row" >
+        {checkCompleteCombos(ingredients, combos).join(", ")}
+      <Button variant="outline" className="open-dialog-button" onClick={() => {
+        setOpen(true)
+
+      }}>
+        +
+      </Button>
+      </div>
+      <Dialog open={open} onClose={handleClose} className="ingredient-dialog">
+        <div className="dialog-title-actions">
+          <DialogTitle className="dialog-title">Ingredients</DialogTitle>
+          <DialogActions className="dialog-actions">
+          <Button  className="dialog-actions-button" onClick={reset} >
+              Reset
+            </Button>
+            <Button  className="dialog-actions-button" onClick={handleClose} >
+              x
+            </Button>
+           
+          </DialogActions>
         </div>
-        <Divider orientation="horizontal" />
-        {/* Ingredient Utility Table */}
-        <Paper style={{ flex: 1, height: `calc(100vh - ${tableHeight + 128}px)`, overflow: 'auto' }}>
-          <StyledDataGrid
-           {...tableSettings }
-            rows={ingredients.map(ingredient => ({ id: ingredient.name, ...ingredient }))}
-            columns={[{ field: 'name', headerName: 'Ingredient' , flex: 1}, { field: 'level', headerName: 'Lvl' }]}
-          />
-        </Paper>
+        <DialogContent>
+          <IngredientList ingredients={ingredients} setIngredients={setIngredients} />
+        </DialogContent>
+
+      </Dialog>
+      <div className="thumbnail-slider-wrap">
+        <Slider ref={slider2} {...thumbnailSettings}>
+          {combos.map((truck, index) => (
+            <TruckThumbnail
+              key={index}
+              truckData={truck}
+              goTo={goTo}
+              index={index}
+            />
+          ))}
+        </Slider>
       </div>
     </div>
   );
 }
 
-export default App;
+const TruckMenu = ({ truckData,  ingredientsState}) => {
+  const currentStyle = truckStyles[truckData.short.toLowerCase()] || truckStyles.default;
+  
+  // Function to find matching ingredients
+  const findMatchingIngredient = (ingredientName, availableIngredients) => {
+    return availableIngredients.find(ing => ing.name === ingredientName && ing.amount > 0);
+  };
+
+  return (
+    <div className={`truck-container ${currentStyle.mainFont}`}>
+      <h1
+        className={currentStyle.titleFont}
+        style={{
+          color: currentStyle.color,
+        }}
+      >{truckData.TruckName}</h1>
+      {truckData.combos.map((combo, index) => (
+        <div key={index}>
+          <h2 className={currentStyle.titleFont} style={{
+            color: currentStyle.color,
+          }}>{combo.ComboName}</h2>
+          {combo.ComboLines.map((line, lineIndex) => (
+            <div key={lineIndex} className="combo-line">
+              <span className="requirements">{line.requirements}</span>
+              <span className="ingredients">
+                {line.ingredients.map((ingredientName, ingIndex) => {
+                  const matchedIngredient = findMatchingIngredient(ingredientName, ingredientsState);
+                  const className = matchedIngredient ? 'ingredient-match' : '';
+                  const color = matchedIngredient ? matchedIngredient.color : 'white'
+                  return (
+                    <>
+                      <div key={ingIndex} className={`ingredient ${className}`} style={{ display: 'inline', color: color }}>
+                        {ingredientName}
+                      </div>
+                      {ingIndex < line.ingredients.length - 1 && <span style={{ display: 'inline' }}> - </span>}
+                    </>
+                  );
+                })}
+              </span>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const TruckThumbnail = ({ truckData, goTo, index }) => {
+  // Get the truck style or fallback to default
+  const currentStyle = truckStyles[truckData.short.toLowerCase()] || truckStyles.default;
+
+  return (
+    <div
+      className="thumbnail-container"
+      style={{
+        backgroundColor: 'black',
+        borderColor: currentStyle.color,
+        color: currentStyle.color,
+      }}
+      onClick={() => goTo(index)}
+    >
+      {truckData.short}
+    </div>
+  );
+};
+
+const IngredientList = ({ ingredients, setIngredients }) => {
+  const incrementAmount = (name) => {
+    setIngredients((prevIngredients) =>
+      prevIngredients.map((ingredient) =>
+        ingredient.name === name
+          ? { ...ingredient, amount: ingredient.amount + 1 }
+          : ingredient
+      )
+    );
+  };
+
+  const decrementAmount = (name) => {
+    setIngredients((prevIngredients) =>
+      prevIngredients.map((ingredient) =>
+        ingredient.name === name && ingredient.amount > 0
+          ? { ...ingredient, amount: ingredient.amount - 1 }
+          : ingredient
+      )
+    );
+  };
+  return (
+    <div className="ingredient-container">
+
+      {ingredients.map((ingredient) => (
+        <div key={ingredient.name} className="ingredient-row" style={{ color: ingredient.color }}>
+          <span className="ingredient-name">{ingredient.name}</span>
+          <button className="amount-button" onClick={() => decrementAmount(ingredient.name)}>-</button>
+          <span className="ingredient-amount">{ingredient.amount}</span>
+          <button className="amount-button" onClick={() => incrementAmount(ingredient.name)}>+</button>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+
+const defaultFont = "font-1";
+
+// .permanentMarker
+// .hallelujah
+// .caveatBrush
+// .grechenFuemen
+// .loveYaLikeASister
+// .mrsSheppards
+// .sedgwickAveDisplay
+
+const truckStyles = {
+  taco: {
+    titleFont: 'caveatBrush',
+    mainFont: defaultFont,
+    color: '#97d66b', // Lime Green
+  },
+  burger: {
+    titleFont: "sedgwickAveDisplay",
+    mainFont: defaultFont,
+    color: '#d14b4b', // Ketchup Red
+  },
+  curry: {
+    titleFont: "sedgwickAveDisplay",
+    mainFont: defaultFont,
+    color: '#FFA07A', // Curry Orange
+  },
+  pasta: {
+    titleFont: "grechenFuemen",
+    mainFont: defaultFont,
+    color: '#e8d25a', // Pasta Yellow
+  },
+  bbq: {
+    titleFont: "loveYaLikeASister",
+    mainFont: defaultFont,
+    color: '#9a7bdb', // Purple (Unchanged)
+  },
+  bao: {
+    titleFont: "caveatBrush",
+    mainFont: defaultFont,
+    color: '#7bc8db', // Light Blue (Unchanged)
+  },
+  // Add more styles here
+  default: {
+    titleFont: defaultFont,
+    mainFont: defaultFont,
+    color: '#FFFFFF', // White
+  },
+};
+
+
+function checkCompleteCombos(ingredients, foodTrucks) {
+  const completeCombos = [];
+
+  // Convert the ingredients into a dictionary for faster lookup
+  const ingredientDict = {};
+  ingredients.forEach((ingredient) => {
+    ingredientDict[ingredient.name] = ingredient.amount;
+  });
+
+  // Loop through each food truck
+  foodTrucks.forEach((truck) => {
+    // Loop through each combo within the food truck
+    truck.combos.forEach((combo) => {
+      let isComboComplete = true; // Assume the combo is complete until proven otherwise
+
+      // Loop through each ComboLine in the combo
+      combo.ComboLines.forEach((line) => {
+        const requirement = parseInt(line.requirements, 10); // The numeric part of the requirement
+        const isPlus = line.requirements.includes('+'); // Check if the requirement has a "+" sign
+
+        // Count the number of ingredients the player has for this line
+        let count = 0;
+        let ingredientCount = {};
+        line.ingredients.forEach((ingredient) => {
+          ingredientCount[ingredient] = (ingredientCount[ingredient] || 0) + 1;
+        });
+
+        Object.keys(ingredientCount).forEach((ingredient) => {
+          if (ingredientDict[ingredient] && ingredientDict[ingredient] >= ingredientCount[ingredient]) {
+            count += ingredientCount[ingredient];
+          }
+        });
+
+        // Check if the player meets the requirement for this line
+        if ((isPlus && count >= requirement) || (!isPlus && count === requirement)) {
+          // Requirement met for this line
+        } else {
+          // Requirement not met for this line
+          isComboComplete = false;
+        }
+      });
+
+      // If all lines are fulfilled, add the combo to the list of complete combos
+      if (isComboComplete) {
+        completeCombos.push(combo.ComboName);
+      }
+    });
+  });
+
+  return completeCombos;
+}
+
+
+const initialIngredients = [
+  {"name": "aubergine", "color": "#B085B7"},
+  {"name": "avocado", "color": "#B2EABD"},
+  {"name": "banana", "color": "#FFF58D"},
+  {"name": "bao buns", "color": "#F2F2F2"},
+  {"name": "basil", "color": "#75E050"},
+  {"name": "beans", "color": "#D4B68D"},
+  {"name": "beef", "color": "#F28580"},
+  {"name": "cabbage", "color": "#BAE8A3"},
+  {"name": "carrot", "color": "#FFC55B"},
+  {"name": "cheese", "color": "#FFF78D"},
+  {"name": "chicken", "color": "#FFE16D"},
+  {"name": "chili", "color": "#FF9270"},
+  {"name": "chili mayo", "color": "#FFC575"},
+  {"name": "cilantro", "color": "#75E050"},
+  {"name": "corn", "color": "#FFF78D"},
+  {"name": "cornbread", "color": "#FFE16D"},
+  {"name": "cucumber", "color": "#8AE6A1"},
+  {"name": "dairy", "color": "#FFFDC5"},
+  {"name": "egg", "color": "#FFF78D"},
+  {"name": "fish", "color": "#8DDCFF"},
+  {"name": "flour", "color": "#F2F2F2"},
+  {"name": "fries", "color": "#FFC55B"},
+  {"name": "garlic", "color": "#FFFDC5"},
+  {"name": "ginger", "color": "#FFE16D"},
+  {"name": "hamburger buns", "color": "#FFE16D"},
+  {"name": "hoisin sauce", "color": "#B39D8D"},
+  {"name": "lemon", "color": "#FFF78D"},
+  {"name": "lettuce", "color": "#B2EABD"},
+  {"name": "lime", "color": "#D4F585"},
+  {"name": "mango", "color": "#FFD48D"},
+  {"name": "mushroom", "color": "#EAB4A1"},
+  {"name": "mushrooms", "color": "#EAB4A1"},
+  {"name": "naan", "color": "#FFE6C0"},
+  {"name": "oil", "color": "#F2F2F2"},
+  {"name": "onion", "color": "#EFC5F0"},
+  {"name": "pasta", "color": "#FFEB85"},
+  {"name": "peanuts", "color": "#E1C5A8"},
+  {"name": "pineapple", "color": "#FFFAB0"},
+  {"name": "pork", "color": "#FFB2A0"},
+  {"name": "potato", "color": "#FFD48D"},
+  {"name": "rice", "color": "#FFEB85"},
+  {"name": "salt", "color": "#F2F2F2"},
+  {"name": "shrimp", "color": "#FFB2A0"},
+  {"name": "soy sauce", "color": "#B39D8D"},
+  {"name": "spices", "color": "#E6B22D"},
+  {"name": "strawberries", "color": "#FF90B5"},
+  {"name": "sugar", "color": "#FFFDC5"},
+  {"name": "tofu", "color": "#F7F7F7"},
+  {"name": "tomato", "color": "#FF9B90"},
+  {"name": "tortilla", "color": "#FFEB85"}
+]
+
+
+
+const combos = [
+  {
+    "TruckName": "Turbo Burgers",
+    short: "Burger",
+    "combos": [
+      {
+        "ComboName": "Burgers!",
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "hamburger buns",
+              "beef"
+            ],
+            "requirements": "2"
+          },
+          {
+            "ingredients": [
+              "chicken",
+              "fish",
+              "mushrooms"
+            ],
+            "requirements": "0+"
+          },
+          {
+            "ingredients": [
+              "cucumber",
+              "lettuce",
+              "tomato",
+              "onion"
+            ],
+            "requirements": "2+"
+          },
+          {
+            "ingredients": [
+              "salt",
+              "pork"
+            ],
+            "requirements": "2"
+          }
+        ]
+      },
+      {
+        "ComboName": "Fries",
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "fries"
+            ],
+            "requirements": "1"
+          }
+        ]
+      },
+      {
+        "ComboName": "Supersize",
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "fries",
+              "fries"
+            ],
+            "requirements": "2"
+          }
+        ]
+      },
+      {
+        "ComboName": "Loaded Fries",
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "fries",
+              "cheese",
+              "salt",
+              "pork"
+            ],
+            "requirements": "4"
+          }
+        ]
+      },
+      {
+        "ComboName": "Extra Patties",
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "beef",
+              "beef",
+              "beef"
+            ],
+            "requirements": "3"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "TruckName": "Taco o Plomo",
+    short: "Taco",
+    "combos": [
+      {
+        "ComboName": "Taco Mix",
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "tortilla",
+              "chili"
+            ],
+            "requirements": "2"
+          },
+          {
+            "ingredients": [
+              "beef",
+              "pork",
+              "chicken",
+              "shrimp",
+              "beans"
+            ],
+            "requirements": "2+"
+          },
+          {
+            "ingredients": [
+              "lime",
+              "cilantro",
+              "onion",
+              "tomato"
+            ],
+            "requirements": "2+"
+          }
+        ]
+      },
+      {
+        "ComboName": "Elotes",
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "corn",
+              "cheese",
+              "lime"
+            ],
+            "requirements": "3"
+          }
+        ]
+      },
+      {
+        "ComboName": "Burrito",
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "rice"
+            ],
+            "requirements": "1"
+          }
+        ]
+      },
+      {
+        "ComboName": "Double Bag It",
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "tortilla",
+              "tortilla"
+            ],
+            "requirements": "2"
+          }
+        ]
+      },
+      {
+        "ComboName": "Guacamole",
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "avocado"
+            ],
+            "requirements": "1"
+          }
+        ]
+      },
+      {
+        "ComboName": "Pineapple Express",
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "pineapple"
+            ],
+            "requirements": "1"
+          }
+        ]
+      }
+    ]
+  },
+
+
+  {
+    "TruckName": "The Curry Cruiser",
+    short: "Curry",
+    "combos": [
+      {
+        "ComboName": "Curry Curry",
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "spices",
+              "spices"
+            ],
+            "requirements": "2"
+          },
+          {
+            "ingredients": [
+              "rice",
+              "naan"
+            ],
+            "requirements": "1+"
+          },
+          {
+            "ingredients": [
+              "pork",
+              "cheese",
+              "chicken",
+              "fish"
+            ],
+            "requirements": "1+"
+          },
+          {
+            "ingredients": [
+              "tomato",
+              "cabbage",
+              "carrot",
+              "peanuts"
+            ],
+            "requirements": "1+"
+          },
+          {
+            "ingredients": [
+              "garlic",
+              "ginger",
+              "onion",
+              "chili"
+            ],
+            "requirements": "2+"
+          }
+        ]
+      },
+      {
+        "ComboName": "Samosas",
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "flour",
+              "potato",
+              "oil",
+              "spices"
+            ],
+            "requirements": "4"
+          }
+        ]
+      },
+      {
+        "ComboName": "Chutney",
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "sugar"
+            ],
+            "requirements": "1"
+          },
+          {
+            "ingredients": [
+              "lime",
+              "lemon"
+            ],
+            "requirements": "1"
+          },
+          {
+            "ingredients": [
+              "banana",
+              "pineapple",
+              "mango"
+            ],
+            "requirements": "1+"
+          },
+          {
+            "ingredients": [
+              "garlic",
+              "onion",
+              "ginger"
+            ],
+            "requirements": "1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "TruckName": "The Bao Bus",
+    short: "Bao",
+    "combos": [
+      {
+        "ComboName": "Bao Dream",
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "bao buns",
+              "spices"
+            ],
+            "requirements": "2"
+          },
+          {
+            "ingredients": [
+              "chicken",
+              "mushroom",
+              "pork",
+              "beef"
+            ],
+            "requirements": "2+"
+          },
+          {
+            "ingredients": [
+              "peanuts",
+              "onion",
+              "cabbage",
+              "cucumber"
+            ],
+            "requirements": "2+"
+          },
+          {
+            "ingredients": [
+              "lime",
+              "cilantro",
+              "chili",
+              "ginger"
+            ],
+            "requirements": "2+"
+          },
+          {
+            "ingredients": [
+              "hoisin sauce",
+              "chili mayo"
+            ],
+            "requirements": "1+"
+          }
+        ]
+      },
+      {
+        "ComboName": "Hoisin sauce",
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "sugar",
+              "spices",
+              "soy sauce"
+            ],
+            "requirements": "3"
+          }
+        ]
+      },
+      {
+        "ComboName": "Chili Mayo",
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "egg",
+              "oil",
+              "chili"
+            ],
+            "requirements": "3"
+          }
+        ]
+      },
+      {
+        "ComboName": "Fried Vegan Spring Rolls",
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "oil",
+              "flour",
+              "soy sauce"
+            ],
+            "requirements": "3"
+          },
+          {
+            "ingredients": [
+              "mushroom",
+              "tofu"
+            ],
+            "requirements": "1+"
+          },
+          {
+            "ingredients": [
+              "cabbage",
+              "carrot",
+              "lettuce"
+            ],
+            "requirements": "2+"
+          },
+          {
+            "ingredients": [
+              "onion",
+              "garlic",
+              "chili",
+              "ginger"
+            ],
+            "requirements": "2+"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "TruckName": "Grilluminati's BBQ",
+    short: "BBQ",
+    "combos": [
+      {
+        "ComboName": "Brisket n Burnt Ends",
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "cornbread",
+              "spices"
+            ],
+            "requirements": "2"
+          },
+          {
+            "ingredients": [
+              "beef",
+              "beef"
+            ],
+            "requirements": "2"
+          },
+          {
+            "ingredients": [
+              "pork",
+              "pork"
+            ],
+            "requirements": "2"
+          }
+        ]
+      },
+      {
+        "ComboName": "Vegan BBQ",
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "cornbread",
+              "corn"
+            ],
+            "requirements": "2"
+          },
+          {
+            "ingredients": [
+              "mushroom",
+              "mushroom",
+              "tofu",
+              "tofu"
+            ],
+            "requirements": "3+"
+          },
+          {
+            "ingredients": [
+              "cabbage",
+              "lettuce",
+              "aubergine"
+            ],
+            "requirements": "1+"
+          }
+        ]
+      },
+      {
+        "ComboName": "Coleslaw",
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "cabbage",
+              "egg",
+              "oil"
+            ],
+            "requirements": "3"
+          },
+          {
+            "ingredients": [
+              "lime",
+              "lemon"
+            ],
+            "requirements": "1"
+          },
+          {
+            "ingredients": [
+              "carrot",
+              "onion",
+              "chili"
+            ],
+            "requirements": "0+"
+          }
+        ]
+      },
+      {
+        "ComboName": "On the cob",
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "corn",
+              "corn",
+              "corn"
+            ],
+            "requirements": "3"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "TruckName": "Vini Vidi Pasta",
+    short: "Pasta",
+    "combos": [
+      {
+        "ComboName": "Charcuterie Board",
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "beef",
+              "beef"
+            ],
+            "requirements": "1+"
+          },
+          {
+            "ingredients": [
+              "pork",
+              "pork"
+            ],
+            "requirements": "1+"
+          },
+          {
+            "ingredients": [
+              "cheese",
+              "cheese",
+              "cheese"
+            ],
+            "requirements": "2+"
+          }
+        ]
+      },
+      {
+        "ComboName": "Pasti",
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "pasta",
+              "cheese",
+              "oil"
+            ],
+            "requirements": "3"
+          },
+          {
+            "ingredients": [
+              "beef",
+              "pork",
+              "chicken",
+              "mushrooms",
+              "fish"
+            ],
+            "requirements": "2+"
+          },
+          {
+            "ingredients": [
+              "tomato",
+              "carrot",
+              "onion"
+            ],
+            "requirements": "2+"
+          },
+          {
+            "ingredients": [
+              "basil",
+              "garlic",
+              "lemon"
+            ],
+            "requirements": "2+"
+          }
+        ]
+      },
+      {
+        "ComboName": "Secondi",
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "beef",
+              "pork",
+              "fish",
+              "chicken"
+            ],
+            "requirements": "2+"
+          }
+        ]
+      },
+      {
+        "ComboName": "Gelato",
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "sugar",
+              "egg",
+              "dairy"
+            ],
+            "requirements": "3"
+          },
+          {
+            "ingredients": [
+              "banana",
+              "mango",
+              "strawberries"
+            ],
+            "requirements": "0+"
+          },
+          {
+            "ingredients": [
+              "pineapple",
+              "lemon"
+            ],
+            "requirements": "0+"
+          }
+        ]
+      }
+    ]
+  },
+
+
+]
+
