@@ -17,11 +17,13 @@ export default function App() {
     const storedIngredients = localStorage.getItem('ingredients');
     return storedIngredients ? JSON.parse(storedIngredients) : initialIngredients.map((ingredient) => ({ ...ingredient, amount: 0 }));
   };
-
+  
   const [ingredients, setIngredients] = useState(loadFromLocalStorage);
   useEffect(() => {
     localStorage.setItem('ingredients', JSON.stringify(ingredients));
   }, [ingredients]);
+  console.log(initialIngredients)
+  console.log(ingredients)
   const reset = () => {
     const userConfirmed = window.confirm('Are you sure you want to reset all ingredients?');
     if (userConfirmed) {
@@ -29,7 +31,16 @@ export default function App() {
       setIngredients(initialIngredients.map((ingredient) => ({ ...ingredient, amount: 0 })));
     }
   };
-
+  const toggleIngredientAmount = (name) => {
+    setIngredients((prevIngredients) =>
+      prevIngredients.map((ingredient) =>
+        ingredient.name === name
+          ? { ...ingredient, amount: ingredient.amount > 0 ? 0 : 1 }
+          : ingredient
+      )
+    );
+  };
+  
   const [open, setOpen] = useState(false);
   const handleClose = () => {
 
@@ -83,7 +94,7 @@ export default function App() {
       {/* <div className="title">FTX</div> */}
       <Slider ref={slider1} {...settings}>
         {combos.map((truck, index) =>
-          (<TruckMenu key={index} truckData={truck} ingredientsState={ingredients}></TruckMenu>)
+          (<TruckMenu key={index} truckData={truck} ingredientsState={ingredients} toggleIngredientAmount={toggleIngredientAmount}></TruckMenu>)
         )}
 
       </Slider>
@@ -130,7 +141,7 @@ export default function App() {
   );
 }
 
-const TruckMenu = ({ truckData, ingredientsState }) => {
+const TruckMenu = ({ truckData, ingredientsState, toggleIngredientAmount }) => {
   const currentStyle = truckStyles[truckData.short.toLowerCase()] || truckStyles.default;
 
   // Function to find matching ingredients
@@ -164,7 +175,7 @@ const TruckMenu = ({ truckData, ingredientsState }) => {
                   const color = matchedIngredient ? matchedIngredient.color : 'white'
                   return (
                     <>
-                      <div key={ingIndex} className={`ingredient ${className}`} style={{ display: 'inline', color: color }}>
+                      <div key={ingIndex}  onClick={() => toggleIngredientAmount(ingredientName)} className={`ingredient ${className}`} style={{ display: 'inline', color: color }}>
                         {ingredientName}
                       </div>
                       {ingIndex < line.ingredients.length - 1 && <span style={{ display: 'inline' }}> - </span>}
@@ -225,7 +236,7 @@ const IngredientList = ({ ingredients, setIngredients }) => {
 
       {ingredients.map((ingredient) => (
         <div key={ingredient.name} className="ingredient-row" style={{ color: ingredient.color }}>
-          <span className="ingredient-name">{ingredient.name}</span>
+          <span className="ingredient-name">{ingredient.name} {'★'.repeat(ingredient.level)}</span>
           <button className="amount-button" onClick={() => decrementAmount(ingredient.name)}>-</button>
           <span className="ingredient-amount">{ingredient.amount}</span>
           <button className="amount-button" onClick={() => incrementAmount(ingredient.name)}>+</button>
@@ -293,40 +304,47 @@ function checkCompleteCombos(ingredients, foodTrucks) {
   // Convert the ingredients into a dictionary for faster lookup
   const ingredientDict = {};
   ingredients.forEach((ingredient) => {
-    ingredientDict[ingredient.name] = ingredient.amount;
+    ingredientDict[ingredient.name] = { amount: ingredient.amount, level: ingredient.level };
   });
 
-  // Function to check if a single combo is complete
+  // Function to check if a single combo is complete and to calculate its score
   const isSingleComboComplete = (combo) => {
+    let comboScore = 0;
+    let ingredientLevelSum = 0;
+    let ingredientCount = 0;
+
     for (let line of combo.ComboLines) {
       const requirement = parseInt(line.requirements, 10);
       const isPlus = line.requirements.includes('+');
 
       let count = 0;
-      let ingredientCount = {};
-      line.ingredients.forEach((ingredient) => {
-        ingredientCount[ingredient] = (ingredientCount[ingredient] || 0) + 1;
-      });
 
-      for (let ingredient in ingredientCount) {
-        if (ingredientDict[ingredient] && ingredientDict[ingredient] >= ingredientCount[ingredient]) {
-          count += ingredientCount[ingredient];
+      for (let ingredient of line.ingredients) {
+        if (ingredientDict[ingredient] && ingredientDict[ingredient].amount >= 1) {
+          count++;
+          ingredientLevelSum += ingredientDict[ingredient].level;
+          ingredientCount++;
         }
       }
 
       if (!((isPlus && count >= requirement) || (!isPlus && count === requirement))) {
-        return false;
+        return [false, 0];
       }
     }
-    return true;
+
+    comboScore = combo.score + ingredientCount + ingredientLevelSum;
+    return [true, comboScore];
   };
 
   // First pass to check combos without dependencies
   for (let truck of foodTrucks) {
     for (let combo of truck.combos) {
-      if (!combo.dependency && isSingleComboComplete(combo)) {
-        completeCombos.push(combo.ComboName);
-        totalScore += combo.score;
+      if (!combo.dependency) {
+        const [isComplete, comboScore] = isSingleComboComplete(combo);
+        if (isComplete) {
+          completeCombos.push(combo.ComboName);
+          totalScore += comboScore;
+        }
       }
     }
   }
@@ -335,9 +353,10 @@ function checkCompleteCombos(ingredients, foodTrucks) {
   for (let truck of foodTrucks) {
     for (let combo of truck.combos) {
       if (combo.dependency && completeCombos.includes(combo.dependency)) {
-        if (isSingleComboComplete(combo)) {
+        const [isComplete, comboScore] = isSingleComboComplete(combo);
+        if (isComplete) {
           completeCombos.push(combo.ComboName);
-          totalScore += combo.score;
+          totalScore += comboScore;
         }
       }
     }
@@ -348,57 +367,58 @@ function checkCompleteCombos(ingredients, foodTrucks) {
 
 
 const initialIngredients = [
-  { "name": "aubergine", "color": "#B085B7" },
-  { "name": "avocado", "color": "#B2EABD" },
-  { "name": "banana", "color": "#FFF58D" },
-  { "name": "bao buns", "color": "#F2F2F2" },
-  { "name": "basil", "color": "#75E050" },
-  { "name": "beans", "color": "#D4B68D" },
-  { "name": "beef", "color": "#F28580" },
-  { "name": "cabbage", "color": "#BAE8A3" },
-  { "name": "carrot", "color": "#FFC55B" },
-  { "name": "cheese", "color": "#FFF78D" },
-  { "name": "chicken", "color": "#FFE16D" },
-  { "name": "chili", "color": "#FF9270" },
-  { "name": "chili mayo", "color": "#FFC575" },
-  { "name": "cilantro", "color": "#75E050" },
-  { "name": "corn", "color": "#FFF78D" },
-  { "name": "cornbread", "color": "#FFE16D" },
-  { "name": "cucumber", "color": "#8AE6A1" },
-  { "name": "dairy", "color": "#FFFDC5" },
-  { "name": "egg", "color": "#FFF78D" },
-  { "name": "fish", "color": "#8DDCFF" },
-  { "name": "flour", "color": "#F2F2F2" },
-  { "name": "fries", "color": "#FFC55B" },
-  { "name": "garlic", "color": "#FFFDC5" },
-  { "name": "ginger", "color": "#FFE16D" },
-  { "name": "hamburger buns", "color": "#FFE16D" },
-  { "name": "hoisin sauce", "color": "#B39D8D" },
-  { "name": "lemon", "color": "#FFF78D" },
-  { "name": "lettuce", "color": "#B2EABD" },
-  { "name": "lime", "color": "#D4F585" },
-  { "name": "mango", "color": "#FFD48D" },
-  { "name": "mushroom", "color": "#EAB4A1" },
-  { "name": "mushrooms", "color": "#EAB4A1" },
-  { "name": "naan", "color": "#FFE6C0" },
-  { "name": "oil", "color": "#F2F2F2" },
-  { "name": "onion", "color": "#EFC5F0" },
-  { "name": "pasta", "color": "#FFEB85" },
-  { "name": "peanuts", "color": "#E1C5A8" },
-  { "name": "pineapple", "color": "#FFFAB0" },
-  { "name": "pork", "color": "#FFB2A0" },
-  { "name": "potato", "color": "#FFD48D" },
-  { "name": "rice", "color": "#FFEB85" },
-  { "name": "salt", "color": "#F2F2F2" },
-  { "name": "shrimp", "color": "#FFB2A0" },
-  { "name": "soy sauce", "color": "#B39D8D" },
-  { "name": "spices", "color": "#E6B22D" },
-  { "name": "strawberries", "color": "#FF90B5" },
-  { "name": "sugar", "color": "#FFFDC5" },
-  { "name": "tofu", "color": "#F7F7F7" },
-  { "name": "tomato", "color": "#FF9B90" },
-  { "name": "tortilla", "color": "#FFEB85" }
+  { "name": "aubergine", "level":1,"copies":1,"color": "#B085B7" },
+  { "name": "avocado", "level":1,"copies":1,"color": "#B2EABD" },
+  { "name": "banana", "level":1,"copies":1,"color": "#FFF58D" },
+  { "name": "bao buns", "level":1,"copies":1,"color": "#F2F2F2" },
+  { "name": "basil", "level":1,"copies":1,"color": "#75E050" },
+  { "name": "beans", "level":1,"copies":1,"color": "#D4B68D" },
+  { "name": "beef", "level":1,"copies":1,"color": "#F28580" },
+  { "name": "cabbage", "level":1,"copies":1,"color": "#BAE8A3" },
+  { "name": "carrot", "level":1,"copies":1,"color": "#FFC55B" },
+  { "name": "cheese", "level":1,"copies":1,"color": "#FFF78D" },
+  { "name": "chicken", "level":1,"copies":1,"color": "#FFE16D" },
+  { "name": "chili", "level":1,"copies":1,"color": "#FF9270" },
+  { "name": "chili mayo", "level":1,"copies":1,"color": "#FFC575" },
+  { "name": "cilantro", "level":1,"copies":1,"color": "#75E050" },
+  { "name": "corn", "level":1,"copies":1,"color": "#FFF78D" },
+  { "name": "cornbread", "level":1,"copies":1,"color": "#FFE16D" },
+  { "name": "cucumber", "level":1,"copies":1,"color": "#8AE6A1" },
+  { "name": "dairy", "level":1,"copies":1,"color": "#FFFDC5" },
+  { "name": "egg", "level":1,"copies":1,"color": "#FFF78D" },
+  { "name": "fish", "level":1,"copies":1,"color": "#8DDCFF" },
+  { "name": "flour", "level":1,"copies":1,"color": "#F2F2F2" },
+  { "name": "fries", "level":1,"copies":1,"color": "#FFC55B" },
+  { "name": "garlic", "level":1,"copies":1,"color": "#FFFDC5" },
+  { "name": "ginger", "level":1,"copies":1,"color": "#FFE16D" },
+  { "name": "hamburger buns", "level":1,"copies":1,"color": "#FFE16D" },
+  { "name": "hoisin sauce", "level":1,"copies":1,"color": "#B39D8D" },
+  { "name": "lemon", "level":1,"copies":1,"color": "#FFF78D" },
+  { "name": "lettuce", "level":1,"copies":1,"color": "#B2EABD" },
+  { "name": "lime", "level":1,"copies":1,"color": "#D4F585" },
+  { "name": "mango", "level":1,"copies":1,"color": "#FFD48D" },
+  { "name": "mushroom", "level":1,"copies":1,"color": "#EAB4A1" },
+  { "name": "mushrooms", "level":1,"copies":1,"color": "#EAB4A1" },
+  { "name": "naan", "level":1,"copies":1,"color": "#FFE6C0" },
+  { "name": "oil", "level":1,"copies":1,"color": "#F2F2F2" },
+  { "name": "onion", "level":1,"copies":1,"color": "#EFC5F0" },
+  { "name": "pasta", "level":1,"copies":1,"color": "#FFEB85" },
+  { "name": "peanuts", "level":1,"copies":1,"color": "#E1C5A8" },
+  { "name": "pineapple", "level":1,"copies":1,"color": "#FFFAB0" },
+  { "name": "pork", "level":1,"copies":1,"color": "#FFB2A0" },
+  { "name": "potato", "level":1,"copies":1,"color": "#FFD48D" },
+  { "name": "rice", "level":1,"copies":1,"color": "#FFEB85" },
+  { "name": "salt", "level":1,"copies":1,"color": "#F2F2F2" },
+  { "name": "shrimp", "level":1,"copies":1,"color": "#FFB2A0" },
+  { "name": "soy sauce", "level":1,"copies":1,"color": "#B39D8D" },
+  { "name": "spices", "level":1,"copies":1,"color": "#E6B22D" },
+  { "name": "strawberries", "level":1,"copies":1,"color": "#FF90B5" },
+  { "name": "sugar", "level":1,"copies":1,"color": "#FFFDC5" },
+  { "name": "tofu", "level":1,"copies":1,"color": "#F7F7F7" },
+  { "name": "tomato", "level":1,"copies":1,"color": "#FF9B90" },
+  { "name": "tortilla", "level":1,"copies":1,"color": "#FFEB85" }
 ]
+
 
 
 
