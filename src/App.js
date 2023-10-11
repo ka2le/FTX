@@ -95,7 +95,7 @@ export default function App() {
     infinite: true,
     speed: 500,
     slidesToShow: isLandscapeOrDesktop ? 3 : 1,
-    slidesToScroll: isLandscapeOrDesktop ? 2 : 1,
+    slidesToScroll: isLandscapeOrDesktop ? 3 : 1,
     asNavFor: slider2.current
   };
 
