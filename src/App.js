@@ -302,9 +302,9 @@ function checkCompleteCombos(ingredients, foodTrucks) {
   let totalScore = 0;
 
   // Convert the ingredients into a dictionary for faster lookup
-  const ingredientDict = {};
+  const originalIngredientDict = {};
   ingredients.forEach((ingredient) => {
-    ingredientDict[ingredient.name] = { amount: ingredient.amount, level: ingredient.level };
+    originalIngredientDict[ingredient.name] = { amount: ingredient.amount, level: ingredient.level };
   });
 
   // Function to check if a single combo is complete and to calculate its score
@@ -312,6 +312,9 @@ function checkCompleteCombos(ingredients, foodTrucks) {
     let comboScore = 0;
     let ingredientLevelSum = 0;
     let ingredientCount = 0;
+
+    // Create a working copy of the ingredient dictionary
+    const ingredientDict = JSON.parse(JSON.stringify(originalIngredientDict));
 
     for (let line of combo.ComboLines) {
       const requirement = parseInt(line.requirements, 10);
@@ -322,6 +325,7 @@ function checkCompleteCombos(ingredients, foodTrucks) {
       for (let ingredient of line.ingredients) {
         if (ingredientDict[ingredient] && ingredientDict[ingredient].amount >= 1) {
           count++;
+          ingredientDict[ingredient].amount--; // Decrement the amount
           ingredientLevelSum += ingredientDict[ingredient].level;
           ingredientCount++;
         }
@@ -364,6 +368,7 @@ function checkCompleteCombos(ingredients, foodTrucks) {
 
   return [completeCombos, totalScore];
 }
+
 
 
 const initialIngredients = [
