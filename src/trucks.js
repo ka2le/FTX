@@ -6,7 +6,7 @@ export const trucks = [
         {
           "ComboName": "Burgers!",
           "dependency": null,
-          "score": 3,
+          "score": 6,
           "type": null,
           "ComboLines": [
             {
@@ -45,7 +45,7 @@ export const trucks = [
         {
           "ComboName": "Fries",
           "dependency": "Burgers!",
-          "score": 3,
+          "score": 1,
           "type": null,
           "ComboLines": [
             {
@@ -59,7 +59,7 @@ export const trucks = [
         {
           "ComboName": "Supersize",
           "dependency": "Burgers!",
-          "score": 3,
+          "score": 2,
           "type": null,
           "ComboLines": [
             {
@@ -74,7 +74,7 @@ export const trucks = [
         {
           "ComboName": "Loaded Fries",
           "dependency": "Burgers!",
-          "score": 3,
+          "score": 4,
           "type": null,
           "ComboLines": [
             {
@@ -90,8 +90,8 @@ export const trucks = [
         },
         {
           "ComboName": "Extra Patties",
-          "dependency": null,
-          "score": 3,
+          "dependency": "Burgers!",
+          "score": 4,
           "type": null,
           "ComboLines": [
             {
@@ -113,7 +113,7 @@ export const trucks = [
         {
           "ComboName": "Taco Mix",
           "dependency": null,
-          "score": 3,
+          "score": 6,
           "type": null,
           "ComboLines": [
             {
@@ -228,7 +228,7 @@ export const trucks = [
         {
           "ComboName": "Curry Curry",
           "dependency": null,
-          "score": 3,
+          "score": 9,
           "type": null,
           "ComboLines": [
             {
@@ -277,7 +277,7 @@ export const trucks = [
         {
           "ComboName": "Samosas",
           "dependency": null,
-          "score": 3,
+          "score": 4,
           "type": null,
           "ComboLines": [
             {
@@ -337,7 +337,7 @@ export const trucks = [
         {
           "ComboName": "Bao Dream",
           "dependency": null,
-          "score": 3,
+          "score": 11,
           "type": null,
           "ComboLines": [
             {
@@ -350,7 +350,7 @@ export const trucks = [
             {
               "ingredients": [
                 "chicken",
-                "mushroom",
+                "mushrooms",
                 "pork",
                 "beef"
               ],
@@ -418,7 +418,7 @@ export const trucks = [
         {
           "ComboName": "Fried Vegan Spring Rolls",
           "dependency": null,
-          "score": 3,
+          "score": 8,
           "type": null,
           "ComboLines": [
             {
@@ -431,7 +431,7 @@ export const trucks = [
             },
             {
               "ingredients": [
-                "mushroom",
+                "mushrooms",
                 "tofu"
               ],
               "requirements": "1+"
@@ -464,7 +464,7 @@ export const trucks = [
         {
           "ComboName": "Brisket n Burnt Ends",
           "dependency": null,
-          "score": 3,
+          "score": 6,
           "type": null,
           "ComboLines": [
             {
@@ -493,7 +493,7 @@ export const trucks = [
         {
           "ComboName": "Vegan BBQ",
           "dependency": null,
-          "score": 3,
+          "score": 6,
           "type": null,
           "ComboLines": [
             {
@@ -505,8 +505,8 @@ export const trucks = [
             },
             {
               "ingredients": [
-                "mushroom",
-                "mushroom",
+                "mushrooms",
+                "mushrooms",
                 "tofu",
                 "tofu"
               ],
@@ -525,7 +525,7 @@ export const trucks = [
         {
           "ComboName": "Coleslaw",
           "dependency": null,
-          "score": 3,
+          "score": 4,
           "type": null,
           "ComboLines": [
             {
@@ -578,7 +578,7 @@ export const trucks = [
         {
           "ComboName": "Charcuterie Board",
           "dependency": null,
-          "score": 3,
+          "score": 4,
           "type": null,
           "ComboLines": [
             {
@@ -608,7 +608,7 @@ export const trucks = [
         {
           "ComboName": "Pasti",
           "dependency": null,
-          "score": 3,
+          "score": 10,
           "type": null,
           "ComboLines": [
             {
@@ -650,7 +650,7 @@ export const trucks = [
         {
           "ComboName": "Secondi",
           "dependency": null,
-          "score": 3,
+          "score": 2,
           "type": null,
           "ComboLines": [
             {
@@ -658,9 +658,10 @@ export const trucks = [
                 "beef",
                 "pork",
                 "fish",
-                "chicken"
+                "chicken",
+                "mushrooms"
               ],
-              "requirements": "2+"
+              "requirements": "3+"
             }
           ]
         },
