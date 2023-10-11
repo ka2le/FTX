@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect  } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -29,7 +29,7 @@ export default function App() {
       setIngredients(initialIngredients.map((ingredient) => ({ ...ingredient, amount: 0 })));
     }
   };
-  
+
   const [open, setOpen] = useState(false);
   const handleClose = () => {
 
@@ -76,6 +76,8 @@ export default function App() {
     asNavFor: slider1.current
   };
   console.log(combos)
+
+  const [completeCombos, totalScore] = checkCompleteCombos(ingredients, combos);
   return (
     <div className="container" >
       {/* <div className="title">FTX</div> */}
@@ -85,26 +87,26 @@ export default function App() {
         )}
 
       </Slider>
-      <div  className="score-row" >
-        {checkCompleteCombos(ingredients, combos).join(", ")}
-      <Button variant="outline" className="open-dialog-button" onClick={() => {
-        setOpen(true)
+      <div className="score-row" >
+        {completeCombos.join(", ")}<br></br> Score: {totalScore}
+        <Button variant="outline" className="open-dialog-button" onClick={() => {
+          setOpen(true)
 
-      }}>
-        +
-      </Button>
+        }}>
+          +
+        </Button>
       </div>
       <Dialog open={open} onClose={handleClose} className="ingredient-dialog">
         <div className="dialog-title-actions">
           <DialogTitle className="dialog-title">Ingredients</DialogTitle>
           <DialogActions className="dialog-actions">
-          <Button  className="dialog-actions-button" onClick={reset} >
+            <Button className="dialog-actions-button" onClick={reset} >
               Reset
             </Button>
-            <Button  className="dialog-actions-button" onClick={handleClose} >
+            <Button className="dialog-actions-button" onClick={handleClose} >
               x
             </Button>
-           
+
           </DialogActions>
         </div>
         <DialogContent>
@@ -128,9 +130,9 @@ export default function App() {
   );
 }
 
-const TruckMenu = ({ truckData,  ingredientsState}) => {
+const TruckMenu = ({ truckData, ingredientsState }) => {
   const currentStyle = truckStyles[truckData.short.toLowerCase()] || truckStyles.default;
-  
+
   // Function to find matching ingredients
   const findMatchingIngredient = (ingredientName, availableIngredients) => {
     return availableIngredients.find(ing => ing.name === ingredientName && ing.amount > 0);
@@ -148,7 +150,10 @@ const TruckMenu = ({ truckData,  ingredientsState}) => {
         <div key={index}>
           <h2 className={currentStyle.titleFont} style={{
             color: currentStyle.color,
-          }}>{combo.ComboName}</h2>
+          }}>{combo.ComboName}<span className='dependecy-indicator'>{combo.dependency ? "Requires: "+combo.dependency: null }</span></h2>
+          <div className='combo-score'  style={{
+            color: currentStyle.color,
+          }}>{combo.score}$</div>
           {combo.ComboLines.map((line, lineIndex) => (
             <div key={lineIndex} className="combo-line">
               <span className="requirements">{line.requirements}</span>
@@ -167,6 +172,7 @@ const TruckMenu = ({ truckData,  ingredientsState}) => {
                   );
                 })}
               </span>
+              
             </div>
           ))}
         </div>
@@ -282,6 +288,7 @@ const truckStyles = {
 
 function checkCompleteCombos(ingredients, foodTrucks) {
   const completeCombos = [];
+  let totalScore = 0;
 
   // Convert the ingredients into a dictionary for faster lookup
   const ingredientDict = {};
@@ -289,101 +296,108 @@ function checkCompleteCombos(ingredients, foodTrucks) {
     ingredientDict[ingredient.name] = ingredient.amount;
   });
 
-  // Loop through each food truck
-  foodTrucks.forEach((truck) => {
-    // Loop through each combo within the food truck
-    truck.combos.forEach((combo) => {
-      let isComboComplete = true; // Assume the combo is complete until proven otherwise
+  // Function to check if a single combo is complete
+  const isSingleComboComplete = (combo) => {
+    for (let line of combo.ComboLines) {
+      const requirement = parseInt(line.requirements, 10);
+      const isPlus = line.requirements.includes('+');
 
-      // Loop through each ComboLine in the combo
-      combo.ComboLines.forEach((line) => {
-        const requirement = parseInt(line.requirements, 10); // The numeric part of the requirement
-        const isPlus = line.requirements.includes('+'); // Check if the requirement has a "+" sign
-
-        // Count the number of ingredients the player has for this line
-        let count = 0;
-        let ingredientCount = {};
-        line.ingredients.forEach((ingredient) => {
-          ingredientCount[ingredient] = (ingredientCount[ingredient] || 0) + 1;
-        });
-
-        Object.keys(ingredientCount).forEach((ingredient) => {
-          if (ingredientDict[ingredient] && ingredientDict[ingredient] >= ingredientCount[ingredient]) {
-            count += ingredientCount[ingredient];
-          }
-        });
-
-        // Check if the player meets the requirement for this line
-        if ((isPlus && count >= requirement) || (!isPlus && count === requirement)) {
-          // Requirement met for this line
-        } else {
-          // Requirement not met for this line
-          isComboComplete = false;
-        }
+      let count = 0;
+      let ingredientCount = {};
+      line.ingredients.forEach((ingredient) => {
+        ingredientCount[ingredient] = (ingredientCount[ingredient] || 0) + 1;
       });
 
-      // If all lines are fulfilled, add the combo to the list of complete combos
-      if (isComboComplete) {
-        completeCombos.push(combo.ComboName);
+      for (let ingredient in ingredientCount) {
+        if (ingredientDict[ingredient] && ingredientDict[ingredient] >= ingredientCount[ingredient]) {
+          count += ingredientCount[ingredient];
+        }
       }
-    });
-  });
 
-  return completeCombos;
+      if (!((isPlus && count >= requirement) || (!isPlus && count === requirement))) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  // First pass to check combos without dependencies
+  for (let truck of foodTrucks) {
+    for (let combo of truck.combos) {
+      if (!combo.dependency && isSingleComboComplete(combo)) {
+        completeCombos.push(combo.ComboName);
+        totalScore += combo.score;
+      }
+    }
+  }
+
+  // Second pass to check combos with dependencies
+  for (let truck of foodTrucks) {
+    for (let combo of truck.combos) {
+      if (combo.dependency && completeCombos.includes(combo.dependency)) {
+        if (isSingleComboComplete(combo)) {
+          completeCombos.push(combo.ComboName);
+          totalScore += combo.score;
+        }
+      }
+    }
+  }
+
+  return [completeCombos, totalScore];
 }
 
 
 const initialIngredients = [
-  {"name": "aubergine", "color": "#B085B7"},
-  {"name": "avocado", "color": "#B2EABD"},
-  {"name": "banana", "color": "#FFF58D"},
-  {"name": "bao buns", "color": "#F2F2F2"},
-  {"name": "basil", "color": "#75E050"},
-  {"name": "beans", "color": "#D4B68D"},
-  {"name": "beef", "color": "#F28580"},
-  {"name": "cabbage", "color": "#BAE8A3"},
-  {"name": "carrot", "color": "#FFC55B"},
-  {"name": "cheese", "color": "#FFF78D"},
-  {"name": "chicken", "color": "#FFE16D"},
-  {"name": "chili", "color": "#FF9270"},
-  {"name": "chili mayo", "color": "#FFC575"},
-  {"name": "cilantro", "color": "#75E050"},
-  {"name": "corn", "color": "#FFF78D"},
-  {"name": "cornbread", "color": "#FFE16D"},
-  {"name": "cucumber", "color": "#8AE6A1"},
-  {"name": "dairy", "color": "#FFFDC5"},
-  {"name": "egg", "color": "#FFF78D"},
-  {"name": "fish", "color": "#8DDCFF"},
-  {"name": "flour", "color": "#F2F2F2"},
-  {"name": "fries", "color": "#FFC55B"},
-  {"name": "garlic", "color": "#FFFDC5"},
-  {"name": "ginger", "color": "#FFE16D"},
-  {"name": "hamburger buns", "color": "#FFE16D"},
-  {"name": "hoisin sauce", "color": "#B39D8D"},
-  {"name": "lemon", "color": "#FFF78D"},
-  {"name": "lettuce", "color": "#B2EABD"},
-  {"name": "lime", "color": "#D4F585"},
-  {"name": "mango", "color": "#FFD48D"},
-  {"name": "mushroom", "color": "#EAB4A1"},
-  {"name": "mushrooms", "color": "#EAB4A1"},
-  {"name": "naan", "color": "#FFE6C0"},
-  {"name": "oil", "color": "#F2F2F2"},
-  {"name": "onion", "color": "#EFC5F0"},
-  {"name": "pasta", "color": "#FFEB85"},
-  {"name": "peanuts", "color": "#E1C5A8"},
-  {"name": "pineapple", "color": "#FFFAB0"},
-  {"name": "pork", "color": "#FFB2A0"},
-  {"name": "potato", "color": "#FFD48D"},
-  {"name": "rice", "color": "#FFEB85"},
-  {"name": "salt", "color": "#F2F2F2"},
-  {"name": "shrimp", "color": "#FFB2A0"},
-  {"name": "soy sauce", "color": "#B39D8D"},
-  {"name": "spices", "color": "#E6B22D"},
-  {"name": "strawberries", "color": "#FF90B5"},
-  {"name": "sugar", "color": "#FFFDC5"},
-  {"name": "tofu", "color": "#F7F7F7"},
-  {"name": "tomato", "color": "#FF9B90"},
-  {"name": "tortilla", "color": "#FFEB85"}
+  { "name": "aubergine", "color": "#B085B7" },
+  { "name": "avocado", "color": "#B2EABD" },
+  { "name": "banana", "color": "#FFF58D" },
+  { "name": "bao buns", "color": "#F2F2F2" },
+  { "name": "basil", "color": "#75E050" },
+  { "name": "beans", "color": "#D4B68D" },
+  { "name": "beef", "color": "#F28580" },
+  { "name": "cabbage", "color": "#BAE8A3" },
+  { "name": "carrot", "color": "#FFC55B" },
+  { "name": "cheese", "color": "#FFF78D" },
+  { "name": "chicken", "color": "#FFE16D" },
+  { "name": "chili", "color": "#FF9270" },
+  { "name": "chili mayo", "color": "#FFC575" },
+  { "name": "cilantro", "color": "#75E050" },
+  { "name": "corn", "color": "#FFF78D" },
+  { "name": "cornbread", "color": "#FFE16D" },
+  { "name": "cucumber", "color": "#8AE6A1" },
+  { "name": "dairy", "color": "#FFFDC5" },
+  { "name": "egg", "color": "#FFF78D" },
+  { "name": "fish", "color": "#8DDCFF" },
+  { "name": "flour", "color": "#F2F2F2" },
+  { "name": "fries", "color": "#FFC55B" },
+  { "name": "garlic", "color": "#FFFDC5" },
+  { "name": "ginger", "color": "#FFE16D" },
+  { "name": "hamburger buns", "color": "#FFE16D" },
+  { "name": "hoisin sauce", "color": "#B39D8D" },
+  { "name": "lemon", "color": "#FFF78D" },
+  { "name": "lettuce", "color": "#B2EABD" },
+  { "name": "lime", "color": "#D4F585" },
+  { "name": "mango", "color": "#FFD48D" },
+  { "name": "mushroom", "color": "#EAB4A1" },
+  { "name": "mushrooms", "color": "#EAB4A1" },
+  { "name": "naan", "color": "#FFE6C0" },
+  { "name": "oil", "color": "#F2F2F2" },
+  { "name": "onion", "color": "#EFC5F0" },
+  { "name": "pasta", "color": "#FFEB85" },
+  { "name": "peanuts", "color": "#E1C5A8" },
+  { "name": "pineapple", "color": "#FFFAB0" },
+  { "name": "pork", "color": "#FFB2A0" },
+  { "name": "potato", "color": "#FFD48D" },
+  { "name": "rice", "color": "#FFEB85" },
+  { "name": "salt", "color": "#F2F2F2" },
+  { "name": "shrimp", "color": "#FFB2A0" },
+  { "name": "soy sauce", "color": "#B39D8D" },
+  { "name": "spices", "color": "#E6B22D" },
+  { "name": "strawberries", "color": "#FF90B5" },
+  { "name": "sugar", "color": "#FFFDC5" },
+  { "name": "tofu", "color": "#F7F7F7" },
+  { "name": "tomato", "color": "#FF9B90" },
+  { "name": "tortilla", "color": "#FFEB85" }
 ]
 
 
@@ -391,10 +405,12 @@ const initialIngredients = [
 const combos = [
   {
     "TruckName": "Turbo Burgers",
-    short: "Burger",
+    "short": "Burger",
     "combos": [
       {
         "ComboName": "Burgers!",
+        "dependency": null,
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
@@ -432,6 +448,8 @@ const combos = [
       },
       {
         "ComboName": "Fries",
+        "dependency": "Burgers!",
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
@@ -444,6 +462,8 @@ const combos = [
       },
       {
         "ComboName": "Supersize",
+        "dependency": "Burgers!",
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
@@ -457,6 +477,8 @@ const combos = [
       },
       {
         "ComboName": "Loaded Fries",
+        "dependency": "Burgers!",
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
@@ -472,6 +494,8 @@ const combos = [
       },
       {
         "ComboName": "Extra Patties",
+        "dependency": null,
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
@@ -488,10 +512,12 @@ const combos = [
   },
   {
     "TruckName": "Taco o Plomo",
-    short: "Taco",
+    "short": "Taco",
     "combos": [
       {
         "ComboName": "Taco Mix",
+        "dependency": null,
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
@@ -524,6 +550,8 @@ const combos = [
       },
       {
         "ComboName": "Elotes",
+        "dependency": null,
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
@@ -538,6 +566,8 @@ const combos = [
       },
       {
         "ComboName": "Burrito",
+        "dependency": "Taco Mix",
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
@@ -550,6 +580,8 @@ const combos = [
       },
       {
         "ComboName": "Double Bag It",
+        "dependency": "Taco Mix",
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
@@ -563,6 +595,8 @@ const combos = [
       },
       {
         "ComboName": "Guacamole",
+        "dependency": "Taco Mix",
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
@@ -575,6 +609,8 @@ const combos = [
       },
       {
         "ComboName": "Pineapple Express",
+        "dependency": "Taco Mix",
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
@@ -591,10 +627,12 @@ const combos = [
 
   {
     "TruckName": "The Curry Cruiser",
-    short: "Curry",
+    "short": "Curry",
     "combos": [
       {
         "ComboName": "Curry Curry",
+        "dependency": null,
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
@@ -642,6 +680,8 @@ const combos = [
       },
       {
         "ComboName": "Samosas",
+        "dependency": null,
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
@@ -657,6 +697,8 @@ const combos = [
       },
       {
         "ComboName": "Chutney",
+        "dependency": null,
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
@@ -694,10 +736,12 @@ const combos = [
   },
   {
     "TruckName": "The Bao Bus",
-    short: "Bao",
+    "short": "Bao",
     "combos": [
       {
         "ComboName": "Bao Dream",
+        "dependency": null,
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
@@ -745,6 +789,8 @@ const combos = [
       },
       {
         "ComboName": "Hoisin sauce",
+        "dependency": null,
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
@@ -759,6 +805,8 @@ const combos = [
       },
       {
         "ComboName": "Chili Mayo",
+        "dependency": null,
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
@@ -773,6 +821,8 @@ const combos = [
       },
       {
         "ComboName": "Fried Vegan Spring Rolls",
+        "dependency": null,
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
@@ -812,11 +862,13 @@ const combos = [
     ]
   },
   {
-    "TruckName": "Grilluminati's BBQ",
-    short: "BBQ",
+    "TruckName": "Grilluminati\'s BBQ",
+    "short": "BBQ",
     "combos": [
       {
         "ComboName": "Brisket n Burnt Ends",
+        "dependency": null,
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
@@ -844,6 +896,8 @@ const combos = [
       },
       {
         "ComboName": "Vegan BBQ",
+        "dependency": null,
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
@@ -874,6 +928,8 @@ const combos = [
       },
       {
         "ComboName": "Coleslaw",
+        "dependency": null,
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
@@ -903,6 +959,8 @@ const combos = [
       },
       {
         "ComboName": "On the cob",
+        "dependency": null,
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
@@ -919,10 +977,12 @@ const combos = [
   },
   {
     "TruckName": "Vini Vidi Pasta",
-    short: "Pasta",
+    "short": "Pasta",
     "combos": [
       {
         "ComboName": "Charcuterie Board",
+        "dependency": null,
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
@@ -951,6 +1011,8 @@ const combos = [
       },
       {
         "ComboName": "Pasti",
+        "dependency": null,
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
@@ -991,6 +1053,8 @@ const combos = [
       },
       {
         "ComboName": "Secondi",
+        "dependency": null,
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
@@ -1006,6 +1070,8 @@ const combos = [
       },
       {
         "ComboName": "Gelato",
+        "dependency": null,
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
