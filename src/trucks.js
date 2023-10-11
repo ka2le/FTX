@@ -336,8 +336,8 @@ export const trucks = [
       "combos": [
         {
           "ComboName": "Bao Dream",
-          "dependency": null,
-          "score": 11,
+          "dependency": "Hoisin sauce or Chili Mayo",
+          "score": 12,
           "type": null,
           "ComboLines": [
             {
@@ -374,13 +374,7 @@ export const trucks = [
               ],
               "requirements": "2+"
             },
-            {
-              "ingredients": [
-                "hoisin sauce",
-                "chili mayo"
-              ],
-              "requirements": "1+"
-            }
+           
           ]
         },
         {

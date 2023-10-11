@@ -67,7 +67,19 @@ export default function App() {
     setOpen(false);
   };
 
-
+  const countIngredients = () => {
+    let totalCount = ingredients.length;
+    let countWithAmount = 0;
+  
+    for (let i = 0; i < totalCount; i++) {
+      if (ingredients[i].amount > 0) {
+        countWithAmount++;
+      }
+    }
+  
+    return `${countWithAmount} / ${totalCount}`;
+  }
+  
 
   const images = [
     'img/bao.jpg',
@@ -125,8 +137,11 @@ export default function App() {
           setOpen(true)
 
         }}>
+          <span className='ingredient-counter'>{countIngredients()}</span>
           +
         </Button>
+        
+        
       </div>
       <Dialog open={open} onClose={handleClose} className="ingredient-dialog">
         <div className="dialog-title-actions">
@@ -379,16 +394,20 @@ function checkCompleteCombos(ingredients, foodTrucks) {
   // Second pass to check combos with dependencies
   for (let truck of foodTrucks) {
     for (let combo of truck.combos) {
-      if (combo.dependency && completeCombos.includes(combo.dependency)) {
-        const [isComplete, comboScore] = isSingleComboComplete(combo);
-        if (isComplete) {
-          completeCombos.push(combo.ComboName);
-          totalScore += comboScore;
+      if (combo.dependency) {
+        const dependencies = combo.dependency.split(' or ');
+        const isDependencyMet = dependencies.some(dep => completeCombos.includes(dep));
+        
+        if (isDependencyMet) {
+          const [isComplete, comboScore] = isSingleComboComplete(combo);
+          if (isComplete) {
+            completeCombos.push(combo.ComboName);
+            totalScore += comboScore;
+          }
         }
       }
     }
   }
-
   return [completeCombos, totalScore];
 }
 

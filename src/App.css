@@ -342,6 +342,17 @@ font-weight: bold !important;
   padding-bottom: 41px;
 
 }
+.ingredient-counter{
+  right: 0px;
+  top: -30px;
+  right:-8px;
+  font-size: 16px;
+  position: absolute;
+  display: inline-block;
+  width: max-content;
+  font-weight: normal;
+  font-family: "LoveYaLikeASister";
+}
 
 
 
