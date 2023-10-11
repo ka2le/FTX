@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useMemo} from 'react';
 import Slider from 'react-slick';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -12,9 +12,12 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './App.css'; // your custom css
 
+
 export default function App() {
   const slider1 = useRef(null);
   const slider2 = useRef(null);
+  const [autoSlide, setAutoSlide] = useState(false);
+  const [key, setKey] = useState(Math.random());
   const loadFromLocalStorage = () => {
     const storedIngredients = localStorage.getItem('ingredients');
     return storedIngredients ? JSON.parse(storedIngredients) : initialIngredients.map((ingredient) => ({ ...ingredient, amount: 0 }));
@@ -102,14 +105,20 @@ export default function App() {
     slider1.current.slickGoTo(index);
   };
   const isLandscapeOrDesktop = window.innerWidth > window.innerHeight || window.innerWidth >= 768;
-  const settings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: isLandscapeOrDesktop ? 3 : 1,
-    slidesToScroll: isLandscapeOrDesktop ? 3 : 1,
-    asNavFor: slider2.current
-  };
+  const settings = useMemo(
+    () => ({
+      dots: false,
+      infinite: true,
+      speed: 500,
+      slidesToShow: isLandscapeOrDesktop ? 3 : 1,
+      slidesToScroll: isLandscapeOrDesktop ? 3 : 1,
+      autoplay: autoSlide,
+      autoplaySpeed: 8000,
+      asNavFor: null, // Replace with slider2.current if needed
+    }),
+    [isLandscapeOrDesktop, autoSlide]
+  );
+
 
   const thumbnailSettings = {
     infinite: true,
@@ -117,15 +126,21 @@ export default function App() {
     slidesToShow: 6,
     swipeToSlide: true,
     arrows: false,
-    asNavFor: slider1.current
+    asNavFor: slider1.current,
+    autoplay:false
   };
   console.log(trucks)
-  
+
+
+  const toggleAutoSlide = () => {
+    setAutoSlide(!autoSlide);
+    setKey(Math.random()); // Force re-render by changing the key
+  };
   const [completeCombos, totalScore] = checkCompleteCombos(ingredients, trucks);
   return (
     <div className={`container ${isLandscapeOrDesktop ? "desktop" : null }`} >
       {/* <div className="title">FTX</div> */}
-      <Slider ref={slider1} {...settings}>
+      <Slider key={key} ref={slider1} {...settings}>
         {trucks.map((truck, index) =>
           (<TruckMenu key={index} truckData={truck} ingredientsState={ingredients} decrementAmount={decrementAmount} incrementAmount={incrementAmount}></TruckMenu>)
         )}
@@ -147,6 +162,9 @@ export default function App() {
         <div className="dialog-title-actions">
           <DialogTitle className="dialog-title">Ingredients</DialogTitle>
           <DialogActions className="dialog-actions">
+            { isLandscapeOrDesktop ? <Button className="dialog-actions-button" onClick={toggleAutoSlide} >
+            {autoSlide ? 'Disable Auto-Slide' : 'Enable Auto-Slide'}
+            </Button> : null}
             <Button className="dialog-actions-button" onClick={reset} >
               Reset
             </Button>
