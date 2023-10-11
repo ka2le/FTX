@@ -262,18 +262,22 @@ h2 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0px;
+  margin-bottom: 8px;
+  border-bottom: 1px dotted;
+
+  
 }
 
 .ingredient-name {
   text-transform: capitalize;
   width: 150px;  /* Set a fixed width */
   flex-shrink: 0; /* Prevent shrinking */
+  font-size: 20px;
 }
 
 .ingredient-amount {
   font-size: 24px;
-  margin: 0 10px;
+  margin: 0 10px -3px;
   flex-shrink: 0; /* Prevent shrinking */
 }
 
@@ -288,10 +292,11 @@ h2 {
   padding: 0;
 }
 .open-dialog-button {
-  position: absolute !important; 
-  right: 10px;
-  width: 40px !important;
-  height: 40px !important;
+  float: right;
+  right: -30px;
+  top: -30px;
+  width: 30px !important;
+  height: 30px !important;
   min-width: 0 !important;
   padding: 5px 0 !important;
   color: white !important;
@@ -305,10 +310,13 @@ font-weight: bold !important;
 .score-row{
   color: white;
   position: fixed !important;
-  bottom: 125px;
+  bottom: 80px;
   left: 0px;
   font-family: "LoveYaLikeASister";
-  width: 100vw;
+  width: calc(100vw - 45px);
+  padding-left: 5px;
+  
+  
 }
 .dialog-title-actions {
   display: flex;
@@ -329,4 +337,8 @@ font-weight: bold !important;
 }
 .dialog-actions-button {
   color:white !important;
+}
+.score-row b{
+  padding-bottom: 41px;
+
 }

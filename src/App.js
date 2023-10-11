@@ -88,7 +88,7 @@ export default function App() {
 
       </Slider>
       <div className="score-row" >
-        {completeCombos.join(", ")}<br></br> Score: {totalScore}
+      <b>Score: {totalScore}</b><br></br> {completeCombos.join(", ")}
         <Button variant="outline" className="open-dialog-button" onClick={() => {
           setOpen(true)
 
