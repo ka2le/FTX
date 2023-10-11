@@ -89,12 +89,13 @@ export default function App() {
   const goTo = (index) => {
     slider1.current.slickGoTo(index);
   };
+  const isLandscapeOrDesktop = window.innerWidth > window.innerHeight || window.innerWidth >= 768;
   const settings = {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
+    slidesToShow: isLandscapeOrDesktop ? 3 : 1,
+    slidesToScroll: isLandscapeOrDesktop ? 2 : 1,
     asNavFor: slider2.current
   };
 
@@ -107,10 +108,10 @@ export default function App() {
     asNavFor: slider1.current
   };
   console.log(trucks)
-
+  
   const [completeCombos, totalScore] = checkCompleteCombos(ingredients, trucks);
   return (
-    <div className="container" >
+    <div className={`container ${isLandscapeOrDesktop ? "desktop" : null }`} >
       {/* <div className="title">FTX</div> */}
       <Slider ref={slider1} {...settings}>
         {trucks.map((truck, index) =>
