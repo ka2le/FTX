@@ -27,8 +27,13 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem('ingredients', JSON.stringify(ingredients));
   }, [ingredients]);
+
+  console.log(trucks);
   console.log(initialIngredients)
   console.log(ingredients)
+  console.log("Totalt copies: " +calculateTotalIngredients());
+
+
   const reset = () => {
     const userConfirmed = window.confirm('Are you sure you want to reset all ingredients?');
     if (userConfirmed) {
@@ -253,6 +258,14 @@ const TruckMenu = ({ truckData, ingredientsState, incrementAmount,decrementAmoun
     </div>
   );
 };
+function calculateTotalIngredients() {
+  let totalIngredients = 0;
+  for (let i = 0; i < initialIngredients.length; i++) {
+    totalIngredients += initialIngredients[i].copies;
+  }
+  return totalIngredients;
+}
+
 
 const TruckThumbnail = ({ truckData, goTo, index }) => {
   // Get the truck style or fallback to default
