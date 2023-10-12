@@ -1,4 +1,4 @@
-export const initialIngredients = [
+[
     { "name": "aubergine", "level": 1, "copies": 1, "color": "#B085B7" },
     { "name": "avocado", "level": 3, "copies": 1, "color": "#B2EABD" },
     { "name": "banana", "level": 3, "copies": 1, "color": "#FFF58D" },

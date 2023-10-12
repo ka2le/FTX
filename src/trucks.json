@@ -1,4 +1,4 @@
-export const trucks = [
+[
     {
       "TruckName": "Turbo Burgers",
       "short": "Burger",
@@ -32,7 +32,7 @@ export const trucks = [
                 "onion"
               ],
               "requirements": "2+"
-            },
+            }
           
           ]
         },
@@ -45,7 +45,7 @@ export const trucks = [
               {
                 "ingredients": [
                   "salt",
-                  "pork",
+                  "pork"
                 ],
                 "requirements": "2"
               }
@@ -369,7 +369,7 @@ export const trucks = [
                 "ginger"
               ],
               "requirements": "2+"
-            },
+            }
            
           ]
         },
@@ -448,7 +448,7 @@ export const trucks = [
       ]
     },
     {
-      "TruckName": "Grilluminati\'s BBQ",
+      "TruckName": "Grilluminati's BBQ",
       "short": "BBQ",
       "combos": [
         {
@@ -687,7 +687,7 @@ export const trucks = [
           ]
         }
       ]
-    },
+    }
   
   
   ]

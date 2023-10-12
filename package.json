@@ -24,6 +24,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "prebuild": "copy src\\trucks.json public\\data\\trucks.json && copy src\\initialIngredients.json public\\data\\initialIngredients.json",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
