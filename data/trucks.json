@@ -765,28 +765,6 @@
             "requirements": "1+"
           }
         ]
-      },
-      {
-        "ComboName": "Margherita",
-        "dependency": null,
-        "score": 3,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "flour",
-              "cheese",
-              "tomato"
-            ],
-            "requirements": "3+"
-          },
-          {
-            "ingredients": [
-              "basil"
-            ],
-            "requirements": "0+"
-          }
-        ]
       }
     ]
   }
