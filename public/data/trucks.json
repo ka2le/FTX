@@ -112,6 +112,30 @@
             "requirements": "3"
           }
         ]
+      },
+      {
+        "ComboName": "Milskshake",
+        "dependency": null,
+        "score": 2,
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "sugar",
+              "dairy"
+            ],
+            "requirements": "2"
+          },
+          {
+            "ingredients": [
+              "strawberries",
+              "mango",
+              "pineapple",
+              "banana"
+            ],
+            "requirements": "2+"
+          }
+        ]
       }
     ]
   },
@@ -303,7 +327,7 @@
       },
       {
         "ComboName": "Chutney",
-        "dependency": null,
+        "dependency": "Curry Curry",
         "score": 3,
         "type": null,
         "ComboLines": [
@@ -422,7 +446,7 @@
         ]
       },
       {
-        "ComboName": "Fried Vegan Spring Rolls",
+        "ComboName": "Spring Rolls",
         "dependency": null,
         "score": 8,
         "type": null,
@@ -458,6 +482,21 @@
               "ginger"
             ],
             "requirements": "2+"
+          }
+        ]
+      },
+      {
+        "ComboName": "Side of Rice",
+        "dependency": "Bao Dream or Spring Rolls",
+        "score": 4,
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "rice",
+              "rice"
+            ],
+            "requirements": "1+"
           }
         ]
       }
@@ -537,9 +576,10 @@
           {
             "ingredients": [
               "shrimp",
-              "shrimp"
+              "shrimp",
+              "garlic"
             ],
-            "requirements": "2"
+            "requirements": "3"
           }
         ]
       },
@@ -570,7 +610,7 @@
               "onion",
               "chili"
             ],
-            "requirements": "0+"
+            "requirements": "1+"
           }
         ]
       },
@@ -723,28 +763,6 @@
               "lemon"
             ],
             "requirements": "1+"
-          }
-        ]
-      },
-      {
-        "ComboName": "Margherita",
-        "dependency": null,
-        "score": 3,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "flour",
-              "cheese",
-              "tomato"
-            ],
-            "requirements": "3+"
-          },
-          {
-            "ingredients": [
-              "basil"
-            ],
-            "requirements": "0+"
           }
         ]
       }
