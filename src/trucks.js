@@ -5,7 +5,7 @@ export const trucks = [
       "combos": [
         {
           "ComboName": "Burgers!",
-          "dependency": null,
+          "dependency": "Bacon",
           "score": 6,
           "type": null,
           "ComboLines": [
@@ -33,61 +33,57 @@ export const trucks = [
               ],
               "requirements": "2+"
             },
-            {
-              "ingredients": [
-                "salt",
-                "pork"
-              ],
-              "requirements": "2"
-            }
+          
           ]
         },
+        {
+            "ComboName": "Bacon",
+            "dependency":null,
+            "score": 2,
+            "type": null,
+            "ComboLines": [
+              {
+                "ingredients": [
+                  "salt",
+                  "pork",
+                ],
+                "requirements": "2"
+              }
+            ]
+          },
         {
           "ComboName": "Fries",
-          "dependency": "Burgers!",
-          "score": 1,
-          "type": null,
-          "ComboLines": [
-            {
-              "ingredients": [
-                "fries"
-              ],
-              "requirements": "1"
-            }
-          ]
-        },
-        {
-          "ComboName": "Supersize",
           "dependency": "Burgers!",
           "score": 2,
           "type": null,
           "ComboLines": [
             {
               "ingredients": [
-                "fries",
-                "fries"
+                "oil",
+                "potato"
               ],
               "requirements": "2"
             }
           ]
         },
         {
-          "ComboName": "Loaded Fries",
+          "ComboName": "Supersize",
           "dependency": "Burgers!",
-          "score": 4,
+          "score": 3,
           "type": null,
           "ComboLines": [
             {
               "ingredients": [
-                "fries",
-                "cheese",
-                "salt",
-                "pork"
+                "oil",
+                "potato",
+                "potato"
               ],
-              "requirements": "4"
+              "requirements": "3"
             }
           ]
         },
+
+       
         {
           "ComboName": "Extra Patties",
           "dependency": "Burgers!",

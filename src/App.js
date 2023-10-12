@@ -113,7 +113,7 @@ export default function App() {
       slidesToShow: isLandscapeOrDesktop ? 3 : 1,
       slidesToScroll: isLandscapeOrDesktop ? 3 : 1,
       autoplay: autoSlide,
-      autoplaySpeed: 8000,
+      autoplaySpeed: 20000,
       asNavFor: null, // Replace with slider2.current if needed
     }),
     [isLandscapeOrDesktop, autoSlide]
@@ -262,7 +262,6 @@ const TruckThumbnail = ({ truckData, goTo, index }) => {
     <div
       className="thumbnail-container"
       style={{
-        backgroundColor: 'black',
         borderColor: currentStyle.color,
         color: currentStyle.color,
       }}
@@ -410,22 +409,33 @@ function checkCompleteCombos(ingredients, foodTrucks) {
   }
 
   // Second pass to check combos with dependencies
-  for (let truck of foodTrucks) {
-    for (let combo of truck.combos) {
-      if (combo.dependency) {
+for (let truck of foodTrucks) {
+  for (let combo of truck.combos) {
+    if (combo.dependency) {
+      let isDependencyMet = false;
+
+      if (combo.dependency.includes(' or ')) {
         const dependencies = combo.dependency.split(' or ');
-        const isDependencyMet = dependencies.some(dep => completeCombos.includes(dep));
-        
-        if (isDependencyMet) {
-          const [isComplete, comboScore] = isSingleComboComplete(combo);
-          if (isComplete) {
-            completeCombos.push(combo.ComboName);
-            totalScore += comboScore;
-          }
+        isDependencyMet = dependencies.some(dep => completeCombos.includes(dep));
+      } else if (combo.dependency.includes(' and ')) {
+        const dependencies = combo.dependency.split(' and ');
+        isDependencyMet = dependencies.every(dep => completeCombos.includes(dep));
+      } else {
+        // Single dependency
+        isDependencyMet = completeCombos.includes(combo.dependency);
+      }
+
+      if (isDependencyMet) {
+        const [isComplete, comboScore] = isSingleComboComplete(combo);
+        if (isComplete) {
+          completeCombos.push(combo.ComboName);
+          totalScore += comboScore;
         }
       }
     }
   }
+}
+
   return [completeCombos, totalScore];
 }
 

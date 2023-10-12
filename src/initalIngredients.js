@@ -19,7 +19,6 @@ export const initialIngredients = [
     { "name": "egg", "level": 1, "copies": 1, "color": "#FFF78D" },
     { "name": "fish", "level": 3, "copies": 1, "color": "#8DDCFF" },
     { "name": "flour", "level": 2, "copies": 1, "color": "#F2F2F2" },
-    { "name": "fries", "level": 1, "copies": 1, "color": "#FFC55B" },
     { "name": "garlic", "level": 1, "copies": 1, "color": "#FFFDC5" },
     { "name": "ginger", "level": 2, "copies": 1, "color": "#FFE16D" },
     { "name": "hamburger buns", "level": 2, "copies": 1, "color": "#FFE16D" },
