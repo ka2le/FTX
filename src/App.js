@@ -136,7 +136,7 @@ export default function App() {
     setAutoSlide(!autoSlide);
     setKey(Math.random()); // Force re-render by changing the key
   };
-  const [completeCombos, totalScore] = checkCompleteCombos(ingredients, trucks);
+  const [completeCombos, totalScore] = checkCompleteCombos(ingredients);
   return (
     <div className={`container ${isLandscapeOrDesktop ? "desktop" : null }`} >
       {/* <div className="title">FTX</div> */}
@@ -352,7 +352,7 @@ const truckStyles = {
 };
 
 
-function checkCompleteCombos(ingredients, foodTrucks) {
+function checkCompleteCombos(ingredients) {
   const completeCombos = [];
   let totalScore = 0;
 
@@ -396,7 +396,7 @@ function checkCompleteCombos(ingredients, foodTrucks) {
   };
 
   // First pass to check combos without dependencies
-  for (let truck of foodTrucks) {
+  for (let truck of trucks) {
     for (let combo of truck.combos) {
       if (!combo.dependency) {
         const [isComplete, comboScore] = isSingleComboComplete(combo);
@@ -409,7 +409,7 @@ function checkCompleteCombos(ingredients, foodTrucks) {
   }
 
   // Second pass to check combos with dependencies
-for (let truck of foodTrucks) {
+for (let truck of trucks) {
   for (let combo of truck.combos) {
     if (combo.dependency) {
       let isDependencyMet = false;
