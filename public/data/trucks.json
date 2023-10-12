@@ -584,6 +584,21 @@
         ]
       },
       {
+        "ComboName": "BBQ Beans",
+        "dependency": "Brisket n Burnt Ends or Bacon",
+        "score": 3,
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "beans",
+              "beans"
+            ],
+            "requirements": "1+"
+          }
+        ]
+      },
+      {
         "ComboName": "Coleslaw",
         "dependency": null,
         "score": 4,
