@@ -168,8 +168,8 @@ export default function App() {
         <div className="dialog-title-actions">
           <DialogTitle className="dialog-title">Ingredients</DialogTitle>
           <DialogActions className="dialog-actions">
-            { isLandscapeOrDesktop ? <Button className="dialog-actions-button" onClick={toggleAutoSlide} >
-            {autoSlide ? 'Disable Auto-Slide' : 'Enable Auto-Slide'}
+            { false ? <Button className="dialog-actions-button" onClick={toggleAutoSlide} >
+            {(autoSlide ) ? 'Disable Auto-Slide' : 'Enable Auto-Slide'}
             </Button> : null}
             <Button className="dialog-actions-button" onClick={reset} >
               Reset
