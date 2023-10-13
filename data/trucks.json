@@ -5,22 +5,24 @@
     "combos": [
       {
         "ComboName": "Burgers!",
-        "dependency": "Bacon",
+        "dependency": null,
         "score": 6,
         "type": null,
         "ComboLines": [
           {
             "ingredients": [
               "hamburger buns",
-              "beef"
+              "ground meat",
+              "bacon"
             ],
-            "requirements": "2"
+            "requirements": "3"
           },
           {
             "ingredients": [
               "chicken",
               "fish",
-              "mushrooms"
+              "mushrooms",
+              "tofu"
             ],
             "requirements": "0+"
           },
@@ -29,71 +31,10 @@
               "cucumber",
               "lettuce",
               "tomato",
-              "onion"
+              "onion",
+              "cheese"
             ],
             "requirements": "3+"
-          }
-        ]
-      },
-      {
-        "ComboName": "Bacon",
-        "dependency": null,
-        "score": 2,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "salt",
-              "pork"
-            ],
-            "requirements": "2"
-          }
-        ]
-      },
-      {
-        "ComboName": "Fries",
-        "dependency": "Burgers!",
-        "score": 2,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "oil",
-              "potato"
-            ],
-            "requirements": "2"
-          }
-        ]
-      },
-      {
-        "ComboName": "Supersize",
-        "dependency": "Burgers!",
-        "score": 3,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "oil",
-              "potato",
-              "potato"
-            ],
-            "requirements": "3"
-          }
-        ]
-      },
-      {
-        "ComboName": "Extra Patties",
-        "dependency": "Burgers!",
-        "score": 4,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "beef",
-              "beef",
-              "beef"
-            ],
-            "requirements": "3"
           }
         ]
       },
@@ -113,6 +54,45 @@
           }
         ]
       },
+      {
+        "ComboName": "Fries",
+        "dependency": "Burgers! or Nuggets",
+        "score": 2,
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "oil",
+              "potato"
+            ],
+            "requirements": "2"
+          }
+        ]
+      },
+      {
+        "ComboName": "Supersize",
+        "dependency": "Burgers!",
+        "score": 4,
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "ground meat",
+              "ground meat"
+            ],
+            "requirements": "2"
+          },
+          {
+            "ingredients": [
+              "oil",
+              "potato",
+              "potato"
+            ],
+            "requirements": "3"
+          }
+        ]
+      },
+     
       {
         "ComboName": "Milskshake",
         "dependency": null,
@@ -158,8 +138,8 @@
           },
           {
             "ingredients": [
-              "beef",
-              "pork",
+              "steak",
+              "pork tenderloin",
               "chicken",
               "shrimp",
               "beans",
@@ -279,7 +259,8 @@
           },
           {
             "ingredients": [
-              "pork",
+              "pork tenderloin",
+              "ground meat",
               "cheese",
               "chicken",
               "fish",
@@ -387,9 +368,9 @@
             "ingredients": [
               "chicken",
               "mushrooms",
-              "pork",
-              "beef",
-              "shrimp"
+              "pork belly",
+              "shrimp",
+              "tofu"
             ],
             "requirements": "2+"
           },
@@ -507,7 +488,7 @@
     "short": "BBQ",
     "combos": [
       {
-        "ComboName": "Brisket n Burnt Ends",
+        "ComboName": "BBQ Platter",
         "dependency": null,
         "score": 6,
         "type": null,
@@ -521,18 +502,17 @@
           },
           {
             "ingredients": [
-              "beef",
-              "beef"
+              "steak",
+              "steak",
+              "ground meat",
+              "pork belly",
+              "pork belly",
+              "pork tenderloin",
+              "chicken"
             ],
-            "requirements": "2"
-          },
-          {
-            "ingredients": [
-              "pork",
-              "pork"
-            ],
-            "requirements": "2"
+            "requirements": "4+"
           }
+          
         ]
       },
       {
@@ -561,9 +541,10 @@
             "ingredients": [
               "cabbage",
               "lettuce",
-              "aubergine"
+              "aubergine",
+              "carrot"
             ],
-            "requirements": "1+"
+            "requirements": "2+"
           }
         ]
       },
@@ -576,16 +557,16 @@
           {
             "ingredients": [
               "shrimp",
-              "shrimp",
               "garlic"
             ],
-            "requirements": "3"
+            "requirements": "2"
           }
+          
         ]
       },
       {
         "ComboName": "BBQ Beans",
-        "dependency": "Brisket n Burnt Ends or Bacon",
+        "dependency": "BBQ Platter",
         "score": 3,
         "type": null,
         "ComboLines": [
@@ -641,7 +622,7 @@
               "corn",
               "corn"
             ],
-            "requirements": "3"
+            "requirements": "2+"
           }
         ]
       }
@@ -659,15 +640,15 @@
         "ComboLines": [
           {
             "ingredients": [
-              "beef",
-              "beef"
+              "steak",
+              "steak"
             ],
             "requirements": "1+"
           },
           {
             "ingredients": [
-              "pork",
-              "pork"
+              "pork tenderloin",
+              "pork tenderloin"
             ],
             "requirements": "1+"
           },
@@ -697,13 +678,20 @@
           },
           {
             "ingredients": [
-              "beef",
-              "pork",
-              "chicken",
+              "ground meat",
+              "pork tenderloin",
+              "steak",
+              "chicken"
+            ],
+            "requirements": "2+"
+          },
+          {
+            "ingredients": [
+              "shrimp",
               "mushrooms",
               "fish"
             ],
-            "requirements": "2+"
+            "requirements": "1+"
           },
           {
             "ingredients": [
@@ -724,32 +712,7 @@
           }
         ]
       },
-      {
-        "ComboName": "Secondi",
-        "dependency": null,
-        "score": 2,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "beef",
-              "pork",
-              "fish",
-              "chicken",
-              "mushrooms",
-              "shrimp"
-            ],
-            "requirements": "3+"
-          },
-          {
-            "ingredients": [
-              "salt",
-              "spices"
-            ],
-            "requirements": "1+"
-          }
-        ]
-      },
+    
       {
         "ComboName": "Gelato",
         "dependency": null,
