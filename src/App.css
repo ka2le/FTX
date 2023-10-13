@@ -127,7 +127,7 @@ h2 {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  margin-bottom: 0px;
+  margin-bottom: 10px;
   font-size: calc((1.1vh + 3vw));
 }
 
@@ -142,7 +142,7 @@ h2 {
 
 .ingredients {
   flex: 4;
-  
+  line-height: 20px;
   text-align: left;
 }
 .ingredient-match {
