@@ -360,19 +360,23 @@ font-weight: bold !important;
 
 
   .desktop .combo-line{
-    font-size: 16px;
-    
+    font-size: 20px;
+    margin-bottom: 6px; 
+  }
+  .desktop .ingredients{
+    line-height: 14px;
   }
 .desktop .truck-container{
-  width: 95%;
-  height: 50vh;
+  width: 80%;
+  height: 55vh;
+  margin-bottom: -8vh;
 }
 .desktop h1{
-  font-size: 18px !important;
+  font-size: 22px !important;
   margin:-10px 0 0 0 ;
 }
 .desktop h2{
-  font-size: 14px !important;
+  font-size: 18px !important;
 }
 
 
