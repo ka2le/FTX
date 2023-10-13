@@ -186,7 +186,7 @@ export default function App() {
 
       </Dialog>
       <div className="thumbnail-slider-wrap">
-        <Slider ref={slider2} {...thumbnailSettings}>
+       {isLandscapeOrDesktop ? null : <Slider ref={slider2} {...thumbnailSettings}>
           {trucks.map((truck, index) => (
             <TruckThumbnail
               key={index}
@@ -195,7 +195,7 @@ export default function App() {
               index={index}
             />
           ))}
-        </Slider>
+        </Slider>}
       </div>
     </div>
   );

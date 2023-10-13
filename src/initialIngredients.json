@@ -39,7 +39,6 @@
     { "name": "pork belly", "level": 2, "copies": 3, "color": "#FFB2A0" },
     { "name": "potato", "level": 2, "copies": 3, "color": "#FFD48D" },
     { "name": "rice", "level": 2, "copies": 2, "color": "#FFEB85" },
-    { "name": "salt", "level": 2, "copies": 2, "color": "#F2F2F2" },
     { "name": "shrimp", "level": 2, "copies": 3, "color": "#FFB2A0" },
     { "name": "soy sauce", "level": 2, "copies": 2, "color": "#B39D8D" },
     { "name": "spices", "level": 1, "copies": 4, "color": "#E6B22D" },
