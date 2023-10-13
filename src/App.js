@@ -117,6 +117,7 @@ export default function App() {
       speed: 500,
       slidesToShow: isLandscapeOrDesktop ? 3 : 1,
       slidesToScroll: isLandscapeOrDesktop ? 3 : 1,
+      rows:isLandscapeOrDesktop ? 2 : 1,
       autoplay: autoSlide,
       autoplaySpeed: 20000,
       asNavFor: null, // Replace with slider2.current if needed
@@ -404,7 +405,7 @@ function checkCompleteCombos(ingredients) {
       }
     }
 
-    comboScore = combo.score + ingredientCount + ingredientLevelSum;
+    comboScore = combo.score  + ingredientLevelSum; //+ ingredientCount
     return [true, comboScore];
   };
 
