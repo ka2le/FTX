@@ -1,19 +1,43 @@
-import React, { useRef, useState, useEffect, useMemo} from 'react';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
 import Slider from 'react-slick';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import Select  from '@mui/material/Select';
+import MenuItem  from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
-import  trucks  from './trucks.json';
-import  initialIngredients  from './initialIngredients.json';
+import trucks from './trucks.json';
+import initialIngredients from './initialIngredients.json';
+import { TradePage, makeIngredientsArray, createDeck, handleDealCards, NUMBER_OF_PLAYERS } from './TradePage';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './App.css'; // your custom css
 
 
+
+
 export default function App() {
+  const loadTradeInterfaceFromLocalStorage = () => {
+    const storedTradeInterface = localStorage.getItem('tradeInterface');
+    return storedTradeInterface ? JSON.parse(storedTradeInterface) : false;
+  };
+  const loadPlayerIdFromLocalStorage = () => {
+    const storedPlayerId = localStorage.getItem('currentPlayerId');
+    return storedPlayerId ? JSON.parse(storedPlayerId) : 1;
+  };
+
+  const [tradeInterface, setTradeInterface] = useState(loadTradeInterfaceFromLocalStorage);
+  const [currentPlayerId, setCurrentPlayerId] = useState(loadPlayerIdFromLocalStorage);
+  const handleChange = (event) => {
+    setCurrentPlayerId(event.target.value);
+  };
+  const playerList = Array.from({ length: NUMBER_OF_PLAYERS }, (_, i) => i + 1);
+  const toggleTradeInterface = () => {
+    setTradeInterface(!tradeInterface);
+  }
+  const [deck, setDeck] = useState(createDeck());
   const slider1 = useRef(null);
   const slider2 = useRef(null);
   const [autoSlide, setAutoSlide] = useState(false);
@@ -22,16 +46,31 @@ export default function App() {
     const storedIngredients = localStorage.getItem('ingredients');
     return storedIngredients ? JSON.parse(storedIngredients) : initialIngredients.map((ingredient) => ({ ...ingredient, amount: 0 }));
   };
-
+  const loadPlayersFromLocalStorage = () => {
+    const storedplayers = localStorage.getItem('players');
+    return storedplayers ? JSON.parse(storedplayers) : [];
+  };
+  const [players, setPlayers] = useState(loadPlayersFromLocalStorage);
   const [ingredients, setIngredients] = useState(loadFromLocalStorage);
   useEffect(() => {
     localStorage.setItem('ingredients', JSON.stringify(ingredients));
   }, [ingredients]);
+  useEffect(() => {
+    localStorage.setItem('players', JSON.stringify(players));
+  }, [players]);
+  useEffect(() => {
+    localStorage.setItem('tradeInterface', JSON.stringify(tradeInterface));
+  }, [tradeInterface]);
+  useEffect(() => {
+    localStorage.setItem('currentPlayerId', JSON.stringify(currentPlayerId));
+  }, [currentPlayerId]);
 
   console.log(trucks);
   console.log(initialIngredients)
   console.log(ingredients)
-  console.log("Totalt copies: " +calculateTotalIngredients());
+  console.log(players[0])
+  console.log("Totalt copies: " + calculateTotalIngredients());
+
 
 
   const reset = () => {
@@ -51,6 +90,7 @@ export default function App() {
     );
   };
   const incrementAmount = (name) => {
+    console.log("incrementAmount")
     setIngredients((prevIngredients) =>
       prevIngredients.map((ingredient) =>
         ingredient.name === name
@@ -61,6 +101,7 @@ export default function App() {
   };
 
   const decrementAmount = (name) => {
+    console.log("decrementAmount")
     setIngredients((prevIngredients) =>
       prevIngredients.map((ingredient) =>
         ingredient.name === name && ingredient.amount > 0
@@ -78,16 +119,16 @@ export default function App() {
   const countIngredients = () => {
     let totalCount = ingredients.length;
     let countWithAmount = 0;
-  
+
     for (let i = 0; i < totalCount; i++) {
       if (ingredients[i].amount > 0) {
         countWithAmount++;
       }
     }
-  
+
     return `${countWithAmount} / ${totalCount}`;
   }
-  
+
 
   const images = [
     'img/bao.jpg',
@@ -106,6 +147,7 @@ export default function App() {
     '#6788f8',
     '#fff065'
   ];
+  
   const goTo = (index) => {
     slider1.current.slickGoTo(index);
   };
@@ -117,7 +159,7 @@ export default function App() {
       speed: 500,
       slidesToShow: isLandscapeOrDesktop ? 3 : 1,
       slidesToScroll: isLandscapeOrDesktop ? 3 : 1,
-      rows:isLandscapeOrDesktop ? 2 : 1,
+      rows: isLandscapeOrDesktop ? 2 : 1,
       autoplay: autoSlide,
       autoplaySpeed: 20000,
       asNavFor: null, // Replace with slider2.current if needed
@@ -133,18 +175,18 @@ export default function App() {
     swipeToSlide: true,
     arrows: false,
     asNavFor: slider1.current,
-    autoplay:false
+    autoplay: false
   };
-  console.log(trucks)
 
 
   const toggleAutoSlide = () => {
     setAutoSlide(!autoSlide);
     setKey(Math.random()); // Force re-render by changing the key
   };
+
   const [completeCombos, totalScore] = checkCompleteCombos(ingredients);
   return (
-    <div className={`container ${isLandscapeOrDesktop ? "desktop" : null }`} >
+    <div className={`container ${isLandscapeOrDesktop ? "desktop" : null}`} >
       {/* <div className="title">FTX</div> */}
       <Slider key={key} ref={slider1} {...settings}>
         {trucks.map((truck, index) =>
@@ -158,22 +200,45 @@ export default function App() {
           setOpen(true)
 
         }}>
-          <span className='ingredient-counter'>{countIngredients()}</span>
-          +
+          {tradeInterface ? null : <span className='ingredient-counter'>{countIngredients()}</span>}
+          {tradeInterface ? <span >⬌</span> : "+"}
         </Button>
-        
-        
+
+
       </div>
-      <Dialog open={open} onClose={handleClose} className="ingredient-dialog">
+      <Dialog open={open} onClose={handleClose} className={`ingredient-dialog ${tradeInterface ? "trade" : null}`}>
         <div className="dialog-title-actions">
-          <DialogTitle className="dialog-title">Ingredients</DialogTitle>
+
+          <DialogTitle className="dialog-title">{tradeInterface ? "Trade" : "Ingredients"}</DialogTitle>
           <DialogActions className="dialog-actions">
-            { false ? <Button className="dialog-actions-button" onClick={toggleAutoSlide} >
-            {(autoSlide ) ? 'Disable Auto-Slide' : 'Enable Auto-Slide'}
+            {false ? <Button className="dialog-actions-button" onClick={toggleAutoSlide} >
+              {(autoSlide) ? 'Disable Auto-Slide' : 'Enable Auto-Slide'}
             </Button> : null}
-            <Button className="dialog-actions-button" onClick={reset} >
-              Reset
+            <Button className="dialog-actions-button" onClick={toggleTradeInterface} >
+              {(!tradeInterface) ? '👥' : "👤"}
             </Button>
+            {tradeInterface ? <>
+              <Button className="dialog-actions-button" onClick={() => handleDealCards(setDeck, setPlayers)} >
+              🂠
+              </Button>
+              <Select
+                labelId="player-label"
+                id="player-dropdown"
+                value={currentPlayerId}
+                onChange={handleChange}
+                className='white dialog-dropdown'
+              >
+                {playerList.map((playerId) => (
+                  <MenuItem key={playerId} value={playerId}>
+                     {playerId}
+                  </MenuItem>
+                ))}
+              </Select></>
+
+              : <Button className="dialog-actions-button" onClick={reset} >
+                Reset
+              </Button>}
+
             <Button className="dialog-actions-button" onClick={handleClose} >
               x
             </Button>
@@ -181,12 +246,12 @@ export default function App() {
           </DialogActions>
         </div>
         <DialogContent>
-          <IngredientList ingredients={ingredients} setIngredients={setIngredients} />
+          {tradeInterface ? <TradePage ingredients={ingredients} setIngredients={setIngredients} deck={deck} setDeck={setDeck} players={players} setPlayers={setPlayers} currentPlayerId={currentPlayerId}></TradePage> : <IngredientList ingredients={ingredients} setIngredients={setIngredients} />}
         </DialogContent>
 
       </Dialog>
       <div className="thumbnail-slider-wrap">
-       {isLandscapeOrDesktop ? null : <Slider ref={slider2} {...thumbnailSettings}>
+        {isLandscapeOrDesktop ? null : <Slider ref={slider2} {...thumbnailSettings}>
           {trucks.map((truck, index) => (
             <TruckThumbnail
               key={index}
@@ -195,13 +260,16 @@ export default function App() {
               index={index}
             />
           ))}
+
         </Slider>}
       </div>
     </div>
   );
 }
 
-const TruckMenu = ({ truckData, ingredientsState, incrementAmount,decrementAmount }) => {
+
+
+const TruckMenu = ({ truckData, ingredientsState, incrementAmount, decrementAmount }) => {
   const currentStyle = truckStyles[truckData.short.toLowerCase()] || truckStyles.default;
 
   // Function to find matching ingredients
@@ -230,12 +298,12 @@ const TruckMenu = ({ truckData, ingredientsState, incrementAmount,decrementAmoun
             color: currentStyle.color,
           }}>{combo.score}$</div>
           {combo.ComboLines.map((line, lineIndex) => {
-             const workingIngredients = JSON.parse(JSON.stringify(ingredientsState));
-             return (
+            const workingIngredients = JSON.parse(JSON.stringify(ingredientsState));
+            return (
               <div key={lineIndex} className="combo-line">
                 <span className="requirements">{line.requirements}</span>
                 <span className="ingredients">
-                 
+
                   {line.ingredients.map((ingredientName, ingIndex) => {
                     const matchedIngredient = findMatchingIngredient(ingredientName, workingIngredients);
                     const className = matchedIngredient ? 'ingredient-match' : '';
@@ -366,7 +434,7 @@ const truckStyles = {
 };
 
 
-function checkCompleteCombos(ingredients) {
+export function checkCompleteCombos(ingredients) {
   const completeCombos = [];
   let totalScore = 0;
 
@@ -405,7 +473,7 @@ function checkCompleteCombos(ingredients) {
       }
     }
 
-    comboScore = combo.score  + ingredientLevelSum; //+ ingredientCount
+    comboScore = combo.score + ingredientLevelSum; //+ ingredientCount
     return [true, comboScore];
   };
 
@@ -423,32 +491,32 @@ function checkCompleteCombos(ingredients) {
   }
 
   // Second pass to check combos with dependencies
-for (let truck of trucks) {
-  for (let combo of truck.combos) {
-    if (combo.dependency) {
-      let isDependencyMet = false;
+  for (let truck of trucks) {
+    for (let combo of truck.combos) {
+      if (combo.dependency) {
+        let isDependencyMet = false;
 
-      if (combo.dependency.includes(' or ')) {
-        const dependencies = combo.dependency.split(' or ');
-        isDependencyMet = dependencies.some(dep => completeCombos.includes(dep));
-      } else if (combo.dependency.includes(' and ')) {
-        const dependencies = combo.dependency.split(' and ');
-        isDependencyMet = dependencies.every(dep => completeCombos.includes(dep));
-      } else {
-        // Single dependency
-        isDependencyMet = completeCombos.includes(combo.dependency);
-      }
+        if (combo.dependency.includes(' or ')) {
+          const dependencies = combo.dependency.split(' or ');
+          isDependencyMet = dependencies.some(dep => completeCombos.includes(dep));
+        } else if (combo.dependency.includes(' and ')) {
+          const dependencies = combo.dependency.split(' and ');
+          isDependencyMet = dependencies.every(dep => completeCombos.includes(dep));
+        } else {
+          // Single dependency
+          isDependencyMet = completeCombos.includes(combo.dependency);
+        }
 
-      if (isDependencyMet) {
-        const [isComplete, comboScore] = isSingleComboComplete(combo);
-        if (isComplete) {
-          completeCombos.push(combo.ComboName);
-          totalScore += comboScore;
+        if (isDependencyMet) {
+          const [isComplete, comboScore] = isSingleComboComplete(combo);
+          if (isComplete) {
+            completeCombos.push(combo.ComboName);
+            totalScore += comboScore;
+          }
         }
       }
     }
   }
-}
 
   return [completeCombos, totalScore];
 }
