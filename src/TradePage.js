@@ -10,7 +10,7 @@ import initialIngredients from './initialIngredients.json';
 import { checkCompleteCombos } from "./App"
 
 export const NUMBER_OF_PLAYERS = 5;
-const MAX_HAND_LIMIT = 14;
+const MAX_HAND_LIMIT = 16;
 
 export const TradePage = ({ deck, setDeck, players, setPlayers, ingredients, setIngredients, currentPlayerId }) => {
   useEffect(() => {
@@ -248,19 +248,22 @@ export const createDeck = () => {
   return deck;
 };
 
-export const handleDealCards = (setDeck, setPlayers) => {
-  let newDeck = createDeck();
-  const newPlayers = Array.from({ length: NUMBER_OF_PLAYERS }, (v, i) => ({
-    id: i + 1,
-    cards: []
-  }));
-  newPlayers.forEach((player) => {
-    while (player.cards.length < MAX_HAND_LIMIT && newDeck.length > 0) {
-      player.cards.push(newDeck.pop());
-    }
-  });
-  setDeck(newDeck);
-  setPlayers(newPlayers);
+export const handleDealCards = (setDeck, setPlayers, number_of_players) => {
+  const userConfirmed = window.confirm('Are you sure you want to deal new cards?');
+  if (userConfirmed) {
+    let newDeck = createDeck();
+    const newPlayers = Array.from({ length: number_of_players }, (v, i) => ({
+      id: i + 1,
+      cards: []
+    }));
+    newPlayers.forEach((player) => {
+      while (player.cards.length < MAX_HAND_LIMIT && newDeck.length > 0) {
+        player.cards.push(newDeck.pop());
+      }
+    });
+    setDeck(newDeck);
+    setPlayers(newPlayers);
+  }
 };
 
 

@@ -4,12 +4,12 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import Select  from '@mui/material/Select';
-import MenuItem  from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import trucks from './trucks.json';
 import initialIngredients from './initialIngredients.json';
-import { TradePage, makeIngredientsArray, createDeck, handleDealCards, NUMBER_OF_PLAYERS } from './TradePage';
+import { TradePage, makeIngredientsArray, createDeck, handleDealCards } from './TradePage';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -30,14 +30,20 @@ export default function App() {
 
   const [tradeInterface, setTradeInterface] = useState(loadTradeInterfaceFromLocalStorage);
   const [currentPlayerId, setCurrentPlayerId] = useState(loadPlayerIdFromLocalStorage);
-  const handleChange = (event) => {
+  const handlePlayerIdChange = (event) => {
     setCurrentPlayerId(event.target.value);
   };
-  const playerList = Array.from({ length: NUMBER_OF_PLAYERS }, (_, i) => i + 1);
+  
+  const [numberOfPlayers, setNumberOfPlayers] = useState(5);
+  const handleNumberOfPlayersChange = (event) => {
+    setNumberOfPlayers(event.target.value);
+  };
+  const playerList = Array.from({ length: numberOfPlayers }, (_, i) => i + 1);
   const toggleTradeInterface = () => {
     setTradeInterface(!tradeInterface);
   }
   const [deck, setDeck] = useState(createDeck());
+
   const slider1 = useRef(null);
   const slider2 = useRef(null);
   const [autoSlide, setAutoSlide] = useState(false);
@@ -147,7 +153,7 @@ export default function App() {
     '#6788f8',
     '#fff065'
   ];
-  
+
   const goTo = (index) => {
     slider1.current.slickGoTo(index);
   };
@@ -218,19 +224,33 @@ export default function App() {
               {(!tradeInterface) ? '👥' : "👤"}
             </Button>
             {tradeInterface ? <>
-              <Button className="dialog-actions-button" onClick={() => handleDealCards(setDeck, setPlayers)} >
-              🂠
+              <Select
+                labelId="player-label"
+                id="player-dropdown"
+                value={numberOfPlayers}
+                onChange={handleNumberOfPlayersChange}
+                className='white dialog-dropdown'
+              >
+                {Array.from({ length: 8 }, (_, i) => i + 1).map((number) => (
+                  <MenuItem key={number} value={number}>
+                    {number}
+                  </MenuItem>
+                ))}
+              </Select>
+
+              <Button className="dialog-actions-button" onClick={() => handleDealCards(setDeck, setPlayers, numberOfPlayers)} >
+                🂠
               </Button>
               <Select
                 labelId="player-label"
                 id="player-dropdown"
                 value={currentPlayerId}
-                onChange={handleChange}
+                onChange={handlePlayerIdChange}
                 className='white dialog-dropdown'
               >
                 {playerList.map((playerId) => (
                   <MenuItem key={playerId} value={playerId}>
-                     {playerId}
+                    {playerId}
                   </MenuItem>
                 ))}
               </Select></>

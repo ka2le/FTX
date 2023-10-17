@@ -390,7 +390,7 @@ font-weight: bold !important;
 .white{
   color: white !important;
 }
-.dialog-dropdown{
+.dialog-dropdown, .dialog-dropdown .MuiSelect-select{
   margin: 0 !important;
   padding: 0 !important;
 }
@@ -416,7 +416,7 @@ font-weight: bold !important;
 
 .ingredient-dialog.trade .MuiPaper-root {
   width: 100vw;
-  margin: 10px;
+  margin: 10px !important;
   color: white;
   background-color: rgba(0, 0, 0, 0.9);
 }
