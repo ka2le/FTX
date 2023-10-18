@@ -486,16 +486,15 @@ export function checkCompleteCombos(ingredients) {
     let comboScore = 0;
     let ingredientLevelSum = 0;
     let ingredientCount = 0;
-
+  
     // Create a working copy of the ingredient dictionary
     const ingredientDict = JSON.parse(JSON.stringify(originalIngredientDict));
-
+  
     for (let line of combo.ComboLines) {
       const requirement = parseInt(line.requirements, 10);
-      const isPlus = line.requirements.includes('+');
-
+  
       let count = 0;
-
+  
       for (let ingredient of line.ingredients) {
         if (ingredientDict[ingredient] && ingredientDict[ingredient].amount >= 1) {
           count++;
@@ -504,12 +503,12 @@ export function checkCompleteCombos(ingredients) {
           ingredientCount++;
         }
       }
-
-      if (!((isPlus && count >= requirement) || (!isPlus && count === requirement))) {
+  
+      if (count < requirement) {
         return [false, 0];
       }
     }
-
+  
     comboScore = combo.score + ingredientLevelSum; //+ ingredientCount
     return [true, comboScore];
   };
