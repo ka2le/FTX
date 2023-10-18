@@ -9,7 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import trucks from './trucks.json';
 import initialIngredients from './initialIngredients.json';
-import { TradePage, makeIngredientsArray, createDeck, handleDealCards } from './TradePage';
+import { TradePage, makeIngredientsArray, createDeck, handleDealCards, MAX_HAND_LIMIT } from './TradePage';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -33,7 +33,7 @@ export default function App() {
   const handlePlayerIdChange = (event) => {
     setCurrentPlayerId(event.target.value);
   };
-  
+
   const [numberOfPlayers, setNumberOfPlayers] = useState(5);
   const handleNumberOfPlayersChange = (event) => {
     setNumberOfPlayers(event.target.value);
@@ -75,8 +75,13 @@ export default function App() {
   console.log(initialIngredients)
   console.log(ingredients)
   console.log(players[0])
-  console.log("Totalt copies: " + calculateTotalIngredients());
+  const result = calculateTotalIngredients();
 
+  console.log("Total Ingredients: ", result.totalIngredients);
+  console.log("Ingredients by Level: ", result.levelCount);
+  console.log("Split all card 5 players: ", result.totalIngredients/5)
+  console.log("Split all card 8 players: ", result.totalIngredients/8)
+  console.log("Cards left for max "+MAX_HAND_LIMIT+" cards 5 players: ", Math.floor((result.totalIngredients/5-MAX_HAND_LIMIT)*5))
 
 
   const reset = () => {
@@ -349,10 +354,22 @@ const TruckMenu = ({ truckData, ingredientsState, incrementAmount, decrementAmou
 };
 function calculateTotalIngredients() {
   let totalIngredients = 0;
+  const levelCount = {}; // Object to store counts per level
+
   for (let i = 0; i < initialIngredients.length; i++) {
-    totalIngredients += initialIngredients[i].copies;
+    const ingredient = initialIngredients[i];
+    totalIngredients += ingredient.copies;
+
+    // If the level doesn't exist in the object, initialize it with 0
+    if (!levelCount[ingredient.level]) {
+      levelCount[ingredient.level] = 0;
+    }
+
+    // Increment the count for the ingredient's level
+    levelCount[ingredient.level] += ingredient.copies;
   }
-  return totalIngredients;
+
+  return { totalIngredients, levelCount };
 }
 
 

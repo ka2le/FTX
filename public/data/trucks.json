@@ -6,16 +6,21 @@
       {
         "ComboName": "Burgers!",
         "dependency": null,
-        "score": 6,
+        "score": 14,
         "type": null,
         "ComboLines": [
           {
             "ingredients": [
               "hamburger buns",
-              "ground meat",
-              "bacon"
+              "hamburger buns"
             ],
-            "requirements": "3"
+            "requirements": "1+"
+          },
+          {
+            "ingredients": [
+              "ground meat"
+            ],
+            "requirements": "1"
           },
           {
             "ingredients": [
@@ -32,7 +37,8 @@
               "lettuce",
               "tomato",
               "onion",
-              "cheese"
+              "cheese",
+              "bacon"
             ],
             "requirements": "3+"
           }
@@ -41,7 +47,7 @@
       {
         "ComboName": "Nuggets",
         "dependency": null,
-        "score": 3,
+        "score": 5,
         "type": null,
         "ComboLines": [
           {
@@ -57,7 +63,7 @@
       {
         "ComboName": "Fries",
         "dependency": "Burgers! or Nuggets",
-        "score": 2,
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
@@ -92,11 +98,10 @@
           }
         ]
       },
-     
       {
         "ComboName": "Milskshake",
         "dependency": null,
-        "score": 2,
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
@@ -126,7 +131,7 @@
       {
         "ComboName": "Taco Mix",
         "dependency": null,
-        "score": 6,
+        "score": 14,
         "type": null,
         "ComboLines": [
           {
@@ -153,7 +158,8 @@
               "lime",
               "cilantro",
               "onion",
-              "tomato"
+              "tomato",
+              "garlic"
             ],
             "requirements": "3+"
           }
@@ -192,7 +198,7 @@
       {
         "ComboName": "Quesedilla",
         "dependency": "Taco Mix",
-        "score": 3,
+        "score": 4,
         "type": null,
         "ComboLines": [
           {
@@ -206,7 +212,7 @@
       {
         "ComboName": "Double Bag It",
         "dependency": "Taco Mix",
-        "score": 3,
+        "score": 4,
         "type": null,
         "ComboLines": [
           {
@@ -221,7 +227,7 @@
       {
         "ComboName": "Guacamole",
         "dependency": "Taco Mix",
-        "score": 3,
+        "score": 4,
         "type": null,
         "ComboLines": [
           {
@@ -235,7 +241,7 @@
       {
         "ComboName": "Pineapple Express",
         "dependency": "Taco Mix",
-        "score": 3,
+        "score": 4,
         "type": null,
         "ComboLines": [
           {
@@ -255,7 +261,7 @@
       {
         "ComboName": "Curry Curry",
         "dependency": null,
-        "score": 9,
+        "score": 20,
         "type": null,
         "ComboLines": [
           {
@@ -263,11 +269,13 @@
               "spices",
               "spices"
             ],
-            "requirements": "2"
+            "requirements": "1+"
           },
           {
             "ingredients": [
               "rice",
+              "rice",
+              "naan",
               "naan"
             ],
             "requirements": "1+"
@@ -279,7 +287,9 @@
               "cheese",
               "chicken",
               "fish",
-              "beans"
+              "beans",
+              "tofu",
+              "mushrooms"
             ],
             "requirements": "2+"
           },
@@ -323,7 +333,7 @@
       },
       {
         "ComboName": "Chutney",
-        "dependency": "Curry Curry",
+        "dependency": null,
         "score": 3,
         "type": null,
         "ComboLines": [
@@ -338,7 +348,7 @@
               "lime",
               "lemon"
             ],
-            "requirements": "1"
+            "requirements": "1+"
           },
           {
             "ingredients": [
@@ -369,15 +379,15 @@
       {
         "ComboName": "Bao Dream",
         "dependency": "Hoisin sauce or Chili Mayo",
-        "score": 12,
+        "score": 24,
         "type": null,
         "ComboLines": [
           {
             "ingredients": [
               "bao buns",
-              "spices"
+              "bao buns"
             ],
-            "requirements": "2"
+            "requirements": "1+"
           },
           {
             "ingredients": [
@@ -403,7 +413,8 @@
               "lime",
               "cilantro",
               "chili",
-              "ginger"
+              "ginger",
+              "spices"
             ],
             "requirements": "2+"
           }
@@ -505,15 +516,16 @@
       {
         "ComboName": "BBQ Platter",
         "dependency": null,
-        "score": 6,
+        "score": 12,
         "type": null,
         "ComboLines": [
           {
             "ingredients": [
               "cornbread",
-              "spices"
+              "cornbread"
+              
             ],
-            "requirements": "2"
+            "requirements": "1+"
           },
           {
             "ingredients": [
@@ -526,14 +538,20 @@
               "chicken"
             ],
             "requirements": "4+"
+          },
+          {
+            "ingredients": [
+              "spices"
+              
+            ],
+            "requirements": "0+"
           }
-          
         ]
       },
       {
         "ComboName": "Vegan BBQ",
         "dependency": null,
-        "score": 6,
+        "score": 10,
         "type": null,
         "ComboLines": [
           {
@@ -557,7 +575,8 @@
               "cabbage",
               "lettuce",
               "aubergine",
-              "carrot"
+              "carrot",
+              "cucumber"
             ],
             "requirements": "2+"
           }
@@ -576,7 +595,6 @@
             ],
             "requirements": "2"
           }
-          
         ]
       },
       {
@@ -597,7 +615,7 @@
       {
         "ComboName": "Coleslaw",
         "dependency": null,
-        "score": 4,
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
@@ -613,7 +631,7 @@
               "lime",
               "lemon"
             ],
-            "requirements": "1"
+            "requirements": "1+"
           },
           {
             "ingredients": [
@@ -628,7 +646,7 @@
       {
         "ComboName": "On the cob",
         "dependency": null,
-        "score": 3,
+        "score": 2,
         "type": null,
         "ComboLines": [
           {
@@ -650,7 +668,7 @@
       {
         "ComboName": "Charcuterie Board",
         "dependency": null,
-        "score": 4,
+        "score": 8,
         "type": null,
         "ComboLines": [
           {
@@ -680,16 +698,16 @@
       {
         "ComboName": "Pasti",
         "dependency": null,
-        "score": 10,
+        "score": 20,
         "type": null,
         "ComboLines": [
           {
             "ingredients": [
               "pasta",
-              "cheese",
-              "oil"
+              "cheese"
+              
             ],
-            "requirements": "3"
+            "requirements": "2"
           },
           {
             "ingredients": [
@@ -704,7 +722,8 @@
             "ingredients": [
               "shrimp",
               "mushrooms",
-              "fish"
+              "fish",
+              "beans"
             ],
             "requirements": "1+"
           },
@@ -713,7 +732,8 @@
               "tomato",
               "carrot",
               "onion",
-              "aubergine"
+              "aubergine",
+              "cucumber"
             ],
             "requirements": "2+"
           },
@@ -721,13 +741,13 @@
             "ingredients": [
               "basil",
               "garlic",
-              "lemon"
+              "lemon",
+              "oil"
             ],
             "requirements": "2+"
           }
         ]
       },
-    
       {
         "ComboName": "Gelato",
         "dependency": null,
@@ -753,7 +773,8 @@
           {
             "ingredients": [
               "pineapple",
-              "lemon"
+              "lemon",
+              "spices"
             ],
             "requirements": "1+"
           }

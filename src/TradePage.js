@@ -9,8 +9,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import initialIngredients from './initialIngredients.json';
 import { checkCompleteCombos } from "./App"
 
-export const NUMBER_OF_PLAYERS = 5;
-const MAX_HAND_LIMIT = 16;
+export const MAX_HAND_LIMIT = 18;
 
 export const TradePage = ({ deck, setDeck, players, setPlayers, ingredients, setIngredients, currentPlayerId }) => {
   useEffect(() => {
