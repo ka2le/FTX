@@ -6,7 +6,7 @@
       {
         "ComboName": "Burgers!",
         "dependency": null,
-        "score": 6,
+        "score": 14,
         "type": null,
         "ComboLines": [
           {
@@ -41,7 +41,7 @@
       {
         "ComboName": "Nuggets",
         "dependency": null,
-        "score": 3,
+        "score": 5,
         "type": null,
         "ComboLines": [
           {
@@ -96,7 +96,7 @@
       {
         "ComboName": "Milskshake",
         "dependency": null,
-        "score": 2,
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
@@ -126,7 +126,7 @@
       {
         "ComboName": "Taco Mix",
         "dependency": null,
-        "score": 6,
+        "score": 14,
         "type": null,
         "ComboLines": [
           {
@@ -255,7 +255,7 @@
       {
         "ComboName": "Curry Curry",
         "dependency": null,
-        "score": 9,
+        "score": 21,
         "type": null,
         "ComboLines": [
           {
@@ -323,7 +323,7 @@
       },
       {
         "ComboName": "Chutney",
-        "dependency": "Curry Curry",
+        "dependency": null,
         "score": 3,
         "type": null,
         "ComboLines": [
@@ -338,7 +338,7 @@
               "lime",
               "lemon"
             ],
-            "requirements": "1"
+            "requirements": "1+"
           },
           {
             "ingredients": [
@@ -369,7 +369,7 @@
       {
         "ComboName": "Bao Dream",
         "dependency": "Hoisin sauce or Chili Mayo",
-        "score": 12,
+        "score": 24,
         "type": null,
         "ComboLines": [
           {
@@ -505,7 +505,7 @@
       {
         "ComboName": "BBQ Platter",
         "dependency": null,
-        "score": 6,
+        "score": 12,
         "type": null,
         "ComboLines": [
           {
@@ -533,7 +533,7 @@
       {
         "ComboName": "Vegan BBQ",
         "dependency": null,
-        "score": 6,
+        "score": 10,
         "type": null,
         "ComboLines": [
           {
@@ -597,7 +597,7 @@
       {
         "ComboName": "Coleslaw",
         "dependency": null,
-        "score": 4,
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
@@ -628,7 +628,7 @@
       {
         "ComboName": "On the cob",
         "dependency": null,
-        "score": 3,
+        "score": 2,
         "type": null,
         "ComboLines": [
           {
@@ -650,7 +650,7 @@
       {
         "ComboName": "Charcuterie Board",
         "dependency": null,
-        "score": 4,
+        "score": 8,
         "type": null,
         "ComboLines": [
           {
@@ -680,7 +680,7 @@
       {
         "ComboName": "Pasti",
         "dependency": null,
-        "score": 10,
+        "score": 20,
         "type": null,
         "ComboLines": [
           {
