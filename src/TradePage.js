@@ -9,7 +9,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import initialIngredients from './initialIngredients.json';
 import { checkCompleteCombos } from "./App"
 
-export const MAX_HAND_LIMIT = 18;
+export const MAX_HAND_LIMIT = 15;
 
 export const TradePage = ({ deck, setDeck, players, setPlayers, ingredients, setIngredients, currentPlayerId }) => {
   useEffect(() => {
@@ -236,16 +236,31 @@ export const makeIngredientsArray = (players, ingredients, playerIndex) => {
 
 // Create and shuffle a deck based on initialIngredients
 export const createDeck = () => {
-  let deck = [];
+  let uniqueDeck = [];
+  let duplicateDeck = [];
+
+  // Create unique and duplicate decks separately
   initialIngredients.forEach((ingredient) => {
+    let isFirst = true;
     for (let i = 0; i < ingredient.copies; i++) {
-      deck.push(ingredient.name);
+      if (isFirst) {
+        uniqueDeck.push(ingredient.name);
+        isFirst = false;
+      } else {
+        duplicateDeck.push(ingredient.name);
+      }
     }
   });
-  // Shuffle deck
-  deck.sort(() => Math.random() - 0.5);
-  return deck;
+
+  // Shuffle each part
+  uniqueDeck.sort(() => Math.random() - 0.5);
+  duplicateDeck.sort(() => Math.random() - 0.5);
+  console.log(uniqueDeck);
+  console.log(duplicateDeck);
+  // Combine them into one deck
+  return [...uniqueDeck, ...duplicateDeck];
 };
+
 
 export const handleDealCards = (setDeck, setPlayers, number_of_players) => {
   const userConfirmed = window.confirm('Are you sure you want to deal new cards?');
@@ -257,7 +272,7 @@ export const handleDealCards = (setDeck, setPlayers, number_of_players) => {
     }));
     newPlayers.forEach((player) => {
       while (player.cards.length < MAX_HAND_LIMIT && newDeck.length > 0) {
-        player.cards.push(newDeck.pop());
+        player.cards.push(newDeck.shift());
       }
     });
     setDeck(newDeck);

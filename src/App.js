@@ -80,7 +80,7 @@ export default function App() {
   console.log("Total Ingredients: ", result.totalIngredients);
   console.log("Ingredients by Level: ", result.levelCount);
   console.log("Split all card 5 players: ", result.totalIngredients/5)
-  console.log("Split all card 8 players: ", result.totalIngredients/8)
+  console.log("Split all card 9 players: ", result.totalIngredients/9)
   console.log("Cards left for max "+MAX_HAND_LIMIT+" cards 5 players: ", Math.floor((result.totalIngredients/5-MAX_HAND_LIMIT)*5))
 
 

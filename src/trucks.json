@@ -136,8 +136,8 @@
         "ComboLines": [
           {
             "ingredients": [
-              "tortilla",
-              "chili"
+              "tortilla"
+              
             ],
             "requirements": "2"
           },
@@ -159,7 +159,8 @@
               "cilantro",
               "onion",
               "tomato",
-              "garlic"
+              "garlic",
+              "chili"
             ],
             "requirements": "3"
           }
@@ -301,7 +302,7 @@
               "peanuts",
               "aubergine"
             ],
-            "requirements": "1"
+            "requirements": "2"
           },
           {
             "ingredients": [
@@ -469,7 +470,8 @@
           {
             "ingredients": [
               "mushrooms",
-              "tofu"
+              "tofu",
+              "ground meat"
             ],
             "requirements": "1"
           },
@@ -477,19 +479,15 @@
             "ingredients": [
               "cabbage",
               "carrot",
-              "lettuce"
-            ],
-            "requirements": "2"
-          },
-          {
-            "ingredients": [
+              "lettuce",
               "onion",
               "garlic",
               "chili",
               "ginger"
             ],
-            "requirements": "2"
+            "requirements": "4"
           }
+          
         ]
       },
       {
@@ -766,18 +764,14 @@
             "ingredients": [
               "banana",
               "mango",
-              "strawberries"
-            ],
-            "requirements": "2"
-          },
-          {
-            "ingredients": [
+              "strawberries",
               "pineapple",
-              "lemon",
-              "spices"
+              "lemon"
             ],
-            "requirements": "1"
+            "requirements": "3"
           }
+
+          
         ]
       }
     ]
