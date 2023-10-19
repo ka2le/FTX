@@ -137,6 +137,15 @@
           },
           {
             "ingredients": [
+              "lime",
+              "cilantro"
+              
+            ],
+            "requirements": "1"
+          },
+          
+          {
+            "ingredients": [
               "steak",
               "pork tenderloin",
               "chicken",
@@ -149,14 +158,13 @@
           },
           {
             "ingredients": [
-              "lime",
-              "cilantro",
+              
               "onion",
               "tomato",
               "garlic",
               "chili"
             ],
-            "requirements": "3"
+            "requirements": "2"
           }
         ]
       },
@@ -521,9 +529,9 @@
             "ingredients": [
               "steak",
               "steak",
-              "ground meat",
               "pork belly",
               "pork belly",
+              "pork tenderloin",
               "pork tenderloin",
               "chicken"
             ],
