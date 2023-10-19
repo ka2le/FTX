@@ -12,15 +12,9 @@
           {
             "ingredients": [
               "hamburger buns",
-              "hamburger buns"
-            ],
-            "requirements": "1"
-          },
-          {
-            "ingredients": [
               "ground meat"
             ],
-            "requirements": "1"
+            "requirements": "2"
           },
           {
             "ingredients": [
@@ -136,10 +130,10 @@
         "ComboLines": [
           {
             "ingredients": [
-              "tortilla",
-              "chili"
+              "tortilla"
+              
             ],
-            "requirements": "2"
+            "requirements": "1"
           },
           {
             "ingredients": [
@@ -159,7 +153,8 @@
               "cilantro",
               "onion",
               "tomato",
-              "garlic"
+              "garlic",
+              "chili"
             ],
             "requirements": "3"
           }
@@ -274,8 +269,6 @@
           {
             "ingredients": [
               "rice",
-              "rice",
-              "naan",
               "naan"
             ],
             "requirements": "1"
@@ -299,9 +292,10 @@
               "cabbage",
               "carrot",
               "peanuts",
-              "aubergine"
+              "aubergine",
+              "potato"
             ],
-            "requirements": "2"
+            "requirements": "3"
           },
           {
             "ingredients": [
@@ -402,7 +396,6 @@
           {
             "ingredients": [
               "peanuts",
-              "onion",
               "cabbage",
               "cucumber"
             ],
@@ -410,11 +403,11 @@
           },
           {
             "ingredients": [
-              "lime",
               "cilantro",
               "chili",
               "ginger",
-              "spices"
+              "spices",
+              "soy sauce"
             ],
             "requirements": "2"
           }
@@ -469,7 +462,8 @@
           {
             "ingredients": [
               "mushrooms",
-              "tofu"
+              "tofu",
+              "ground meat"
             ],
             "requirements": "1"
           },
@@ -477,19 +471,15 @@
             "ingredients": [
               "cabbage",
               "carrot",
-              "lettuce"
-            ],
-            "requirements": "2"
-          },
-          {
-            "ingredients": [
+              "lettuce",
               "onion",
               "garlic",
               "chili",
               "ginger"
             ],
-            "requirements": "2"
+            "requirements": "4"
           }
+          
         ]
       },
       {
@@ -575,8 +565,7 @@
               "cabbage",
               "lettuce",
               "aubergine",
-              "carrot",
-              "cucumber"
+              "carrot"
             ],
             "requirements": "2"
           }
@@ -732,8 +721,7 @@
               "tomato",
               "carrot",
               "onion",
-              "aubergine",
-              "cucumber"
+              "aubergine"
             ],
             "requirements": "2"
           },
@@ -766,18 +754,14 @@
             "ingredients": [
               "banana",
               "mango",
-              "strawberries"
-            ],
-            "requirements": "2"
-          },
-          {
-            "ingredients": [
+              "strawberries",
               "pineapple",
-              "lemon",
-              "spices"
+              "lemon"
             ],
-            "requirements": "1"
+            "requirements": "3"
           }
+
+          
         ]
       }
     ]

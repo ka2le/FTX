@@ -12,15 +12,9 @@
           {
             "ingredients": [
               "hamburger buns",
-              "hamburger buns"
-            ],
-            "requirements": "1"
-          },
-          {
-            "ingredients": [
               "ground meat"
             ],
-            "requirements": "1"
+            "requirements": "2"
           },
           {
             "ingredients": [
@@ -139,8 +133,17 @@
               "tortilla"
               
             ],
-            "requirements": "2"
+            "requirements": "1"
           },
+          {
+            "ingredients": [
+              "lime",
+              "cilantro"
+              
+            ],
+            "requirements": "1"
+          },
+          
           {
             "ingredients": [
               "steak",
@@ -155,14 +158,13 @@
           },
           {
             "ingredients": [
-              "lime",
-              "cilantro",
+              
               "onion",
               "tomato",
               "garlic",
               "chili"
             ],
-            "requirements": "3"
+            "requirements": "2"
           }
         ]
       },
@@ -275,8 +277,6 @@
           {
             "ingredients": [
               "rice",
-              "rice",
-              "naan",
               "naan"
             ],
             "requirements": "1"
@@ -300,9 +300,10 @@
               "cabbage",
               "carrot",
               "peanuts",
-              "aubergine"
+              "aubergine",
+              "potato"
             ],
-            "requirements": "2"
+            "requirements": "3"
           },
           {
             "ingredients": [
@@ -403,7 +404,6 @@
           {
             "ingredients": [
               "peanuts",
-              "onion",
               "cabbage",
               "cucumber"
             ],
@@ -411,11 +411,11 @@
           },
           {
             "ingredients": [
-              "lime",
               "cilantro",
               "chili",
               "ginger",
-              "spices"
+              "spices",
+              "soy sauce"
             ],
             "requirements": "2"
           }
@@ -529,9 +529,9 @@
             "ingredients": [
               "steak",
               "steak",
-              "ground meat",
               "pork belly",
               "pork belly",
+              "pork tenderloin",
               "pork tenderloin",
               "chicken"
             ],
@@ -573,8 +573,7 @@
               "cabbage",
               "lettuce",
               "aubergine",
-              "carrot",
-              "cucumber"
+              "carrot"
             ],
             "requirements": "2"
           }
@@ -730,8 +729,7 @@
               "tomato",
               "carrot",
               "onion",
-              "aubergine",
-              "cucumber"
+              "aubergine"
             ],
             "requirements": "2"
           },
