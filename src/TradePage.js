@@ -40,6 +40,8 @@ const Hand = ({ players, setPlayers, id, ingredients, currentPlayerId }) => {
   const player = players?.find((player) => player.id === id);
   const [completeCombos, setCompleteCombos] = useState([]);
   const [score, setScore] = useState(0);
+  const [totalIngredientCount, setTotalIngredientsCount] = useState(0);
+  const [combinedLevel, setCombinedLevel] = useState(0);
   const [openInfoDialog, setOpenInfoDialog] = useState(false);
   const [openTradeDialog, setOpenTradeDialog] = useState(false);
 
@@ -111,9 +113,12 @@ const Hand = ({ players, setPlayers, id, ingredients, currentPlayerId }) => {
 
   useEffect(() => {
     const ingredientsForPlayer = makeIngredientsArray(players, ingredients, player?.id);
-    const [newCompleteCombos, newScore] = checkCompleteCombos(ingredientsForPlayer);
+    const [newCompleteCombos, newScore, newTotalIngredientCount,
+      newCombinedLevel] = checkCompleteCombos(ingredientsForPlayer);
     setCompleteCombos(newCompleteCombos);
     setScore(newScore);
+    setTotalIngredientsCount(newTotalIngredientCount)
+    setCombinedLevel(newCombinedLevel)
   }, [player, ingredients, players]);
 
 
@@ -123,7 +128,7 @@ const Hand = ({ players, setPlayers, id, ingredients, currentPlayerId }) => {
 
         Player {player?.id}
         {!(player?.id == currentPlayerId) && <Button className="trade-with-player-button" onClick={handleTrade}>Trade</Button>}
-        <div className="combo-info"> <b> Score: {score} </b> {completeCombos.join(", ")} </div>
+        <div className="combo-info"> <b> S: {score}  C: {totalIngredientCount} L: {combinedLevel} </b> {completeCombos.join(", ")} </div>
       </div>
 
       <div className="cards">

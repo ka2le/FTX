@@ -101,16 +101,17 @@
           {
             "ingredients": [
               "sugar",
-              "dairy"
+              "dairy",
+              "banana"
             ],
-            "requirements": "2"
+            "requirements": "3"
           },
           {
             "ingredients": [
               "strawberries",
               "mango",
               "pineapple",
-              "banana"
+              "peanuts"
             ],
             "requirements": "2"
           }
@@ -137,6 +138,15 @@
           },
           {
             "ingredients": [
+              "lime",
+              "cilantro"
+              
+            ],
+            "requirements": "1"
+          },
+          
+          {
+            "ingredients": [
               "steak",
               "pork tenderloin",
               "chicken",
@@ -149,14 +159,13 @@
           },
           {
             "ingredients": [
-              "lime",
-              "cilantro",
+              
               "onion",
               "tomato",
               "garlic",
               "chili"
             ],
-            "requirements": "3"
+            "requirements": "2"
           }
         ]
       },
@@ -333,9 +342,10 @@
         "ComboLines": [
           {
             "ingredients": [
-              "sugar"
+              "sugar",
+              "mango"
             ],
-            "requirements": "1"
+            "requirements": "2"
           },
           {
             "ingredients": [
@@ -348,7 +358,7 @@
             "ingredients": [
               "banana",
               "pineapple",
-              "mango",
+              
               "tomato"
             ],
             "requirements": "1"
@@ -521,9 +531,9 @@
             "ingredients": [
               "steak",
               "steak",
-              "ground meat",
               "pork belly",
               "pork belly",
+              "pork tenderloin",
               "pork tenderloin",
               "chicken"
             ],
@@ -759,6 +769,12 @@
               "lemon"
             ],
             "requirements": "3"
+          },
+          {
+            "ingredients": [
+              "peanuts"
+            ],
+            "requirements": "0"
           }
 
           

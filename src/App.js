@@ -195,7 +195,10 @@ export default function App() {
     setKey(Math.random()); // Force re-render by changing the key
   };
 
-  const [completeCombos, totalScore] = checkCompleteCombos(ingredients);
+  const [completeCombos,
+    totalScore,
+    totalIngredientCount,
+    combinedLevel] = checkCompleteCombos(ingredients);
   return (
     <div className={`container ${isLandscapeOrDesktop ? "desktop" : null}`} >
       {/* <div className="title">FTX</div> */}
@@ -206,7 +209,7 @@ export default function App() {
 
       </Slider>
       <div className="score-row" >
-        <b>Score: {totalScore}</b><br></br> {completeCombos.join(", ")}
+        <b>Score: {totalScore}</b> Cards: {totalIngredientCount} Levels: {combinedLevel}<br></br> {completeCombos.join(", ")}
         <Button variant="outline" className="open-dialog-button" onClick={() => {
           setOpen(true)
 
@@ -474,11 +477,15 @@ const truckStyles = {
 export function checkCompleteCombos(ingredients) {
   const completeCombos = [];
   let totalScore = 0;
+  let totalIngredientCount = 0; 
+  let combinedLevel = 0; 
 
   // Convert the ingredients into a dictionary for faster lookup
   const originalIngredientDict = {};
   ingredients.forEach((ingredient) => {
     originalIngredientDict[ingredient.name] = { amount: ingredient.amount, level: ingredient.level };
+    totalIngredientCount += ingredient.amount; // Increment the total ingredient count
+    combinedLevel += (ingredient.level * ingredient.amount); // Increment the combined level
   });
 
   // Function to check if a single combo is complete and to calculate its score
@@ -554,7 +561,12 @@ export function checkCompleteCombos(ingredients) {
     }
   }
 
-  return [completeCombos, totalScore];
+  return [
+    completeCombos,
+    totalScore,
+    totalIngredientCount,
+    combinedLevel
+  ];
 }
 
 
