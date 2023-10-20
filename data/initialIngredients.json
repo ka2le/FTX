@@ -1,5 +1,5 @@
 [
-    { "name": "aubergine", "level": 2, "copies": 2, "color": "#B085B7" , "imgUrl":"/cards/spices.png" },
+    { "name": "aubergine", "level": 2, "copies": 2, "color": "#B085B7" , "imgUrl":"aubergine.png" },
     { "name": "avocado", "level": 3, "copies": 1, "color": "#B2EABD" , "imgUrl":"/cards/spices.png" },
     { "name": "banana", "level": 3, "copies": 1, "color": "#FFF58D" , "imgUrl":"/cards/spices.png" },
     { "name": "bacon", "level": 2, "copies": 2, "color": "#F28580" , "imgUrl":"/cards/spices.png" },
@@ -46,5 +46,5 @@
     { "name": "sugar", "level": 2, "copies": 3, "color": "#FFFDC5" , "imgUrl":"/cards/spices.png" },
     { "name": "tofu", "level": 2, "copies": 3, "color": "#F7F7F7" , "imgUrl":"/cards/spices.png" },
     { "name": "tomato", "level": 1, "copies": 5, "color": "#FF9B90" , "imgUrl":"/cards/spices.png" },
-    { "name": "tortilla", "level": 1, "copies": 4, "color": "#FFEB85" }
+    { "name": "tortilla", "level": 1, "copies": 4, "color": "#FFEB85" , "imgUrl":"/cards/spices.png"}
   ]
