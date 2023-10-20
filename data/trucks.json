@@ -111,7 +111,8 @@
               "banana",
               "mango",
               "pineapple",
-              "peanuts"
+              "peanuts",
+              "avocado"
             ],
             "requirements": "2"
           }
@@ -772,7 +773,9 @@
           },
           {
             "ingredients": [
-              "peanuts"
+              "peanuts",
+              "avocado",
+              "spices"
             ],
             "requirements": "0"
           }
