@@ -102,13 +102,13 @@
             "ingredients": [
               "sugar",
               "dairy",
-              "banana"
+              "strawberries"
             ],
             "requirements": "3"
           },
           {
             "ingredients": [
-              "strawberries",
+              "banana",
               "mango",
               "pineapple",
               "peanuts"
