@@ -303,7 +303,7 @@ export default function App() {
 
 
 
-const TruckMenu = ({ truckData, ingredientsState, incrementAmount, decrementAmount }) => {
+export const TruckMenu = ({ truckData, ingredientsState, incrementAmount, decrementAmount }) => {
   const currentStyle = truckStyles[truckData.short.toLowerCase()] || truckStyles.default;
 
   // Function to find matching ingredients

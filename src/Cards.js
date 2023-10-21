@@ -5,18 +5,22 @@ import trucks from './trucks.json';
 import initialIngredients from './initialIngredients.json';
 import React from 'react';
 import img1 from './cards/spices.png';
+import { TruckMenu } from "./App";
 
 const save_size = 2;
 const BRIGHTNESS_ADJUSTMENT = 1.3;
 
 export const Cards = ({ cardTesting, setCardTesting }) => {
-
+    const ingredients = initialIngredients.map((ingredient) => ({ ...ingredient, amount: 0 }))
     return (<>   <div className="cards-collection">
         <div>
             <button onClick={() => { setCardTesting(!cardTesting) }}>CARDS</button> <br></br>
             <ToggleVisibilityButton></ToggleVisibilityButton><br></br>
             <TogglePseudoVisibilityButton></TogglePseudoVisibilityButton>
         </div>
+        {trucks.map((truck, index) =>
+            (<TruckCard key={index} truckData={truck} ingredientsState={ingredients} ></TruckCard>)
+        )}
         {initialIngredients.map((ingredient, index) =>
             <IngredientCard key={index} ingredient={ingredient} />
         )}
@@ -24,14 +28,28 @@ export const Cards = ({ cardTesting, setCardTesting }) => {
 }
 
 
+const TruckCard = ({ truckData, index, ingredientsState }) => {
+    const [cardRef, saveAsImage] = useSave(truckData?.TruckName);
+    return (
+        <div>
+            <button className="save-button" onClick={saveAsImage}>Save as Image</button>
+            <div ref={cardRef}  >
+                <div className="ingredient-card truck-card">
+                    <TruckMenu key={index} truckData={truckData} ingredientsState={ingredientsState} decrementAmount={() => { }} incrementAmount={() => { }}></TruckMenu>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 const IngredientCard = ({ ingredient }) => {
     const [cardRef, saveAsImage] = useSave(ingredient.name);
     const renderIcons = () => {
-       return(<img 
-        src={`/ftx/cards/lvl${ingredient.level}.png`} 
-        alt={`Level ${ingredient.level} icon`} 
-        className="level-icon"
-    />)
+        return (<img
+            src={`/ftx/cards/lvl${ingredient.level}.png`}
+            alt={`Level ${ingredient.level} icon`}
+            className="level-icon"
+        />)
     };
 
     return (<>

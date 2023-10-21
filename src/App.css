@@ -504,8 +504,53 @@ button.selected {
   filter: blur(3px);
   position: absolute;
 }
+.truck-card, .truck-card .combo-line{
+  font-size: 14px !important;
+  margin-bottom: 2px;
+  font-family: "PermanentMarker";
+  font-weight: 100;
+  text-transform: capitalize;
+}
+.truck-card h2{
+  font-size: 11px !important;
+  margin: 0 0 -3px 0 !important;
+}
+.truck-card h1{
+  font-size: 18px !important;
+  margin: 0 !important;
+}
+.truck-card h1.caveatBrush {
+  font-size: 22px !important;
+  margin: 0 !important;
+  margin-top: -2px !important;
+}
 
-
+.truck-card .ingredients{
+  width: 100%  !important;
+  max-width: 100%  !important;
+  padding: 0 !important;
+  line-height: 0.8;
+}
+.truck-card .requirements{
+       flex: 0.01 0.1;
+       margin-right: 8px;
+       font-size: 12px;
+}
+.truck-card .dependecy-indicator{
+  font-size: 8px;
+}
+.truck-card .truck-container{
+  width: 100% !important;
+  height: 100% !important;
+  padding: 14px 18px 0 22px; 
+  background-image: url("../public/img/board.jpg");
+  background-size: contain;
+}
+.truck-card .combo-score{
+  font-size: 14px;
+  margin-right: 3px;
+  margin-top: -12px;
+}
 .cards-collection .ingredient-title {
   font-size: 24px;
   top: 3.5mm;
