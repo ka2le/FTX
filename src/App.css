@@ -40,8 +40,15 @@
   src: url('../public/fonts/Quintessential-Regular.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'CormorantUpright';
+  src: url('../public/fonts/CormorantUpright-Regular.ttf') format('truetype');
+}
 
-
+@font-face {
+  font-family: 'CormorantUprightLight';
+  src: url('../public/fonts/CormorantUpright-Light.ttf') format('truetype');
+}
 
 /* CSS classes to use these fonts */
 .font-1 {
@@ -506,7 +513,7 @@ button.selected {
   text-shadow: 0 0 3px black;
   position:absolute;
   text-transform: capitalize;
-  font-family: "Quintessential";
+  font-family: "CormorantUprightLight";
   width: 100%;
   color: white; /* Adjust color as needed */
   padding: 0;
