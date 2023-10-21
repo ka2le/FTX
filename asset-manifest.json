@@ -1,12 +1,14 @@
 {
   "files": {
-    "main.css": "/ftx/static/css/main.191c3a5e.css",
+    "main.css": "/ftx/static/css/main.a063c8e8.css",
     "main.js": "/ftx/static/js/main.4c2b0764.js",
     "static/js/787.a5396179.chunk.js": "/ftx/static/js/787.a5396179.chunk.js",
     "static/media/spices.png": "/ftx/static/media/spices.e079c9a4544427a02096.png",
     "static/media/board.jpg": "/ftx/static/media/board.93692a923c40796a6898.jpg",
     "static/media/CaveatBrush-Regular.ttf": "/ftx/static/media/CaveatBrush-Regular.dae368f31d8ab9261b85.ttf",
     "static/media/LoveYaLikeASister-Regular.ttf": "/ftx/static/media/LoveYaLikeASister-Regular.5783571c335ed23cc13f.ttf",
+    "static/media/CormorantUpright-Regular.ttf": "/ftx/static/media/CormorantUpright-Regular.a7d587711ab16ab88641.ttf",
+    "static/media/CormorantUpright-Light.ttf": "/ftx/static/media/CormorantUpright-Light.8909a49ce0d88643080e.ttf",
     "static/media/GrechenFuemen-Regular.ttf": "/ftx/static/media/GrechenFuemen-Regular.86f59879d9a1eb0ede9c.ttf",
     "static/media/SedgwickAveDisplay-Regular.ttf": "/ftx/static/media/SedgwickAveDisplay-Regular.74c170e1c62b0cd3e85e.ttf",
     "static/media/PermanentMarker-Regular.ttf": "/ftx/static/media/PermanentMarker-Regular.109a10dca0508e41aa12.ttf",
@@ -18,12 +20,12 @@
     "static/media/slick.ttf": "/ftx/static/media/slick.c94f7671dcc99dce43e2.ttf",
     "static/media/slick.woff": "/ftx/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/ftx/index.html",
-    "main.191c3a5e.css.map": "/ftx/static/css/main.191c3a5e.css.map",
+    "main.a063c8e8.css.map": "/ftx/static/css/main.a063c8e8.css.map",
     "main.4c2b0764.js.map": "/ftx/static/js/main.4c2b0764.js.map",
     "787.a5396179.chunk.js.map": "/ftx/static/js/787.a5396179.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.191c3a5e.css",
+    "static/css/main.a063c8e8.css",
     "static/js/main.4c2b0764.js"
   ]
 }
