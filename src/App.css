@@ -501,16 +501,17 @@ button.selected {
   width: 100%; /* Take full width of parent */
   height: 100%; /* Take full height of parent */
   object-fit: cover;
+  filter: blur(3px);
   position: absolute;
 }
 
 
 .cards-collection .ingredient-title {
-  font-size: 16px;
-  top: 5mm;
+  font-size: 24px;
+  top: 3.5mm;
   text-align: center  ;
   font-weight: 100;
-  text-shadow: 0 0 3px black;
+  text-shadow: 0 0 4px black;
   position:absolute;
   text-transform: capitalize;
   font-family: "CormorantUprightLight";
@@ -526,25 +527,25 @@ button.selected {
   gap: 0.1mm;
   text-shadow: 0 0 3px black;
   position: absolute;
-  top: 5mm;
-  right: 5.5mm;
+  bottom: 4.5mm;
+  right: 4.5mm;
 }
 
 
 .cards-collection .level-icon {
   color: rgb(255, 255, 255);
-  height: 5mm;
-  width: 5mm;
+  height: 4mm;
+  width: 4mm;
 }
 
 
 .ingredient-card::before{
   content: "";
   position: absolute;
-  top: 6mm;
-  right: 6mm;
-  bottom: 6mm;
-  left: 6mm;
+  top: 5mm;
+  right: 5mm;
+  bottom: 5mm;
+  left: 5mm;
   border: 0.5mm dashed rgba(255, 0, 0, 0.295); 
   z-index: 1; 
   pointer-events: none; 

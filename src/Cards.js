@@ -152,5 +152,5 @@ function TogglePseudoVisibilityButton() {
         }
     };
 
-    return <button onClick={handleToggle}>Toggle Pseudo-Elements</button>;
+    return <button onClick={handleToggle}>Toggle zones</button>;
 }
