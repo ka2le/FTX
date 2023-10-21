@@ -35,6 +35,12 @@
   font-family: 'SedgwickAveDisplay';
   src: url('../public/fonts/SedgwickAveDisplay-Regular.ttf') format('truetype');
 }
+@font-face {
+  font-family: 'Quintessential';
+  src: url('../public/fonts/Quintessential-Regular.ttf') format('truetype');
+}
+
+
 
 
 /* CSS classes to use these fonts */
@@ -446,5 +452,77 @@ button {
 
 button.selected {
   background-color:  rgba(165, 42, 42, 0.822) ;  /* Or any color to indicate selection */
+  color: rgb(255, 255, 255);
+}
+
+
+
+.cards-collection {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  /*background-color: black;*/
+  padding-left: 10px;
+}
+
+.cards-collection .ingredient-card-outer {
+  width: 69mm;
+  height: 94mm;
+  padding: 2mm; /* No padding since we want the image to take the full size */
+  background-repeat: no-repeat;  
+  background-size: cover;
+
+}
+
+.cards-collection .ingredient-card {
+  width: 69mm;
+  height: 94mm;
+  text-align: left;
+  position: relative; /* For absolute positioning of title and level inside */
+}
+
+
+.cards-collection .ingredient-image {
+  width: calc(100% - 3mm); /* Take full width of parent */
+  height:  calc(100% - 3mm); /* Take full height of parent */
+  object-fit: cover;
+  left: 1.5mm;
+  top: 1.5mm;
+  position: absolute;
+}
+.cards-collection .ingredient-image-outer {
+  width: 100%; /* Take full width of parent */
+  height: 100%; /* Take full height of parent */
+  object-fit: cover;
+  position: absolute;
+}
+
+
+.cards-collection .ingredient-title {
+  font-size: 16px;
+  top: 5mm;
+  text-align: center  ;
+  font-weight: 100;
+  text-shadow: 0 0 3px black;
+  position:absolute;
+  text-transform: capitalize;
+  font-family: "Quintessential";
+  width: 100%;
+  color: white; /* Adjust color as needed */
+  padding: 0;
+  margin: 0 auto;
+}
+
+.cards-collection .ingredient-level {
+  display: flex;
+  justify-content: center;
+  gap: 0.1mm;
+  text-shadow: 0 0 3px black;
+  position: absolute;
+  top: 5mm;
+  right: 5.5mm;
+}
+
+.cards-collection .level-icon {
   color: rgb(255, 255, 255);
 }

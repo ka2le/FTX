@@ -10,15 +10,19 @@ import Button from '@mui/material/Button';
 import trucks from './trucks.json';
 import initialIngredients from './initialIngredients.json';
 import { TradePage, makeIngredientsArray, createDeck, handleDealCards, MAX_HAND_LIMIT } from './TradePage';
+import { Cards } from './Cards';
+
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './App.css'; // your custom css
 
+export const TESTING = true;
 
 
 
 export default function App() {
+  const [cardTesting, setCardTesting] = useState(TESTING);
   const loadTradeInterfaceFromLocalStorage = () => {
     const storedTradeInterface = localStorage.getItem('tradeInterface');
     return storedTradeInterface ? JSON.parse(storedTradeInterface) : false;
@@ -200,7 +204,7 @@ export default function App() {
     totalIngredientCount,
     combinedLevel] = checkCompleteCombos(ingredients);
   return (
-    <div className={`container ${isLandscapeOrDesktop ? "desktop" : null}`} >
+  <> {cardTesting ? <Cards cardTesting={cardTesting} setCardTesting={setCardTesting} ></Cards>  : <div className={`container ${isLandscapeOrDesktop ? "desktop" : null}`} >
       {/* <div className="title">FTX</div> */}
       <Slider key={key} ref={slider1} {...settings}>
         {trucks.map((truck, index) =>
@@ -209,13 +213,15 @@ export default function App() {
 
       </Slider>
       <div className="score-row" >
-        <b>Score: {totalScore}</b> Cards: {totalIngredientCount} Levels: {combinedLevel}<br></br> {completeCombos.join(", ")}
+        <b>Score: {totalScore}</b> {TESTING ? `Cards: ${totalIngredientCount} Levels: ${combinedLevel}` : null}<br></br> {completeCombos.join(", ")}
+        {TESTING ? <button onClick={() => {setCardTesting(!cardTesting)}}>CARDS</button> : null}
         <Button variant="outline" className="open-dialog-button" onClick={() => {
           setOpen(true)
 
         }}>
           {tradeInterface ? null : <span className='ingredient-counter'>{countIngredients()}</span>}
           {tradeInterface ? <span >⬌</span> : "+"}
+          
         </Button>
 
 
@@ -291,7 +297,7 @@ export default function App() {
 
         </Slider>}
       </div>
-    </div>
+    </div>}</>
   );
 }
 

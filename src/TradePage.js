@@ -7,7 +7,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from '@mui/material/IconButton';
 import InfoIcon from '@mui/icons-material/Info';
 import initialIngredients from './initialIngredients.json';
-import { checkCompleteCombos } from "./App"
+import { checkCompleteCombos, TESTING } from "./App"
 
 export const MAX_HAND_LIMIT = 15;
 
@@ -128,7 +128,7 @@ const Hand = ({ players, setPlayers, id, ingredients, currentPlayerId }) => {
 
         Player {player?.id}
         {!(player?.id == currentPlayerId) && <Button className="trade-with-player-button" onClick={handleTrade}>Trade</Button>}
-        <div className="combo-info"> <b> S: {score}  C: {totalIngredientCount} L: {combinedLevel} </b> {completeCombos.join(", ")} </div>
+        <div className="combo-info"> <b> S: {score} {TESTING ? `C: ${totalIngredientCount} L: ${combinedLevel}`  : null} </b> {completeCombos.join(", ")} </div>
       </div>
 
       <div className="cards">
