@@ -461,7 +461,7 @@ button.selected {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
-  /*background-color: black;*/
+  background-color: black;
   padding-left: 10px;
 }
 
@@ -523,6 +523,36 @@ button.selected {
   right: 5.5mm;
 }
 
+
 .cards-collection .level-icon {
   color: rgb(255, 255, 255);
+  height: 5mm;
+  width: 5mm;
+}
+
+
+.ingredient-card::before{
+  content: "";
+  position: absolute;
+  top: 6mm;
+  right: 6mm;
+  bottom: 6mm;
+  left: 6mm;
+  border: 0.5mm dashed rgba(255, 0, 0, 0.295); 
+  z-index: 1; 
+  pointer-events: none; 
+}
+.ingredient-card::after{
+  content: "";
+  position: absolute;
+  top: 0mm;
+  right: 0mm;
+  bottom: 0mm;
+  left: 0mm;
+  border: 3mm solid rgba(190, 190, 190, 0.486); 
+  z-index: 1; 
+  pointer-events: none; 
+}
+.hide-pseudo::before, .hide-pseudo::after {
+  display: none;
 }
