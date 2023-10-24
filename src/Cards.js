@@ -34,26 +34,61 @@ export const Cards = ({ cardTesting, setCardTesting }) => {
 
 const SecretCard = ({ secret, index }) => {
     const [cardRef, saveAsImage] = useSave(secret?.name);
+    const lines = splitTextByChars(secret.description, 24);
     return (
         <div>
             <button className="save-button" onClick={saveAsImage}>Save as Image</button>
             <div ref={cardRef}  >
                 <div className="ingredient-card secret-card">
                     <img
-                        src={`/ftx/img/secret.jpg`}
+                        src={`/ftx/img/secret.png`}
                         alt={`Secret backside`}
                         className="ingredient-image-outer"
                     />
                     <h1>Secret<br></br>Menu</h1>
                     <h2>{secret.name}</h2>
                     <div className="description">
-                    {secret.description}
+                        {lines.map((line, index) => (
+                            <span key={index} className={`line ${index >= 3 ? 'margin-left' : ''}`}>
+                                {line}
+                            </span>))}
                     </div>
                 </div>
             </div>
         </div>
     );
 }
+const splitTextByChars = (text, maxChars, reducedCharsAfterLine = 3) => {
+    let startIndex = 0;
+    let lastSpaceIndex = -1;
+    const lines = [];
+    let currentLine = 1;
+    const shorerByCharAmount = 4
+
+    for (let i = 0; i < text.length; i++) {
+      if (text[i] === ' ') {
+        lastSpaceIndex = i;
+      }
+
+      let currentMaxChars = currentLine > reducedCharsAfterLine ? maxChars - shorerByCharAmount : maxChars;
+
+      if (i - startIndex >= currentMaxChars) {
+        if (lastSpaceIndex === -1) {
+          lastSpaceIndex = i;
+        }
+        lines.push(text.substring(startIndex, lastSpaceIndex).trim());
+        startIndex = lastSpaceIndex + 1;
+        lastSpaceIndex = -1;
+        currentLine++;
+      }
+    }
+
+    if (startIndex < text.length) {
+      lines.push(text.substring(startIndex).trim());
+    }
+
+    return lines;
+  };
 
 const TruckCard = ({ truckData, index, ingredientsState }) => {
     const [cardRef, saveAsImage] = useSave(truckData?.TruckName);

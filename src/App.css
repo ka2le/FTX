@@ -526,10 +526,10 @@ button.selected {
 .cards-collection .secret-card h2{
   position: absolute;
   font-weight: 100;
-  font-size: 18px !important;
+  font-size: 20px !important;
   text-align: center;
-  padding: 0 20%;
-  width: 60%;
+  padding: 0 17% 0 16%;
+  width: 67%;
   top: 122px;
   line-height: 0.9;
 }
@@ -538,11 +538,17 @@ button.selected {
   font-weight: 100;
   font-size: 14px;
   text-align: center;
-  padding: 0 20%;
-  width: 60%;
-  top: 182px;
+  padding: 0 17%;
+  width: 66%;
+  top: 207px;
   line-height: 0.9;
 }
+.cards-collection .secret-card .description .line{
+display: block;
+}
+.cards-collection .secret-card .description .line.margin-left{
+  margin: 0 12%;
+  }
 .cards-collection .secret-card .ingredient-image-outer {
   filter: blur(0px);
 }
