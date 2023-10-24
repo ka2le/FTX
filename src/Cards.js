@@ -3,6 +3,7 @@ import domtoimage from 'dom-to-image';
 import { saveAs } from 'file-saver';
 import trucks from './trucks.json';
 import initialIngredients from './initialIngredients.json';
+import secrets from './secrets.json';
 import React from 'react';
 import img1 from './cards/spices.png';
 import { TruckMenu } from "./App";
@@ -18,6 +19,9 @@ export const Cards = ({ cardTesting, setCardTesting }) => {
             <ToggleVisibilityButton></ToggleVisibilityButton><br></br>
             <TogglePseudoVisibilityButton></TogglePseudoVisibilityButton>
         </div>
+        {secrets.map((secret, index) =>
+            <SecretCard key={index} secret={secret} />
+        )}
         {trucks.map((truck, index) =>
             (<TruckCard key={index} truckData={truck} ingredientsState={ingredients} ></TruckCard>)
         )}
@@ -27,6 +31,29 @@ export const Cards = ({ cardTesting, setCardTesting }) => {
     </div></>)
 }
 
+
+const SecretCard = ({ secret, index }) => {
+    const [cardRef, saveAsImage] = useSave(secret?.name);
+    return (
+        <div>
+            <button className="save-button" onClick={saveAsImage}>Save as Image</button>
+            <div ref={cardRef}  >
+                <div className="ingredient-card secret-card">
+                    <img
+                        src={`/ftx/img/secret.jpg`}
+                        alt={`Secret backside`}
+                        className="ingredient-image-outer"
+                    />
+                    <h1>Secret<br></br>Menu</h1>
+                    <h2>{secret.name}</h2>
+                    <div className="description">
+                    {secret.description}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
 
 const TruckCard = ({ truckData, index, ingredientsState }) => {
     const [cardRef, saveAsImage] = useSave(truckData?.TruckName);

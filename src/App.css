@@ -11,6 +11,11 @@
   src: url('../public/fonts/GloriaHallelujah-Regular.ttf') format('truetype');
 }
 @font-face {
+  font-family: 'PlayfairDisplay';
+  src: url('../public/fonts/PlayfairDisplay-VariableFont_wght.ttf') format('truetype');
+}
+
+@font-face {
   font-family: 'CaveatBrush';
   src: url('../public/fonts/CaveatBrush-Regular.ttf') format('truetype');
 }
@@ -504,6 +509,44 @@ button.selected {
   filter: blur(3px);
   position: absolute;
 }
+.cards-collection .secret-card{
+  color:rgb(100,59,28);
+  font-family: "PlayfairDisplay";
+}
+
+.cards-collection .secret-card h1{
+  position: absolute;
+  font-weight: 100;
+  font-size: 28px;
+  
+  width: 100%;
+  top: 48px;
+  line-height: 0.9;
+}
+.cards-collection .secret-card h2{
+  position: absolute;
+  font-weight: 100;
+  font-size: 18px !important;
+  text-align: center;
+  padding: 0 20%;
+  width: 60%;
+  top: 122px;
+  line-height: 0.9;
+}
+.cards-collection .secret-card .description{
+  position: absolute;
+  font-weight: 100;
+  font-size: 14px;
+  text-align: center;
+  padding: 0 20%;
+  width: 60%;
+  top: 182px;
+  line-height: 0.9;
+}
+.cards-collection .secret-card .ingredient-image-outer {
+  filter: blur(0px);
+}
+
 .truck-card, .truck-card .combo-line{
   font-size: 14px !important;
   margin-bottom: 2px;
