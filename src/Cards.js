@@ -41,11 +41,11 @@ const SecretCard = ({ secret, index }) => {
             <div ref={cardRef}  >
                 <div className="ingredient-card secret-card">
                     <img
-                        src={`/ftx/img/secret.png`}
+                        src={`/ftx/img/secret2.png`}
                         alt={`Secret backside`}
                         className="ingredient-image-outer"
                     />
-                    <h1>Secret<br></br>Menu</h1>
+                    <h1>Secret Menu</h1>
                     <h2>{secret.name}</h2>
                     <div className="description">
                         {lines.map((line, index) => (

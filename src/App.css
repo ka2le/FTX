@@ -517,19 +517,24 @@ button.selected {
 .cards-collection .secret-card h1{
   position: absolute;
   font-weight: 100;
-  font-size: 28px;
+  font-size: 22px;
   
   width: 100%;
-  top: 48px;
+  top: 75px;
   line-height: 0.9;
 }
 .cards-collection .secret-card h2{
   position: absolute;
-  font-weight: 100;
-  font-size: 20px !important;
+  font-weight: 700;
+  font-size: 18px !important;
+  margin-top: 0 !important;
   text-align: center;
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center;
   padding: 0 17% 0 16%;
   width: 67%;
+  height: 45px;
   top: 122px;
   line-height: 0.9;
 }
@@ -540,7 +545,7 @@ button.selected {
   text-align: center;
   padding: 0 17%;
   width: 66%;
-  top: 207px;
+  top: 192px;
   line-height: 0.9;
 }
 .cards-collection .secret-card .description .line{
