@@ -1,10 +1,11 @@
 {
   "files": {
-    "main.css": "/ftx/static/css/main.a34482c6.css",
-    "main.js": "/ftx/static/js/main.bef441a8.js",
+    "main.css": "/ftx/static/css/main.4382043b.css",
+    "main.js": "/ftx/static/js/main.b8840f53.js",
     "static/js/787.a5396179.chunk.js": "/ftx/static/js/787.a5396179.chunk.js",
     "static/media/spices.png": "/ftx/static/media/spices.e079c9a4544427a02096.png",
     "static/media/board.jpg": "/ftx/static/media/board.93692a923c40796a6898.jpg",
+    "static/media/PlayfairDisplay-VariableFont_wght.ttf": "/ftx/static/media/PlayfairDisplay-VariableFont_wght.20240034b80f50c3ad00.ttf",
     "static/media/CaveatBrush-Regular.ttf": "/ftx/static/media/CaveatBrush-Regular.dae368f31d8ab9261b85.ttf",
     "static/media/LoveYaLikeASister-Regular.ttf": "/ftx/static/media/LoveYaLikeASister-Regular.5783571c335ed23cc13f.ttf",
     "static/media/CormorantUpright-Regular.ttf": "/ftx/static/media/CormorantUpright-Regular.a7d587711ab16ab88641.ttf",
@@ -20,12 +21,12 @@
     "static/media/slick.ttf": "/ftx/static/media/slick.c94f7671dcc99dce43e2.ttf",
     "static/media/slick.woff": "/ftx/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/ftx/index.html",
-    "main.a34482c6.css.map": "/ftx/static/css/main.a34482c6.css.map",
-    "main.bef441a8.js.map": "/ftx/static/js/main.bef441a8.js.map",
+    "main.4382043b.css.map": "/ftx/static/css/main.4382043b.css.map",
+    "main.b8840f53.js.map": "/ftx/static/js/main.b8840f53.js.map",
     "787.a5396179.chunk.js.map": "/ftx/static/js/787.a5396179.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.a34482c6.css",
-    "static/js/main.bef441a8.js"
+    "static/css/main.4382043b.css",
+    "static/js/main.b8840f53.js"
   ]
 }
