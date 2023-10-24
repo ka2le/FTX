@@ -410,7 +410,7 @@ font-weight: bold !important;
 }
 .dialog-dropdown, .dialog-dropdown .MuiSelect-select{
   margin: 0 !important;
-  padding: 0 !important;
+  padding: 5px  !important;
 }
 
 .trade-view-container{
@@ -543,10 +543,10 @@ button.selected {
   font-weight: 100;
   font-size: 14px;
   text-align: center;
-  padding: 0 17%;
-  width: 66%;
+  padding: 0 15%;
+  width: 70%;
   top: 192px;
-  line-height: 0.9;
+  line-height: 1;
 }
 .cards-collection .secret-card .description .line{
 display: block;
@@ -656,7 +656,7 @@ display: block;
   right: 0mm;
   bottom: 0mm;
   left: 0mm;
-  border: 3mm solid rgba(190, 190, 190, 0.486); 
+  border: 3mm solid rgba(59, 59, 59, 0.486); 
   z-index: 1; 
   pointer-events: none; 
 }

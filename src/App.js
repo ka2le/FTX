@@ -18,11 +18,12 @@ import 'slick-carousel/slick/slick-theme.css';
 import './App.css'; // your custom css
 
 export const TESTING = true;
+const WORKING_ON_CARDS = true;
 
 
 
 export default function App() {
-  const [cardTesting, setCardTesting] = useState(TESTING);
+  const [cardTesting, setCardTesting] = useState(WORKING_ON_CARDS);
   const loadTradeInterfaceFromLocalStorage = () => {
     const storedTradeInterface = localStorage.getItem('tradeInterface');
     return storedTradeInterface ? JSON.parse(storedTradeInterface) : false;
@@ -214,7 +215,7 @@ export default function App() {
       </Slider>
       <div className="score-row" >
         <b>Score: {totalScore}</b> {TESTING ? `Cards: ${totalIngredientCount} Levels: ${combinedLevel}` : null}<br></br> {completeCombos.join(", ")}
-        {TESTING ? <button onClick={() => {setCardTesting(!cardTesting)}}>CARDS</button> : null}
+        
         <Button variant="outline" className="open-dialog-button" onClick={() => {
           setOpen(true)
 
@@ -255,6 +256,10 @@ export default function App() {
               <Button className="dialog-actions-button" onClick={() => handleDealCards(setDeck, setPlayers, numberOfPlayers)} >
                 🂠
               </Button>
+              {TESTING ?  <Button className="dialog-actions-button" onClick={() => {setCardTesting(!cardTesting)}} >
+              🖨️
+              </Button> : null}
+             
               <Select
                 labelId="player-label"
                 id="player-dropdown"

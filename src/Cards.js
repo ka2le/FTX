@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import domtoimage from 'dom-to-image';
 import { saveAs } from 'file-saver';
 import trucks from './trucks.json';
@@ -9,13 +9,13 @@ import img1 from './cards/spices.png';
 import { TruckMenu } from "./App";
 
 const save_size = 2;
-const BRIGHTNESS_ADJUSTMENT = 1.3;
+const BRIGHTNESS_ADJUSTMENT = 1.1;
 
 export const Cards = ({ cardTesting, setCardTesting }) => {
     const ingredients = initialIngredients.map((ingredient) => ({ ...ingredient, amount: 0 }))
     return (<>   <div className="cards-collection">
         <div>
-            <button onClick={() => { setCardTesting(!cardTesting) }}>CARDS</button> <br></br>
+            <button onClick={() => { setCardTesting(!cardTesting) }}>Back to Menus</button> <br></br>
             <ToggleVisibilityButton></ToggleVisibilityButton><br></br>
             <TogglePseudoVisibilityButton></TogglePseudoVisibilityButton>
         </div>
@@ -34,7 +34,7 @@ export const Cards = ({ cardTesting, setCardTesting }) => {
 
 const SecretCard = ({ secret, index }) => {
     const [cardRef, saveAsImage] = useSave(secret?.name);
-    const lines = splitTextByChars(secret.description, 24);
+    const lines = splitTextByChars(secret.description, 25);
     return (
         <div>
             <button className="save-button" onClick={saveAsImage}>Save as Image</button>
@@ -63,7 +63,7 @@ const splitTextByChars = (text, maxChars, reducedCharsAfterLine = 3) => {
     let lastSpaceIndex = -1;
     const lines = [];
     let currentLine = 1;
-    const shorerByCharAmount = 4
+    const shorerByCharAmount = 5
 
     for (let i = 0; i < text.length; i++) {
       if (text[i] === ' ') {
@@ -204,6 +204,7 @@ const adjustGamma = (blob, gamma = BRIGHTNESS_ADJUSTMENT) => {
 function ToggleVisibilityButton() {
     const [isVisible, setIsVisible] = useState(true);
 
+    
     const handleToggle = () => {
         setIsVisible(!isVisible);
 
@@ -217,6 +218,9 @@ function ToggleVisibilityButton() {
 }
 
 function TogglePseudoVisibilityButton() {
+    useEffect(()=>{
+        handleToggle()
+    },[])
     const [isVisible, setIsVisible] = useState(true);
 
     const handleToggle = () => {
