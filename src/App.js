@@ -18,7 +18,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import './App.css'; // your custom css
 
 export const TESTING = true;
-const WORKING_ON_CARDS = true;
+const WORKING_ON_CARDS = false;
 
 
 
