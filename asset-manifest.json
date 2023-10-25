@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/ftx/static/css/main.8eac6ef8.css",
-    "main.js": "/ftx/static/js/main.d3d0397a.js",
+    "main.css": "/ftx/static/css/main.9e9ef5b1.css",
+    "main.js": "/ftx/static/js/main.604bac3c.js",
     "static/js/787.a5396179.chunk.js": "/ftx/static/js/787.a5396179.chunk.js",
     "static/media/spices.png": "/ftx/static/media/spices.e079c9a4544427a02096.png",
     "static/media/board.jpg": "/ftx/static/media/board.93692a923c40796a6898.jpg",
@@ -10,8 +10,11 @@
     "static/media/LoveYaLikeASister-Regular.ttf": "/ftx/static/media/LoveYaLikeASister-Regular.5783571c335ed23cc13f.ttf",
     "static/media/CormorantUpright-Regular.ttf": "/ftx/static/media/CormorantUpright-Regular.a7d587711ab16ab88641.ttf",
     "static/media/CormorantUpright-Light.ttf": "/ftx/static/media/CormorantUpright-Light.8909a49ce0d88643080e.ttf",
+    "static/media/Italianno-Regular.ttf": "/ftx/static/media/Italianno-Regular.af758e9e36a2222b1130.ttf",
+    "static/media/BodoniModa-VariableFont_opsz,wght.ttf": "/ftx/static/media/BodoniModa-VariableFont_opsz,wght.494f044dd62c1946356a.ttf",
     "static/media/GrechenFuemen-Regular.ttf": "/ftx/static/media/GrechenFuemen-Regular.86f59879d9a1eb0ede9c.ttf",
     "static/media/SedgwickAveDisplay-Regular.ttf": "/ftx/static/media/SedgwickAveDisplay-Regular.74c170e1c62b0cd3e85e.ttf",
+    "static/media/Quicksand-VariableFont_wght.ttf": "/ftx/static/media/Quicksand-VariableFont_wght.b964ff93d9cb23e7f4c0.ttf",
     "static/media/PermanentMarker-Regular.ttf": "/ftx/static/media/PermanentMarker-Regular.109a10dca0508e41aa12.ttf",
     "static/media/Quintessential-Regular.ttf": "/ftx/static/media/Quintessential-Regular.80b1583bb6be49192fa3.ttf",
     "static/media/GloriaHallelujah-Regular.ttf": "/ftx/static/media/GloriaHallelujah-Regular.c9da976c6f9088d1b3c9.ttf",
@@ -21,12 +24,12 @@
     "static/media/slick.ttf": "/ftx/static/media/slick.c94f7671dcc99dce43e2.ttf",
     "static/media/slick.woff": "/ftx/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/ftx/index.html",
-    "main.8eac6ef8.css.map": "/ftx/static/css/main.8eac6ef8.css.map",
-    "main.d3d0397a.js.map": "/ftx/static/js/main.d3d0397a.js.map",
+    "main.9e9ef5b1.css.map": "/ftx/static/css/main.9e9ef5b1.css.map",
+    "main.604bac3c.js.map": "/ftx/static/js/main.604bac3c.js.map",
     "787.a5396179.chunk.js.map": "/ftx/static/js/787.a5396179.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.8eac6ef8.css",
-    "static/js/main.d3d0397a.js"
+    "static/css/main.9e9ef5b1.css",
+    "static/js/main.604bac3c.js"
   ]
 }
