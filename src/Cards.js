@@ -8,7 +8,7 @@ import React from 'react';
 import img1 from './cards/spices.png';
 import { TruckMenu } from "./App";
 
-const save_size = 2;
+const save_size = 6;
 const BRIGHTNESS_ADJUSTMENT = 1.1;
 
 export const Cards = ({ cardTesting, setCardTesting }) => {
@@ -19,6 +19,12 @@ export const Cards = ({ cardTesting, setCardTesting }) => {
             <ToggleVisibilityButton></ToggleVisibilityButton><br></br>
             <TogglePseudoVisibilityButton></TogglePseudoVisibilityButton>
         </div>
+        <BackSide imgName={"ingred_back.jpg"}></BackSide>
+        <BackSide imgName={"back3.jpg"}></BackSide>
+        <BackSide imgName={"back4.png"}></BackSide>
+        <BackSide imgName={"secret_back.png"}></BackSide>
+        <BackSide imgName={"tire_back.png"}></BackSide>
+        <BackSide imgName={"ingredient_back2.png"}></BackSide>
         {secrets.map((secret, index) =>
             <SecretCard key={index} secret={secret} />
         )}
@@ -28,8 +34,26 @@ export const Cards = ({ cardTesting, setCardTesting }) => {
         {initialIngredients.map((ingredient, index) =>
             <IngredientCard key={index} ingredient={ingredient} />
         )}
+        
     </div></>)
 }
+
+const BackSide = ({ imgName }) => {
+    const [cardRef, saveAsImage] = useSave(imgName);
+    return (<>
+        <div>
+            <button className="save-button" onClick={saveAsImage}>Save as Image</button>
+            <div ref={cardRef}  >
+                <div className="ingredient-card backside">
+                    <img src={`/ftx/img/${imgName}`} alt={imgName} className="ingredient-image-outer" />
+                    <img src={`/ftx/img/${imgName}`} alt={imgName} className="ingredient-image" />
+                </div>
+            </div>
+        </div>
+    </>
+    );
+};
+
 
 
 const SecretCard = ({ secret, index }) => {

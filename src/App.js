@@ -256,9 +256,7 @@ export default function App() {
               <Button className="dialog-actions-button" onClick={() => handleDealCards(setDeck, setPlayers, numberOfPlayers)} >
                 🂠
               </Button>
-              {TESTING ?  <Button className="dialog-actions-button" onClick={() => {setCardTesting(!cardTesting)}} >
-              🖨️
-              </Button> : null}
+             
              
               <Select
                 labelId="player-label"
@@ -274,13 +272,17 @@ export default function App() {
                 ))}
               </Select></>
 
-              : <Button className="dialog-actions-button" onClick={reset} >
+              : <> {TESTING ?  <Button className="dialog-actions-button" onClick={() => {setCardTesting(!cardTesting)}} >
+              🖨️
+              </Button> : null}
+              <Button className="dialog-actions-button" onClick={reset} >
                 Reset
-              </Button>}
-
-            <Button className="dialog-actions-button" onClick={handleClose} >
+              </Button>
+              <Button className="dialog-actions-button" onClick={handleClose} >
               x
-            </Button>
+            </Button></>}
+
+            
 
           </DialogActions>
         </div>
