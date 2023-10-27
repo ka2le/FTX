@@ -21,7 +21,10 @@ export const Cards = ({ cardTesting, setCardTesting }) => {
         </div>
         <BackSide imgName={"ingred_back.jpg"}></BackSide>
         <BackSide imgName={"back3.jpg"}></BackSide>
-        <BackSide imgName={"back4.png"}></BackSide>
+        <BackSide imgName={"back4.png"} title={"FTX"}></BackSide>
+        <BackSide type={2} imgName={"hat1.png"} title={"FTX"}></BackSide>
+        <BackSide type={3} imgName={"hat2.png"} title={"FTX"}></BackSide>
+        <BackSide type={4} imgName={"wood_back.png"} ></BackSide>
         <BackSide imgName={"secret_back.png"}></BackSide>
         <BackSide imgName={"tire_back.png"}></BackSide>
         <BackSide imgName={"ingredient_back2.png"}></BackSide>
@@ -38,13 +41,14 @@ export const Cards = ({ cardTesting, setCardTesting }) => {
     </div></>)
 }
 
-const BackSide = ({ imgName }) => {
+const BackSide = ({ imgName, title = null, type=1 }) => {
     const [cardRef, saveAsImage] = useSave(imgName);
     return (<>
         <div>
             <button className="save-button" onClick={saveAsImage}>Save as Image</button>
             <div ref={cardRef}  >
-                <div className="ingredient-card backside">
+                <div className={"ingredient-card backside type"+type}>
+                    {title ? <h1 className={"type"+type}>{title}</h1> : null}
                     <img src={`/ftx/img/${imgName}`} alt={imgName} className="ingredient-image-outer" />
                     <img src={`/ftx/img/${imgName}`} alt={imgName} className="ingredient-image" />
                 </div>
