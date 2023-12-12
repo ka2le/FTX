@@ -84,9 +84,9 @@ export default function App() {
 
   console.log("Total Ingredients: ", result.totalIngredients);
   console.log("Ingredients by Level: ", result.levelCount);
-  console.log("Split all card 5 players: ", result.totalIngredients/5)
-  console.log("Split all card 9 players: ", result.totalIngredients/9)
-  console.log("Cards left for max "+MAX_HAND_LIMIT+" cards 5 players: ", Math.floor((result.totalIngredients/5-MAX_HAND_LIMIT)*5))
+  console.log("Split all card 5 players: ", result.totalIngredients / 5)
+  console.log("Split all card 9 players: ", result.totalIngredients / 9)
+  console.log("Cards left for max " + MAX_HAND_LIMIT + " cards 5 players: ", Math.floor((result.totalIngredients / 5 - MAX_HAND_LIMIT) * 5))
 
 
   const reset = () => {
@@ -203,9 +203,10 @@ export default function App() {
   const [completeCombos,
     totalScore,
     totalIngredientCount,
-    combinedLevel] = checkCompleteCombos(ingredients);
+    combinedLevel,
+    closeMissingIngredients] = checkCompleteCombos(ingredients);
   return (
-  <> {cardTesting ? <Cards cardTesting={cardTesting} setCardTesting={setCardTesting} ></Cards>  : <div className={`container ${isLandscapeOrDesktop ? "desktop" : null}`} >
+    <> {cardTesting ? <Cards cardTesting={cardTesting} setCardTesting={setCardTesting} ></Cards> : <div className={`container ${isLandscapeOrDesktop ? "desktop" : null}`} >
       {/* <div className="title">FTX</div> */}
       <Slider key={key} ref={slider1} {...settings}>
         {trucks.map((truck, index) =>
@@ -214,15 +215,17 @@ export default function App() {
 
       </Slider>
       <div className="score-row" >
-        <b>Score: {totalScore}</b> {TESTING ? `Cards: ${totalIngredientCount} Levels: ${combinedLevel}` : null}<br></br> {completeCombos.join(", ")}
-        
+        <b>Score: {totalScore}</b> {TESTING ? `Cards: ${totalIngredientCount} Levels: ${combinedLevel}` : null}
+         {closeMissingIngredients?.length> 0 ? " Need: "+closeMissingIngredients?.join(" - ")+"" : null }<br></br> 
+         {completeCombos.join(", ")}
+
         <Button variant="outline" className="open-dialog-button" onClick={() => {
           setOpen(true)
 
         }}>
           {tradeInterface ? null : <span className='ingredient-counter'>{countIngredients()}</span>}
           {tradeInterface ? <span >⬌</span> : "+"}
-          
+
         </Button>
 
 
@@ -256,8 +259,8 @@ export default function App() {
               <Button className="dialog-actions-button" onClick={() => handleDealCards(setDeck, setPlayers, numberOfPlayers)} >
                 🂠
               </Button>
-             
-             
+
+
               <Select
                 labelId="player-label"
                 id="player-dropdown"
@@ -272,17 +275,17 @@ export default function App() {
                 ))}
               </Select></>
 
-              : <> {TESTING ?  <Button className="dialog-actions-button" onClick={() => {setCardTesting(!cardTesting)}} >
-              🖨️
+              : <> {TESTING ? <Button className="dialog-actions-button" onClick={() => { setCardTesting(!cardTesting) }} >
+                🖨️
               </Button> : null}
-              <Button className="dialog-actions-button" onClick={reset} >
-                Reset
-              </Button>
-              <Button className="dialog-actions-button" onClick={handleClose} >
-              x
-            </Button></>}
+                <Button className="dialog-actions-button" onClick={reset} >
+                  Reset
+                </Button>
+                <Button className="dialog-actions-button" onClick={handleClose} >
+                  x
+                </Button></>}
 
-            
+
 
           </DialogActions>
         </div>
@@ -490,8 +493,9 @@ const truckStyles = {
 export function checkCompleteCombos(ingredients) {
   const completeCombos = [];
   let totalScore = 0;
-  let totalIngredientCount = 0; 
-  let combinedLevel = 0; 
+  let totalIngredientCount = 0;
+  let combinedLevel = 0;
+  const nearCompleteCombosIngredients = new Set();
 
   // Convert the ingredients into a dictionary for faster lookup
   const originalIngredientDict = {};
@@ -503,44 +507,59 @@ export function checkCompleteCombos(ingredients) {
 
   // Function to check if a single combo is complete and to calculate its score
   const isSingleComboComplete = (combo) => {
+
     let comboScore = 0;
     let ingredientLevelSum = 0;
     let ingredientCount = 0;
-  
-    // Create a working copy of the ingredient dictionary
+    let totalShortfall = 0; // Total shortfall across all combo lines
+    let potentialMissingIngredients = [];
+
     const ingredientDict = JSON.parse(JSON.stringify(originalIngredientDict));
-  
+
     for (let line of combo.ComboLines) {
       const requirement = parseInt(line.requirements, 10);
-  
       let count = 0;
-  
+
       for (let ingredient of line.ingredients) {
         if (ingredientDict[ingredient] && ingredientDict[ingredient].amount >= 1) {
           count++;
-          ingredientDict[ingredient].amount--; // Decrement the amount
+          ingredientDict[ingredient].amount--;
           ingredientLevelSum += ingredientDict[ingredient].level;
           ingredientCount++;
         }
       }
-  
-      if (count < requirement) {
-        return [false, 0];
+
+      const shortfall = requirement - count;
+      if (shortfall > 0) {
+        totalShortfall += shortfall;
+        if (shortfall === 1) {
+          // If this line is one ingredient short, store potential missing ingredients
+          potentialMissingIngredients.push(...line.ingredients.filter(ing => !originalIngredientDict[ing] || originalIngredientDict[ing].amount < 1));
+        }
       }
     }
-  
-    comboScore = combo.score + ingredientLevelSum; //+ ingredientCount
-    return [true, comboScore];
+
+    comboScore = combo.score + ingredientLevelSum;
+    console.log(combo, totalShortfall, potentialMissingIngredients)
+    if (totalShortfall === 1) {
+      // The combo is exactly one ingredient away from being complete
+      return [false, 0, true, potentialMissingIngredients];
+    } else {
+      return [totalShortfall === 0, comboScore, false, []];
+    }
   };
+
 
   // First pass to check combos without dependencies
   for (let truck of trucks) {
     for (let combo of truck.combos) {
       if (!combo.dependency) {
-        const [isComplete, comboScore] = isSingleComboComplete(combo);
+        const [isComplete, comboScore, isNearComplete, missingIngredients] = isSingleComboComplete(combo);
         if (isComplete) {
           completeCombos.push(combo.ComboName);
           totalScore += comboScore;
+        } else if (isNearComplete) {
+          missingIngredients.forEach(ing => nearCompleteCombosIngredients.add(ing));
         }
       }
     }
@@ -564,21 +583,28 @@ export function checkCompleteCombos(ingredients) {
         }
 
         if (isDependencyMet) {
-          const [isComplete, comboScore] = isSingleComboComplete(combo);
+          const [isComplete, comboScore, isNearComplete, missingIngredients] = isSingleComboComplete(combo);
           if (isComplete) {
             completeCombos.push(combo.ComboName);
             totalScore += comboScore;
+          } else if (isNearComplete) {
+            missingIngredients.forEach(ing => nearCompleteCombosIngredients.add(ing));
           }
         }
       }
     }
   }
 
+  // Convert Set to Array for the final return
+  const uniqueNearCompleteIngredients = Array.from(nearCompleteCombosIngredients);
+
+
   return [
     completeCombos,
     totalScore,
     totalIngredientCount,
-    combinedLevel
+    combinedLevel,
+    uniqueNearCompleteIngredients
   ];
 }
 
