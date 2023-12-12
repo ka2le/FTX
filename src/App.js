@@ -313,6 +313,12 @@ export default function App() {
 
 
 
+const getComboLineState = (line, ingredientState) => {
+  const ingredientDict = createIngredientDictionary(ingredientState);
+  const { count, shortfall, missingIngredients } = processComboLine(line, ingredientDict);
+  return shortfall === 0 ? true : false;
+}
+
 export const TruckMenu = ({ truckData, ingredientsState, incrementAmount, decrementAmount }) => {
   const currentStyle = truckStyles[truckData.short.toLowerCase()] || truckStyles.default;
 
@@ -343,9 +349,11 @@ export const TruckMenu = ({ truckData, ingredientsState, incrementAmount, decrem
           }}>{combo.score}$</div>
           {combo.ComboLines.map((line, lineIndex) => {
             const workingIngredients = JSON.parse(JSON.stringify(ingredientsState));
+            const comboLineState = getComboLineState(line, ingredientsState);
+            const comboLineClass = `combo-line ${comboLineState ? 'fulfilled' : ''}`;
             return (
-              <div key={lineIndex} className="combo-line">
-                <span className="requirements">{line.requirements}</span>
+              <div key={lineIndex} className={comboLineClass}>
+                <span className="requirements " style={{color: comboLineState ? currentStyle.color: "white"}}>{line.requirements}</span>
                 <span className="ingredients">
 
                   {line.ingredients.map((ingredientName, ingIndex) => {
@@ -353,12 +361,12 @@ export const TruckMenu = ({ truckData, ingredientsState, incrementAmount, decrem
                     const className = matchedIngredient ? 'ingredient-match' : '';
                     const color = matchedIngredient ? matchedIngredient.color : 'white'
                     return (
-                      <>
+                      <span key={ingIndex}>
                         <div key={ingIndex} onClick={() => matchedIngredient ? decrementAmount(ingredientName) : incrementAmount(ingredientName)} className={`ingredient ${className}`} style={{ display: 'inline', color: color }}>
                           {ingredientName}
                         </div>
                         {ingIndex < line.ingredients.length - 1 && <span style={{ display: 'inline' }}> - </span>}
-                      </>
+                      </span>
                     );
                   })}
                 </span>
@@ -489,6 +497,45 @@ const truckStyles = {
   },
 };
 
+const processComboLine = (line, ingredientDict) => {
+  const requirement = parseInt(line.requirements, 10);
+  let count = 0;
+  let ingredientLevelSum = 0;
+  let updatedIngredientDict = JSON.parse(JSON.stringify(ingredientDict));
+
+  for (let ingredient of line.ingredients) {
+    if (updatedIngredientDict[ingredient] && updatedIngredientDict[ingredient].amount >= 1) {
+      count++;
+      updatedIngredientDict[ingredient].amount--;
+      ingredientLevelSum += updatedIngredientDict[ingredient].level;
+    }
+  }
+
+  const shortfall = requirement - count;
+  let missingIngredients = [];
+  if (shortfall === 1) {
+    missingIngredients = line.ingredients.filter(ing => !ingredientDict[ing] || ingredientDict[ing].amount < 1);
+  }
+
+  return {
+    count,
+    shortfall,
+    missingIngredients,
+    ingredientLevelSum
+  };
+};
+
+export function createIngredientDictionary(ingredients) {
+  const ingredientDict = {};
+  ingredients.forEach((ingredient) => {
+    ingredientDict[ingredient.name] = { 
+      amount: ingredient.amount, 
+      level: ingredient.level 
+    };
+  });
+  return ingredientDict;
+}
+
 
 export function checkCompleteCombos(ingredients) {
   const completeCombos = [];
@@ -498,12 +545,7 @@ export function checkCompleteCombos(ingredients) {
   const nearCompleteCombosIngredients = new Set();
 
   // Convert the ingredients into a dictionary for faster lookup
-  const originalIngredientDict = {};
-  ingredients.forEach((ingredient) => {
-    originalIngredientDict[ingredient.name] = { amount: ingredient.amount, level: ingredient.level };
-    totalIngredientCount += ingredient.amount; // Increment the total ingredient count
-    combinedLevel += (ingredient.level * ingredient.amount); // Increment the combined level
-  });
+  const originalIngredientDict = createIngredientDictionary(ingredients)
 
   // Function to check if a single combo is complete and to calculate its score
   const isSingleComboComplete = (combo) => {
@@ -514,28 +556,15 @@ export function checkCompleteCombos(ingredients) {
     let totalShortfall = 0; // Total shortfall across all combo lines
     let potentialMissingIngredients = [];
 
-    const ingredientDict = JSON.parse(JSON.stringify(originalIngredientDict));
+    
 
     for (let line of combo.ComboLines) {
-      const requirement = parseInt(line.requirements, 10);
-      let count = 0;
-
-      for (let ingredient of line.ingredients) {
-        if (ingredientDict[ingredient] && ingredientDict[ingredient].amount >= 1) {
-          count++;
-          ingredientDict[ingredient].amount--;
-          ingredientLevelSum += ingredientDict[ingredient].level;
-          ingredientCount++;
-        }
-      }
-
-      const shortfall = requirement - count;
-      if (shortfall > 0) {
-        totalShortfall += shortfall;
-        if (shortfall === 1) {
-          // If this line is one ingredient short, store potential missing ingredients
-          potentialMissingIngredients.push(...line.ingredients.filter(ing => !originalIngredientDict[ing] || originalIngredientDict[ing].amount < 1));
-        }
+      const { shortfall, missingIngredients, ingredientLevelSum: lineSum } = processComboLine(line, originalIngredientDict);
+    
+      ingredientLevelSum += lineSum;
+      totalShortfall += shortfall;
+      if (shortfall === 1) {
+        potentialMissingIngredients.push(...missingIngredients);
       }
     }
 

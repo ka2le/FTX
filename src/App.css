@@ -180,6 +180,10 @@ h2 {
   margin-right: 10px;
 }
 
+.fulfilled .requirements {
+  text-shadow: 0px 0px 4px;
+}
+
 .ingredients {
   flex: 4;
   line-height: 20px;
@@ -725,6 +729,7 @@ button.selected {
   margin-right: 8px;
   font-size: 12px;
 }
+
 
 .truck-card .dependecy-indicator {
   font-size: 8px;
