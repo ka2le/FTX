@@ -21,9 +21,9 @@ export const Cards = ({ cardTesting, setCardTesting }) => {
         </div>
         <BackSide imgName={"ingred_back.jpg"}></BackSide>
         <BackSide imgName={"back3.jpg"}></BackSide>
-        <BackSide imgName={"back4.png"} title={"FTX"}></BackSide>
-        <BackSide type={2} imgName={"hat1.png"} title={"FTX"}></BackSide>
-        <BackSide type={3} imgName={"hat2.png"} title={"FTX"}></BackSide>
+        <BackSide imgName={"back4.png"} title={""}></BackSide>
+        <BackSide type={2} imgName={"hat1.png"} title={""}></BackSide>
+        <BackSide type={3} imgName={"hat2.png"} title={""}></BackSide>
         <BackSide type={4} imgName={"wood_back.png"} ></BackSide>
         <BackSide imgName={"secret_back.png"}></BackSide>
         <BackSide imgName={"tire_back.png"}></BackSide>

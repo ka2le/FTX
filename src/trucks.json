@@ -173,7 +173,7 @@
       {
         "ComboName": "Elotes",
         "dependency": null,
-        "score": 3,
+        "score": 4,
         "type": null,
         "ComboLines": [
           {
@@ -321,7 +321,7 @@
       {
         "ComboName": "Samosas",
         "dependency": null,
-        "score": 4,
+        "score": 5,
         "type": null,
         "ComboLines": [
           {
@@ -332,6 +332,30 @@
               "spices"
             ],
             "requirements": "4"
+          }
+        ]
+      },
+      {
+        "ComboName": "Tandoori Skewers",
+        "dependency": null,
+        "score": 5,
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "chicken",
+              "spices",
+              "dairy"
+            ],
+            "requirements": "3"
+          },
+          {
+            "ingredients": [
+              "steak",
+              "cheese",
+              "pork tenderloin"
+            ],
+            "requirements": "1"
           }
         ]
       },
@@ -459,7 +483,7 @@
       {
         "ComboName": "Spring Rolls",
         "dependency": null,
-        "score": 8,
+        "score": 10,
         "type": null,
         "ComboLines": [
           {
@@ -614,7 +638,7 @@
       {
         "ComboName": "Coleslaw",
         "dependency": null,
-        "score": 3,
+        "score": 4,
         "type": null,
         "ComboLines": [
           {
