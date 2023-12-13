@@ -215,9 +215,11 @@ export default function App() {
 
       </Slider>
       <div className="score-row" >
-        <b>Score: {totalScore}</b> {TESTING ? `Cards: ${totalIngredientCount} Levels: ${combinedLevel}` : null}
-         {closeMissingIngredients?.length> 0 ? " Need: "+closeMissingIngredients?.join(" - ")+"" : null }<br></br> 
-         {completeCombos.join(", ")}
+        <b>Score: {totalScore}</b>
+         {/* {TESTING ? `Cards: ${totalIngredientCount} Levels: ${combinedLevel}` : null}
+        {closeMissingIngredients?.length > 0 ? " Need: " + closeMissingIngredients?.join(" - ") + "" : null} */}
+        <br></br>
+        {completeCombos.join(", ")}
 
         <Button variant="outline" className="open-dialog-button" onClick={() => {
           setOpen(true)
@@ -290,7 +292,9 @@ export default function App() {
           </DialogActions>
         </div>
         <DialogContent>
-          {tradeInterface ? <TradePage ingredients={ingredients} setIngredients={setIngredients} deck={deck} setDeck={setDeck} players={players} setPlayers={setPlayers} currentPlayerId={currentPlayerId}></TradePage> : <IngredientList ingredients={ingredients} setIngredients={setIngredients} />}
+          {tradeInterface ?
+            <TradePage ingredients={ingredients} setIngredients={setIngredients} deck={deck} setDeck={setDeck} players={players} setPlayers={setPlayers} currentPlayerId={currentPlayerId}></TradePage> :
+            <IngredientList ingredients={ingredients} setIngredients={setIngredients} />}
         </DialogContent>
 
       </Dialog>
@@ -353,7 +357,7 @@ export const TruckMenu = ({ truckData, ingredientsState, incrementAmount, decrem
             const comboLineClass = `combo-line ${comboLineState ? 'fulfilled' : ''}`;
             return (
               <div key={lineIndex} className={comboLineClass}>
-                <span className="requirements " style={{color: comboLineState ? currentStyle.color: "white"}}>{line.requirements}</span>
+                <span className="requirements " style={{ color: comboLineState ? currentStyle.color : "white" }}>{line.requirements}</span>
                 <span className="ingredients">
 
                   {line.ingredients.map((ingredientName, ingIndex) => {
@@ -419,6 +423,31 @@ const TruckThumbnail = ({ truckData, goTo, index }) => {
 };
 
 const IngredientList = ({ ingredients, setIngredients }) => {
+  const [baselineScore, setBaselineScore] = useState(0);
+
+  useEffect(() => {
+    // Calculate the baseline score when the component mounts or ingredients change
+    const [, initialScore] = checkCompleteCombos(ingredients);
+    setBaselineScore(initialScore);
+  }, [ingredients]);
+
+  const deepCopyIngredients = (original) => {
+    return original.map(ing => ({ ...ing }));
+  };
+
+  const calculateScoreDifference = (name, isIncrement) => {
+    const modifiedIngredients = deepCopyIngredients(ingredients);
+    const ingredient = modifiedIngredients.find(ing => ing.name === name);
+
+    if (ingredient) {
+      ingredient.amount += isIncrement ? 1 : -1;
+      ingredient.amount = Math.max(ingredient.amount, 0); // Ensure amount doesn't go below zero
+    }
+
+    const [, modifiedScore] = checkCompleteCombos(modifiedIngredients);
+    return modifiedScore - baselineScore;
+  };
+
   const incrementAmount = (name) => {
     setIngredients((prevIngredients) =>
       prevIngredients.map((ingredient) =>
@@ -440,15 +469,34 @@ const IngredientList = ({ ingredients, setIngredients }) => {
   };
   return (
     <div className="ingredient-container">
+      {ingredients.map((ingredient) => {
+        const scoreDifferenceIncrement = calculateScoreDifference(ingredient.name, true);
+        const scoreDifferenceDecrement = calculateScoreDifference(ingredient.name, false);
 
-      {ingredients.map((ingredient) => (
-        <div key={ingredient.name} className="ingredient-row" style={{ color: ingredient.color }}>
-          <span className="ingredient-name">{ingredient.name} {'★'.repeat(ingredient.level)}</span>
-          <button className="amount-button" onClick={() => decrementAmount(ingredient.name)}>-</button>
-          <span className="ingredient-amount">{ingredient.amount}</span>
-          <button className="amount-button" onClick={() => incrementAmount(ingredient.name)}>+</button>
-        </div>
-      ))}
+        return (
+          <div key={ingredient.name} className="ingredient-row" style={{ color: ingredient.color }}>
+            <span className="ingredient-name">{ingredient.name} {'★'.repeat(ingredient.level)}</span>
+            <div className="score-difference">
+              {scoreDifferenceIncrement !== 0 && (
+                <span className={scoreDifferenceIncrement > 0 ? "score-positive" : "score-negative"}>
+                  +{scoreDifferenceIncrement}
+                </span>
+              )} 
+              {(scoreDifferenceDecrement !== 0 || (ingredient.amount > 0 && scoreDifferenceDecrement === 0)) && (
+                <span className={scoreDifferenceDecrement === 0 ? "score-negative no-change" : "score-negative"}>
+                  {scoreDifferenceDecrement === 0 ? '-0' : scoreDifferenceDecrement}
+                </span>
+              )}
+              {/* {scoreDifferenceIncrement === 0 && scoreDifferenceDecrement === 0 && ingredient.amount === 0 && <span>-</span>} */}
+            </div>
+            <button className="amount-button" onClick={() => decrementAmount(ingredient.name)}>-</button>
+            <span className={ingredient.amount === 0 ? "ingredient-amount amount-zero" : "ingredient-amount"}>
+              {ingredient.amount === 0 ? '-' : ingredient.amount}
+            </span>
+            <button className="amount-button" onClick={() => incrementAmount(ingredient.name)}>+</button>
+          </div>
+        );
+      })}
     </div>
   );
 };
@@ -512,7 +560,7 @@ const processComboLine = (line, ingredientDict) => {
   }
   const shortfall = Math.max(0, requirement - count);
 
-  
+
   let missingIngredients = [];
   if (shortfall === 1) {
     missingIngredients = line.ingredients.filter(ing => !ingredientDict[ing] || ingredientDict[ing].amount < 1);
@@ -529,9 +577,9 @@ const processComboLine = (line, ingredientDict) => {
 export function createIngredientDictionary(ingredients) {
   const ingredientDict = {};
   ingredients.forEach((ingredient) => {
-    ingredientDict[ingredient.name] = { 
-      amount: ingredient.amount, 
-      level: ingredient.level 
+    ingredientDict[ingredient.name] = {
+      amount: ingredient.amount,
+      level: ingredient.level
     };
   });
   return ingredientDict;
@@ -557,11 +605,11 @@ export function checkCompleteCombos(ingredients) {
     let totalShortfall = 0; // Total shortfall across all combo lines
     let potentialMissingIngredients = [];
 
-    
+
 
     for (let line of combo.ComboLines) {
       const { shortfall, missingIngredients, ingredientLevelSum: lineSum } = processComboLine(line, originalIngredientDict);
-    
+
       ingredientLevelSum += lineSum;
       totalShortfall += shortfall;
       if (shortfall === 1) {
