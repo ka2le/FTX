@@ -423,19 +423,29 @@ const TruckThumbnail = ({ truckData, goTo, index }) => {
 };
 
 const IngredientList = ({ ingredients, setIngredients }) => {
-  const [baselineScore, setBaselineScore] = useState(0);
+  const [scoreDifferences, setScoreDifferences] = useState({});
 
   useEffect(() => {
     // Calculate the baseline score when the component mounts or ingredients change
     const [, initialScore] = checkCompleteCombos(ingredients);
-    setBaselineScore(initialScore);
+    const newScoreDifferences = ingredients.reduce((acc, ingredient) => {
+      acc[ingredient.name] = {
+        scoreDifferenceIncrement: calculateScoreDifference(ingredient.name, true,initialScore),
+        scoreDifferenceDecrement: calculateScoreDifference(ingredient.name, false,initialScore),
+      };
+      return acc;
+    }, {});
+
+    setScoreDifferences(newScoreDifferences);
   }, [ingredients]);
+
 
   const deepCopyIngredients = (original) => {
     return original.map(ing => ({ ...ing }));
   };
 
-  const calculateScoreDifference = (name, isIncrement) => {
+  const calculateScoreDifference = (name, isIncrement, initalScore) => {
+    
     const modifiedIngredients = deepCopyIngredients(ingredients);
     const ingredient = modifiedIngredients.find(ing => ing.name === name);
 
@@ -445,7 +455,8 @@ const IngredientList = ({ ingredients, setIngredients }) => {
     }
 
     const [, modifiedScore] = checkCompleteCombos(modifiedIngredients);
-    return modifiedScore - baselineScore;
+    console.log("calculateScoreDifference", name, isIncrement, modifiedScore, initalScore)
+    return modifiedScore - initalScore;
   };
 
   const incrementAmount = (name) => {
@@ -467,33 +478,38 @@ const IngredientList = ({ ingredients, setIngredients }) => {
       )
     );
   };
+  console.log("scoreDifferences", scoreDifferences)
   return (
     <div className="ingredient-container">
       {ingredients.map((ingredient) => {
-        const scoreDifferenceIncrement = calculateScoreDifference(ingredient.name, true);
-        const scoreDifferenceDecrement = calculateScoreDifference(ingredient.name, false);
+        
+         const { scoreDifferenceIncrement, scoreDifferenceDecrement } = scoreDifferences[ingredient.name] || {};
+
 
         return (
           <div key={ingredient.name} className="ingredient-row" style={{ color: ingredient.color }}>
             <span className="ingredient-name">{ingredient.name} {'★'.repeat(ingredient.level)}</span>
             <div className="score-difference">
-              {scoreDifferenceIncrement !== 0 && (
-                <span className={scoreDifferenceIncrement > 0 ? "score-positive" : "score-negative"}>
-                  +{scoreDifferenceIncrement}
-                </span>
-              )} 
+            
               {(scoreDifferenceDecrement !== 0 || (ingredient.amount > 0 && scoreDifferenceDecrement === 0)) && (
                 <span className={scoreDifferenceDecrement === 0 ? "score-negative no-change" : "score-negative"}>
                   {scoreDifferenceDecrement === 0 ? '-0' : scoreDifferenceDecrement}
                 </span>
               )}
-              {/* {scoreDifferenceIncrement === 0 && scoreDifferenceDecrement === 0 && ingredient.amount === 0 && <span>-</span>} */}
             </div>
             <button className="amount-button" onClick={() => decrementAmount(ingredient.name)}>-</button>
             <span className={ingredient.amount === 0 ? "ingredient-amount amount-zero" : "ingredient-amount"}>
               {ingredient.amount === 0 ? '-' : ingredient.amount}
             </span>
             <button className="amount-button" onClick={() => incrementAmount(ingredient.name)}>+</button>
+            <div className="score-difference">
+              {scoreDifferenceIncrement !== 0 && (
+                <span className={scoreDifferenceIncrement > 0 ? "score-positive" : "score-negative"}>
+                  +{scoreDifferenceIncrement}
+                </span>
+              )} 
+             
+            </div>
           </div>
         );
       })}
@@ -618,7 +634,7 @@ export function checkCompleteCombos(ingredients) {
     }
 
     comboScore = combo.score + ingredientLevelSum;
-    console.log(combo, totalShortfall, potentialMissingIngredients)
+    //console.log(combo, totalShortfall, potentialMissingIngredients)
     if (totalShortfall === 1) {
       // The combo is exactly one ingredient away from being complete
       return [false, 0, true, potentialMissingIngredients];
