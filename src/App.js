@@ -510,8 +510,9 @@ const processComboLine = (line, ingredientDict) => {
       ingredientLevelSum += updatedIngredientDict[ingredient].level;
     }
   }
+  const shortfall = Math.max(0, requirement - count);
 
-  const shortfall = requirement - count;
+  
   let missingIngredients = [];
   if (shortfall === 1) {
     missingIngredients = line.ingredients.filter(ing => !ingredientDict[ing] || ingredientDict[ing].amount < 1);
