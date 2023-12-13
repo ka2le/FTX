@@ -145,6 +145,42 @@ export default function App() {
     return `${countWithAmount} / ${totalCount}`;
   }
 
+  const [scoreDifferences, setScoreDifferences] = useState({});
+
+  useEffect(() => {
+    // Calculate the baseline score when the component mounts or ingredients change
+    const [, initialScore] = checkCompleteCombos(ingredients);
+    const newScoreDifferences = ingredients.reduce((acc, ingredient) => {
+      acc[ingredient.name] = {
+        scoreDifferenceIncrement: calculateScoreDifference(ingredient.name, true,initialScore),
+        scoreDifferenceDecrement: calculateScoreDifference(ingredient.name, false,initialScore),
+      };
+      return acc;
+    }, {});
+
+    setScoreDifferences(newScoreDifferences);
+  }, [ingredients]);
+
+
+  const deepCopyIngredients = (original) => {
+    return original.map(ing => ({ ...ing }));
+  };
+
+  const calculateScoreDifference = (name, isIncrement, initalScore) => {
+    
+    const modifiedIngredients = deepCopyIngredients(ingredients);
+    const ingredient = modifiedIngredients.find(ing => ing.name === name);
+
+    if (ingredient) {
+      ingredient.amount += isIncrement ? 1 : -1;
+      ingredient.amount = Math.max(ingredient.amount, 0); // Ensure amount doesn't go below zero
+    }
+
+    const [, modifiedScore] = checkCompleteCombos(modifiedIngredients);
+    console.log("calculateScoreDifference", name, isIncrement, modifiedScore, initalScore)
+    return modifiedScore - initalScore;
+  };
+
 
   const images = [
     'img/bao.jpg',
@@ -187,7 +223,7 @@ export default function App() {
   const thumbnailSettings = {
     infinite: true,
     focusOnSelect: true,
-    slidesToShow: 6,
+    slidesToShow: 7,
     swipeToSlide: true,
     arrows: false,
     asNavFor: slider1.current,
@@ -212,7 +248,7 @@ export default function App() {
         {trucks.map((truck, index) =>
           (<TruckMenu key={index} truckData={truck} ingredientsState={ingredients} decrementAmount={decrementAmount} incrementAmount={incrementAmount}></TruckMenu>)
         )}
-
+<MyTruckMenu key={trucks?.length} ingredientsState={ingredients} decrementAmount={decrementAmount} incrementAmount={incrementAmount}></MyTruckMenu>
       </Slider>
       <div className="score-row" >
         <b>Score: {totalScore}</b>
@@ -294,7 +330,7 @@ export default function App() {
         <DialogContent>
           {tradeInterface ?
             <TradePage ingredients={ingredients} setIngredients={setIngredients} deck={deck} setDeck={setDeck} players={players} setPlayers={setPlayers} currentPlayerId={currentPlayerId}></TradePage> :
-            <IngredientList ingredients={ingredients} setIngredients={setIngredients} />}
+            <IngredientList ingredients={ingredients} setIngredients={setIngredients} scoreDifferences={scoreDifferences} />}
         </DialogContent>
 
       </Dialog>
@@ -308,6 +344,9 @@ export default function App() {
               index={index}
             />
           ))}
+            < MyTruckThumbnail  goTo={goTo}
+              index={trucks?.length}></MyTruckThumbnail>
+       
 
         </Slider>}
       </div>
@@ -322,6 +361,37 @@ const getComboLineState = (line, ingredientState) => {
   const { count, shortfall, missingIngredients } = processComboLine(line, ingredientDict);
   return shortfall === 0 ? true : false;
 }
+
+export const MyTruckMenu = ({ ingredientsState, incrementAmount, decrementAmount }) => {
+  // Assuming checkCompleteCombos and trucks array are available in this scope
+
+  // Get the list of complete combo names
+  const [completeCombos] = checkCompleteCombos(ingredientsState);
+
+  // Find the combos details from the trucks array
+  const myTruckCombos = completeCombos.flatMap(comboName => 
+    trucks.flatMap(truck => 
+      truck.combos.filter(combo => combo.ComboName === comboName)
+    )
+  );
+
+  // Construct the "MyTruck" object
+  const myTruck = {
+    TruckName: "MyTruck",
+    short: "MyTruck",
+    combos: myTruckCombos
+  };
+
+  // Render the TruckMenu component with the constructed "MyTruck"
+  return (
+    <TruckMenu
+      truckData={myTruck}
+      ingredientsState={ingredientsState}
+      incrementAmount={incrementAmount}
+      decrementAmount={decrementAmount}
+    />
+  );
+};
 
 export const TruckMenu = ({ truckData, ingredientsState, incrementAmount, decrementAmount }) => {
   const currentStyle = truckStyles[truckData.short.toLowerCase()] || truckStyles.default;
@@ -421,43 +491,27 @@ const TruckThumbnail = ({ truckData, goTo, index }) => {
     </div>
   );
 };
+const MyTruckThumbnail = ({  goTo, index }) => {
+  // Get the truck style or fallback to default
+  const currentStyle = truckStyles["MyTruck"] || truckStyles.default;
 
-const IngredientList = ({ ingredients, setIngredients }) => {
-  const [scoreDifferences, setScoreDifferences] = useState({});
-
-  useEffect(() => {
-    // Calculate the baseline score when the component mounts or ingredients change
-    const [, initialScore] = checkCompleteCombos(ingredients);
-    const newScoreDifferences = ingredients.reduce((acc, ingredient) => {
-      acc[ingredient.name] = {
-        scoreDifferenceIncrement: calculateScoreDifference(ingredient.name, true,initialScore),
-        scoreDifferenceDecrement: calculateScoreDifference(ingredient.name, false,initialScore),
-      };
-      return acc;
-    }, {});
-
-    setScoreDifferences(newScoreDifferences);
-  }, [ingredients]);
+  return (
+    <div
+      className="thumbnail-container"
+      style={{
+        borderColor: currentStyle.color,
+        color: currentStyle.color,
+      }}
+      onClick={() => goTo(index)}
+    >
+      MyTr
+    </div>
+  );
+};
 
 
-  const deepCopyIngredients = (original) => {
-    return original.map(ing => ({ ...ing }));
-  };
-
-  const calculateScoreDifference = (name, isIncrement, initalScore) => {
-    
-    const modifiedIngredients = deepCopyIngredients(ingredients);
-    const ingredient = modifiedIngredients.find(ing => ing.name === name);
-
-    if (ingredient) {
-      ingredient.amount += isIncrement ? 1 : -1;
-      ingredient.amount = Math.max(ingredient.amount, 0); // Ensure amount doesn't go below zero
-    }
-
-    const [, modifiedScore] = checkCompleteCombos(modifiedIngredients);
-    console.log("calculateScoreDifference", name, isIncrement, modifiedScore, initalScore)
-    return modifiedScore - initalScore;
-  };
+const IngredientList = ({ ingredients, setIngredients,scoreDifferences }) => {
+  
 
   const incrementAmount = (name) => {
     setIngredients((prevIngredients) =>
