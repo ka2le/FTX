@@ -380,11 +380,14 @@ export const MyTruckMenu = ({ ingredientsState, incrementAmount, decrementAmount
     shortfall1: [],
     shortfall2: [],
     shortfall3Plus: [],
+    missingReq: [],
   };
 
   // Group incomplete combos
   incompleteCombos.forEach(combo => {
-    if (combo.shortfall === 1) {
+    if(combo.missingRequirement){
+      groupedCombos.missingReq.push(combo.name);
+    }else if (combo.shortfall === 1) {
       groupedCombos.shortfall1.push(combo.name);
     } else if (combo.shortfall === 2) {
       groupedCombos.shortfall2.push(combo.name);
@@ -395,7 +398,7 @@ export const MyTruckMenu = ({ ingredientsState, incrementAmount, decrementAmount
 
   // Create trucks for each group
   const createTruckWithCombos = (groupName, shortfallNumber) => ({
-    TruckName: `Missing ${shortfallNumber} ingredient${shortfallNumber == 1 ? "" : "s"} `,
+    TruckName: `Missing ${shortfallNumber} ${shortfallNumber == "Requirement" ? "" : "ingredient"}${shortfallNumber == 1 || shortfallNumber == "Requirement"  ? "" : "s"} `,
     short: "mytruck",
     combos: groupedCombos[groupName].flatMap(comboName =>
       trucks.flatMap(truck => 
@@ -408,6 +411,7 @@ export const MyTruckMenu = ({ ingredientsState, incrementAmount, decrementAmount
     createTruckWithCombos('shortfall1', 1),
     createTruckWithCombos('shortfall2', 2),
     createTruckWithCombos('shortfall3Plus', "3+"),
+    createTruckWithCombos('missingReq', "Requirement"),
   ];
 
   // Render the TruckMenu component with the constructed "MyTruck"
@@ -456,7 +460,7 @@ export const TruckMenu = ({ truckData, ingredientsState, incrementAmount, decrem
           color: currentStyle.color,
         }}
       >{truckData.TruckName}</h1>
-      {truckData.combos.map((combo, index) => (
+      { truckData.combos?.length < 1 ? <div style={{textAlign:"center"}}>None</div> :  truckData.combos.map((combo, index) => (
         <div key={index}>
           <h2 className={currentStyle.titleFont} style={{
             color: currentStyle.color,
@@ -543,11 +547,11 @@ const MyTruckThumbnail = ({ goTo, index }) => {
       className="thumbnail-container"
       style={{
         borderColor: currentStyle.color,
-        color: currentStyle.color,
+        color: myTruckColor,
       }}
       onClick={() => goTo(index)}
     >
-      MyTr
+      Stats
     </div>
   );
 };
@@ -618,7 +622,7 @@ const IngredientList = ({ ingredients, setIngredients, scoreDifferences }) => {
 const defaultFont = "font-1";
 
 
-
+const myTruckColor = '#4fe394';
 const truckStyles = {
   taco: {
     titleFont: 'caveatBrush',
@@ -628,7 +632,7 @@ const truckStyles = {
   mytruck: {
     titleFont: 'mytruck',
     mainFont: 'mytruck',
-    color: '#c8e39d', 
+    color: myTruckColor, 
   },
   burger: {
     titleFont: "sedgwickAveDisplay",
@@ -792,6 +796,14 @@ export function checkCompleteCombos(ingredients) {
               shortfall
             });
           }
+        }else{
+          const [isComplete, comboScore, shortfall, missingIngredients] = isSingleComboComplete(combo);
+            comboStatuses.push({
+              name: combo.ComboName,
+              isComplete:false,
+              shortfall,
+              missingRequirement: true,
+            });
         }
       }
     }

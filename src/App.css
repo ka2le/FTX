@@ -120,6 +120,7 @@
 
 .mytruck .combo-line .requirements {
   font-size: 12px;
+  
 }
 
 .mytruck .combo-line .ingredients {
@@ -129,9 +130,11 @@
 }
 
 .mytruck .dependecy-indicator {
-  font-size: 10px;
+  font-size: 13px;
   top: -2px;
-  left: 5px;
+  font-style: normal ;
+  left: 8px;
+  font-family: 'CormorantUprightLight' !important;
 }
 
 h2.mytruck {
@@ -157,7 +160,7 @@ h1.mytruck {
   padding: 0;
   width: 100vw;
   overflow-y: scroll;
-  border-bottom: 2px solid white;
+  border-bottom: 1px dashed #ffffff73;
   /* padding-bottom: 20px;
   
   background: linear-gradient(-135deg, #d5ff4d00 10px, transparent 0) 0 10px, linear-gradient(135deg, #d5ff4d00 10px, #000000 0) 0 10px;
