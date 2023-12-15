@@ -370,7 +370,7 @@ export const MyTruckMenu = ({ ingredientsState, incrementAmount, decrementAmount
 
   // Construct the "MyTruck" object
   const myTruck = {
-    TruckName: "MyTruck -  Completed Combos",
+    TruckName: "Completed Combos",
     short: "mytruck",
     combos: myTruckCombos
   };
@@ -395,7 +395,7 @@ export const MyTruckMenu = ({ ingredientsState, incrementAmount, decrementAmount
 
   // Create trucks for each group
   const createTruckWithCombos = (groupName, shortfallNumber) => ({
-    TruckName: `MyTruck - Shortfall ${shortfallNumber}`,
+    TruckName: `Missing ${shortfallNumber} ingredient${shortfallNumber == 1 ? "" : "s"} `,
     short: "mytruck",
     combos: groupedCombos[groupName].flatMap(comboName =>
       trucks.flatMap(truck => 
@@ -407,7 +407,7 @@ export const MyTruckMenu = ({ ingredientsState, incrementAmount, decrementAmount
   const trucksForRendering = [
     createTruckWithCombos('shortfall1', 1),
     createTruckWithCombos('shortfall2', 2),
-    createTruckWithCombos('shortfall3Plus', '3+'),
+    createTruckWithCombos('shortfall3Plus', "3+"),
   ];
 
   // Render the TruckMenu component with the constructed "MyTruck"
@@ -628,7 +628,7 @@ const truckStyles = {
   mytruck: {
     titleFont: 'mytruck',
     mainFont: 'mytruck',
-    color: '#white', // Lime Green
+    color: '#c8e39d', 
   },
   burger: {
     titleFont: "sedgwickAveDisplay",

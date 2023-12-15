@@ -110,7 +110,7 @@
 }
 
 .mytruck {
-  font-family: 'LoveYaLikeASister', sans-serif;
+  font-family: 'Quintessential', sans-serif;
 
 }
 
@@ -124,6 +124,8 @@
 
 .mytruck .combo-line .ingredients {
   font-size: 16px;
+  font-weight: normal;
+  text-transform: capitalize;
 }
 
 .mytruck .dependecy-indicator {
