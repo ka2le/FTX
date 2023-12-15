@@ -152,8 +152,8 @@ export default function App() {
     const [, initialScore] = checkCompleteCombos(ingredients);
     const newScoreDifferences = ingredients.reduce((acc, ingredient) => {
       acc[ingredient.name] = {
-        scoreDifferenceIncrement: calculateScoreDifference(ingredient.name, true,initialScore),
-        scoreDifferenceDecrement: calculateScoreDifference(ingredient.name, false,initialScore),
+        scoreDifferenceIncrement: calculateScoreDifference(ingredient.name, true, initialScore),
+        scoreDifferenceDecrement: calculateScoreDifference(ingredient.name, false, initialScore),
       };
       return acc;
     }, {});
@@ -167,7 +167,7 @@ export default function App() {
   };
 
   const calculateScoreDifference = (name, isIncrement, initalScore) => {
-    
+
     const modifiedIngredients = deepCopyIngredients(ingredients);
     const ingredient = modifiedIngredients.find(ing => ing.name === name);
 
@@ -248,11 +248,11 @@ export default function App() {
         {trucks.map((truck, index) =>
           (<TruckMenu key={index} truckData={truck} ingredientsState={ingredients} decrementAmount={decrementAmount} incrementAmount={incrementAmount}></TruckMenu>)
         )}
-<MyTruckMenu key={trucks?.length} ingredientsState={ingredients} decrementAmount={decrementAmount} incrementAmount={incrementAmount}></MyTruckMenu>
+        <MyTruckMenu key={trucks?.length} ingredientsState={ingredients} decrementAmount={decrementAmount} incrementAmount={incrementAmount}></MyTruckMenu>
       </Slider>
       <div className="score-row" >
         <b>Score: {totalScore}</b>
-         {/* {TESTING ? `Cards: ${totalIngredientCount} Levels: ${combinedLevel}` : null}
+        {/* {TESTING ? `Cards: ${totalIngredientCount} Levels: ${combinedLevel}` : null}
         {closeMissingIngredients?.length > 0 ? " Need: " + closeMissingIngredients?.join(" - ") + "" : null} */}
         <br></br>
         {completeCombos.join(", ")}
@@ -344,9 +344,9 @@ export default function App() {
               index={index}
             />
           ))}
-            < MyTruckThumbnail  goTo={goTo}
-              index={trucks?.length}></MyTruckThumbnail>
-       
+          < MyTruckThumbnail goTo={goTo}
+            index={trucks?.length}></MyTruckThumbnail>
+
 
         </Slider>}
       </div>
@@ -356,40 +356,49 @@ export default function App() {
 
 
 
-const getComboLineState = (line, ingredientState) => {
-  const ingredientDict = createIngredientDictionary(ingredientState);
-  const { count, shortfall, missingIngredients } = processComboLine(line, ingredientDict);
-  return shortfall === 0 ? true : false;
-}
+
 
 export const MyTruckMenu = ({ ingredientsState, incrementAmount, decrementAmount }) => {
-  // Assuming checkCompleteCombos and trucks array are available in this scope
-
-  // Get the list of complete combo names
   const [completeCombos] = checkCompleteCombos(ingredientsState);
 
-  // Find the combos details from the trucks array
-  const myTruckCombos = completeCombos.flatMap(comboName => 
-    trucks.flatMap(truck => 
+  const myTruckCombos = completeCombos.flatMap(comboName =>
+    trucks.flatMap(truck =>
       truck.combos.filter(combo => combo.ComboName === comboName)
     )
   );
 
   // Construct the "MyTruck" object
   const myTruck = {
-    TruckName: "MyTruck",
-    short: "MyTruck",
+    TruckName: "MyTruck -  Completed Combos",
+    short: "mytruck",
     combos: myTruckCombos
   };
 
   // Render the TruckMenu component with the constructed "MyTruck"
   return (
+    <>  
+    <div className='mytruck-container'>
     <TruckMenu
       truckData={myTruck}
       ingredientsState={ingredientsState}
       incrementAmount={incrementAmount}
       decrementAmount={decrementAmount}
     />
+    <TruckMenu
+      truckData={myTruck}
+      ingredientsState={ingredientsState}
+      incrementAmount={incrementAmount}
+      decrementAmount={decrementAmount}
+    />
+    <TruckMenu
+      truckData={myTruck}
+      ingredientsState={ingredientsState}
+      incrementAmount={incrementAmount}
+      decrementAmount={decrementAmount}
+    />
+    </div>
+    </>
+    
   );
 };
 
@@ -428,7 +437,7 @@ export const TruckMenu = ({ truckData, ingredientsState, incrementAmount, decrem
             return (
               <div key={lineIndex} className={comboLineClass}>
                 <span className="requirements " style={{ color: comboLineState ? currentStyle.color : "white" }}>{line.requirements}</span>
-                <span className="ingredients">
+                <span className="ingredients" >
 
                   {line.ingredients.map((ingredientName, ingIndex) => {
                     const matchedIngredient = findMatchingIngredient(ingredientName, workingIngredients);
@@ -491,7 +500,7 @@ const TruckThumbnail = ({ truckData, goTo, index }) => {
     </div>
   );
 };
-const MyTruckThumbnail = ({  goTo, index }) => {
+const MyTruckThumbnail = ({ goTo, index }) => {
   // Get the truck style or fallback to default
   const currentStyle = truckStyles["MyTruck"] || truckStyles.default;
 
@@ -510,8 +519,8 @@ const MyTruckThumbnail = ({  goTo, index }) => {
 };
 
 
-const IngredientList = ({ ingredients, setIngredients,scoreDifferences }) => {
-  
+const IngredientList = ({ ingredients, setIngredients, scoreDifferences }) => {
+
 
   const incrementAmount = (name) => {
     setIngredients((prevIngredients) =>
@@ -536,15 +545,15 @@ const IngredientList = ({ ingredients, setIngredients,scoreDifferences }) => {
   return (
     <div className="ingredient-container">
       {ingredients.map((ingredient) => {
-        
-         const { scoreDifferenceIncrement, scoreDifferenceDecrement } = scoreDifferences[ingredient.name] || {};
+
+        const { scoreDifferenceIncrement, scoreDifferenceDecrement } = scoreDifferences[ingredient.name] || {};
 
 
         return (
           <div key={ingredient.name} className="ingredient-row" style={{ color: ingredient.color }}>
             <span className="ingredient-name">{ingredient.name} {'★'.repeat(ingredient.level)}</span>
             <div className="score-difference">
-            
+
               {(scoreDifferenceDecrement !== 0 || (ingredient.amount > 0 && scoreDifferenceDecrement === 0)) && (
                 <span className={scoreDifferenceDecrement === 0 ? "score-negative no-change" : "score-negative"}>
                   {scoreDifferenceDecrement === 0 ? '-0' : scoreDifferenceDecrement}
@@ -561,8 +570,8 @@ const IngredientList = ({ ingredients, setIngredients,scoreDifferences }) => {
                 <span className={scoreDifferenceIncrement > 0 ? "score-positive" : "score-negative"}>
                   +{scoreDifferenceIncrement}
                 </span>
-              )} 
-             
+              )}
+
             </div>
           </div>
         );
@@ -581,6 +590,11 @@ const truckStyles = {
     titleFont: 'caveatBrush',
     mainFont: defaultFont,
     color: '#97d66b', // Lime Green
+  },
+  mytruck: {
+    titleFont: 'mytruck',
+    mainFont: 'mytruck',
+    color: '#white', // Lime Green
   },
   burger: {
     titleFont: "sedgwickAveDisplay",
@@ -760,7 +774,11 @@ export function checkCompleteCombos(ingredients) {
 
 
 
-
+const getComboLineState = (line, ingredientState) => {
+  const ingredientDict = createIngredientDictionary(ingredientState);
+  const { count, shortfall, missingIngredients } = processComboLine(line, ingredientDict);
+  return shortfall === 0 ? true : false;
+}
 
 
 
