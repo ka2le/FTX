@@ -359,7 +359,8 @@ export default function App() {
 
 
 export const MyTruckMenu = ({ ingredientsState, incrementAmount, decrementAmount }) => {
-  const [completeCombos] = checkCompleteCombos(ingredientsState);
+  const [completeCombos,,,,,comboStatuses] = checkCompleteCombos(ingredientsState);
+    console.log(comboStatuses)
 
   const myTruckCombos = completeCombos.flatMap(comboName =>
     trucks.flatMap(truck =>
@@ -374,31 +375,64 @@ export const MyTruckMenu = ({ ingredientsState, incrementAmount, decrementAmount
     combos: myTruckCombos
   };
 
+  const incompleteCombos = comboStatuses.filter(combo => !combo.isComplete);
+  const groupedCombos = {
+    shortfall1: [],
+    shortfall2: [],
+    shortfall3Plus: [],
+  };
+
+  // Group incomplete combos
+  incompleteCombos.forEach(combo => {
+    if (combo.shortfall === 1) {
+      groupedCombos.shortfall1.push(combo.name);
+    } else if (combo.shortfall === 2) {
+      groupedCombos.shortfall2.push(combo.name);
+    } else {
+      groupedCombos.shortfall3Plus.push(combo.name);
+    }
+  });
+
+  // Create trucks for each group
+  const createTruckWithCombos = (groupName, shortfallNumber) => ({
+    TruckName: `MyTruck - Shortfall ${shortfallNumber}`,
+    short: "mytruck",
+    combos: groupedCombos[groupName].flatMap(comboName =>
+      trucks.flatMap(truck => 
+        truck.combos.filter(combo => combo.ComboName === comboName)
+      )
+    ),
+  });
+
+  const trucksForRendering = [
+    createTruckWithCombos('shortfall1', 1),
+    createTruckWithCombos('shortfall2', 2),
+    createTruckWithCombos('shortfall3Plus', '3+'),
+  ];
+
   // Render the TruckMenu component with the constructed "MyTruck"
   return (
-    <>  
-    <div className='mytruck-container'>
-    <TruckMenu
-      truckData={myTruck}
-      ingredientsState={ingredientsState}
-      incrementAmount={incrementAmount}
-      decrementAmount={decrementAmount}
-    />
-    <TruckMenu
-      truckData={myTruck}
-      ingredientsState={ingredientsState}
-      incrementAmount={incrementAmount}
-      decrementAmount={decrementAmount}
-    />
-    <TruckMenu
-      truckData={myTruck}
-      ingredientsState={ingredientsState}
-      incrementAmount={incrementAmount}
-      decrementAmount={decrementAmount}
-    />
-    </div>
+    <>
+      <div className='mytruck-container'>
+        <TruckMenu
+          truckData={myTruck}
+          ingredientsState={ingredientsState}
+          incrementAmount={incrementAmount}
+          decrementAmount={decrementAmount}
+        />
+        {trucksForRendering.map(truckData => (
+        <TruckMenu
+          key={truckData.TruckName}
+          truckData={truckData}
+          ingredientsState={ingredientsState}
+          incrementAmount={incrementAmount}
+          decrementAmount={decrementAmount}
+        />
+      ))}
+       
+      </div>
     </>
-    
+
   );
 };
 
@@ -430,7 +464,7 @@ export const TruckMenu = ({ truckData, ingredientsState, incrementAmount, decrem
           <div className='combo-score' style={{
             color: currentStyle.color,
           }}>{combo.score}$</div>
-          {combo.ComboLines.map((line, lineIndex) => {
+          {combo.ComboLines?.map((line, lineIndex) => {
             const workingIngredients = JSON.parse(JSON.stringify(ingredientsState));
             const comboLineState = getComboLineState(line, ingredientsState);
             const comboLineClass = `combo-line ${comboLineState ? 'fulfilled' : ''}`;
@@ -672,6 +706,7 @@ export function createIngredientDictionary(ingredients) {
 
 export function checkCompleteCombos(ingredients) {
   const completeCombos = [];
+  const comboStatuses = []; // Array to store the status of all combos
   let totalScore = 0;
   let totalIngredientCount = 0;
   let combinedLevel = 0;
@@ -682,7 +717,7 @@ export function checkCompleteCombos(ingredients) {
 
   // Function to check if a single combo is complete and to calculate its score
   const isSingleComboComplete = (combo) => {
-
+    const completeCombos = [];
     let comboScore = 0;
     let ingredientLevelSum = 0;
     let ingredientCount = 0;
@@ -703,12 +738,7 @@ export function checkCompleteCombos(ingredients) {
 
     comboScore = combo.score + ingredientLevelSum;
     //console.log(combo, totalShortfall, potentialMissingIngredients)
-    if (totalShortfall === 1) {
-      // The combo is exactly one ingredient away from being complete
-      return [false, 0, true, potentialMissingIngredients];
-    } else {
-      return [totalShortfall === 0, comboScore, false, []];
-    }
+    return [totalShortfall === 0, comboScore, totalShortfall, potentialMissingIngredients];
   };
 
 
@@ -716,12 +746,17 @@ export function checkCompleteCombos(ingredients) {
   for (let truck of trucks) {
     for (let combo of truck.combos) {
       if (!combo.dependency) {
-        const [isComplete, comboScore, isNearComplete, missingIngredients] = isSingleComboComplete(combo);
+        const [isComplete, comboScore, shortfall, missingIngredients] = isSingleComboComplete(combo);
         if (isComplete) {
           completeCombos.push(combo.ComboName);
           totalScore += comboScore;
-        } else if (isNearComplete) {
+        } else {
           missingIngredients.forEach(ing => nearCompleteCombosIngredients.add(ing));
+          comboStatuses.push({
+            name: combo.ComboName,
+            isComplete,
+            shortfall
+          });
         }
       }
     }
@@ -745,12 +780,17 @@ export function checkCompleteCombos(ingredients) {
         }
 
         if (isDependencyMet) {
-          const [isComplete, comboScore, isNearComplete, missingIngredients] = isSingleComboComplete(combo);
+          const [isComplete, comboScore, shortfall, missingIngredients] = isSingleComboComplete(combo);
           if (isComplete) {
             completeCombos.push(combo.ComboName);
             totalScore += comboScore;
-          } else if (isNearComplete) {
+          } else {
             missingIngredients.forEach(ing => nearCompleteCombosIngredients.add(ing));
+            comboStatuses.push({
+              name: combo.ComboName,
+              isComplete,
+              shortfall
+            });
           }
         }
       }
@@ -766,7 +806,8 @@ export function checkCompleteCombos(ingredients) {
     totalScore,
     totalIngredientCount,
     combinedLevel,
-    uniqueNearCompleteIngredients
+    uniqueNearCompleteIngredients,
+    comboStatuses
   ];
 }
 
