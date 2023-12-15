@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/ftx/static/css/main.a1c6df93.css",
-    "main.js": "/ftx/static/js/main.e985f704.js",
+    "main.css": "/ftx/static/css/main.ace95c1d.css",
+    "main.js": "/ftx/static/js/main.09621f61.js",
     "static/js/787.a5396179.chunk.js": "/ftx/static/js/787.a5396179.chunk.js",
     "static/media/spices.png": "/ftx/static/media/spices.e079c9a4544427a02096.png",
     "static/media/board.jpg": "/ftx/static/media/board.93692a923c40796a6898.jpg",
@@ -24,12 +24,12 @@
     "static/media/slick.ttf": "/ftx/static/media/slick.c94f7671dcc99dce43e2.ttf",
     "static/media/slick.woff": "/ftx/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/ftx/index.html",
-    "main.a1c6df93.css.map": "/ftx/static/css/main.a1c6df93.css.map",
-    "main.e985f704.js.map": "/ftx/static/js/main.e985f704.js.map",
+    "main.ace95c1d.css.map": "/ftx/static/css/main.ace95c1d.css.map",
+    "main.09621f61.js.map": "/ftx/static/js/main.09621f61.js.map",
     "787.a5396179.chunk.js.map": "/ftx/static/js/787.a5396179.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.a1c6df93.css",
-    "static/js/main.e985f704.js"
+    "static/css/main.ace95c1d.css",
+    "static/js/main.09621f61.js"
   ]
 }
