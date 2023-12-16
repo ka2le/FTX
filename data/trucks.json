@@ -55,6 +55,24 @@
         ]
       },
       {
+        "ComboName": "Onion Rings",
+        "dependency": null,
+        "score": 6,
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "onion", 
+              "oil",
+              "flour",
+              "egg"
+
+            ],
+            "requirements": "4"
+          }
+        ]
+      },
+      {
         "ComboName": "Fries",
         "dependency": "Burgers! or Nuggets",
         "score": 3,
@@ -83,6 +101,7 @@
           }
         ]
       },
+     
       {
         "ComboName": "Milskshake",
         "dependency": null,
@@ -635,31 +654,7 @@
     
         ]
       },
-      {
-        "ComboName": "Polenta",
-        "dependency": null,
-        "score": 4,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "corn",
-              "flour",
-              "cheese"
-            ],
-            "requirements": "3"
-          },
-          {
-            "ingredients": [
-              "sugar",
-              "bacon",
-              "mushrooms"
-            ],
-            "requirements": "1"
-          }
-    
-        ]
-      },
+     
       {
         "ComboName": "Pasti",
         "dependency": null,
