@@ -70,6 +70,20 @@
         ]
       },
       {
+        "ComboName": "Baby Carrots",
+        "dependency": "Burgers! or Nuggets",
+        "score": 3,
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "carrot"
+            ],
+            "requirements": "1"
+          }
+        ]
+      },
+      {
         "ComboName": "Milskshake",
         "dependency": null,
         "score": 3,
@@ -364,7 +378,7 @@
       {
         "ComboName": "Bao Dream",
         "dependency": "Hoisin sauce or Chili Mayo",
-        "score": 24,
+        "score": 20,
         "type": null,
         "ComboLines": [
           {
@@ -480,7 +494,7 @@
       {
         "ComboName": "BBQ Platter",
         "dependency": null,
-        "score": 10,
+        "score": 12,
         "type": null,
         "ComboLines": [
           {
@@ -491,12 +505,16 @@
           },
           {
             "ingredients": [
+              
               "steak",
               "pork belly",
               "pork tenderloin",
-              "chicken"
+              "chicken",
+              "bacon",
+              "ground meat",
+              "fish"
             ],
-            "requirements": "4"
+            "requirements": "6"
           },
           {
             "ingredients": [
@@ -509,23 +527,20 @@
       {
         "ComboName": "Vegan BBQ",
         "dependency": null,
-        "score": 8,
+        "score": 11,
         "type": null,
         "ComboLines": [
           {
             "ingredients": [
               "cornbread",
-              "corn"
-            ],
-            "requirements": "2"
-          },
-          {
-            "ingredients": [
+              "corn",
               "mushrooms",
-              "tofu"
+              "tofu",
+              "beans"
             ],
-            "requirements": "2"
+            "requirements": "5"
           },
+        
           {
             "ingredients": [
               "cabbage",
@@ -604,24 +619,45 @@
     "short": "Pasta",
     "combos": [
       {
-        "ComboName": "Charcuterie Board",
+        "ComboName": "Charcuterie",
         "dependency": null,
-        "score": 6,
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
             "ingredients": [
               "steak",
-              "pork tenderloin"
+              "pork tenderloin",
+              "cheese"
             ],
-            "requirements": "2"
+            "requirements": "3"
+          }
+    
+        ]
+      },
+      {
+        "ComboName": "Polenta",
+        "dependency": null,
+        "score": 4,
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "corn",
+              "flour",
+              "cheese"
+            ],
+            "requirements": "3"
           },
           {
             "ingredients": [
-              "cheese"
+              "sugar",
+              "bacon",
+              "mushrooms"
             ],
             "requirements": "1"
           }
+    
         ]
       },
       {
