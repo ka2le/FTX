@@ -235,14 +235,30 @@
       {
         "ComboName": "Pineapple Express",
         "dependency": "Taco Mix",
-        "score": 4,
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
             "ingredients": [
-              "pineapple"
+              "pineapple",
+              "pork tenderloin"
             ],
-            "requirements": "1"
+            "requirements": "2"
+          }
+        ]
+      },
+      {
+        "ComboName": "Fish Taco",
+        "dependency": "Taco Mix",
+        "score": 3,
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "fish",
+              "mango"
+            ],
+            "requirements": "2"
           }
         ]
       }
