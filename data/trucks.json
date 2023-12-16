@@ -39,9 +39,38 @@
         ]
       },
       {
+        "ComboName": "Fries",
+        "dependency": "Burgers!",
+        "score": 3,
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "oil",
+              "potato"
+            ],
+            "requirements": "2"
+          }
+        ]
+      },
+      {
+        "ComboName": "Baby Carrots",
+        "dependency": "Burgers!",
+        "score": 3,
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "carrot"
+            ],
+            "requirements": "1"
+          }
+        ]
+      },
+      {
         "ComboName": "Nuggets",
         "dependency": null,
-        "score": 5,
+        "score": 4,
         "type": null,
         "ComboLines": [
           {
@@ -62,46 +91,15 @@
         "ComboLines": [
           {
             "ingredients": [
-              "onion", 
+              "onion",
               "oil",
               "flour",
               "egg"
-
             ],
             "requirements": "4"
           }
         ]
       },
-      {
-        "ComboName": "Fries",
-        "dependency": "Burgers! or Nuggets",
-        "score": 3,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "oil",
-              "potato"
-            ],
-            "requirements": "2"
-          }
-        ]
-      },
-      {
-        "ComboName": "Baby Carrots",
-        "dependency": "Burgers! or Nuggets",
-        "score": 3,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "carrot"
-            ],
-            "requirements": "1"
-          }
-        ]
-      },
-     
       {
         "ComboName": "Milskshake",
         "dependency": null,
@@ -513,7 +511,7 @@
       {
         "ComboName": "BBQ Platter",
         "dependency": null,
-        "score": 12,
+        "score": 15,
         "type": null,
         "ComboLines": [
           {
@@ -524,7 +522,6 @@
           },
           {
             "ingredients": [
-              
               "steak",
               "pork belly",
               "pork tenderloin",
@@ -544,9 +541,23 @@
         ]
       },
       {
+        "ComboName": "BBQ Beans",
+        "dependency": "BBQ Platter",
+        "score": 4,
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "beans"
+            ],
+            "requirements": "1"
+          }
+        ]
+      },
+      {
         "ComboName": "Vegan BBQ",
         "dependency": null,
-        "score": 11,
+        "score": 14,
         "type": null,
         "ComboLines": [
           {
@@ -559,7 +570,6 @@
             ],
             "requirements": "5"
           },
-        
           {
             "ingredients": [
               "cabbage",
@@ -587,16 +597,17 @@
         ]
       },
       {
-        "ComboName": "BBQ Beans",
-        "dependency": "BBQ Platter",
+        "ComboName": "Creamed Corn",
+        "dependency": null,
         "score": 3,
         "type": null,
         "ComboLines": [
           {
             "ingredients": [
-              "beans"
+              "corn",
+              "dairy"
             ],
-            "requirements": "1"
+            "requirements": "2"
           }
         ]
       },
@@ -651,10 +662,38 @@
             ],
             "requirements": "3"
           }
-    
         ]
       },
-     
+      {
+        "ComboName": "Eggplant Parmesan",
+        "dependency": null,
+        "score": 7,
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "aubergine",  
+              "cheese",
+              "egg",
+              "flour",
+                "tomato"
+              
+
+            ],
+            "requirements": "5"
+          },
+          {
+            "ingredients": [
+              "basil",  
+              "garlic"
+              
+
+            ],
+            "requirements": "1"
+          }
+          
+        ]
+      },
       {
         "ComboName": "Pasti",
         "dependency": null,
