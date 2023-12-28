@@ -151,13 +151,7 @@
             ],
             "requirements": "1"
           },
-          {
-            "ingredients": [
-              "lime",
-              "cilantro"
-            ],
-            "requirements": "1"
-          },
+         
           {
             "ingredients": [
               "steak",
@@ -175,9 +169,17 @@
               "onion",
               "tomato",
               "garlic",
-              "chili"
+              "chili",
+              "chocolate"
             ],
             "requirements": "2"
+          },
+          {
+            "ingredients": [
+              "lime",
+              "cilantro"
+            ],
+            "requirements": "1"
           }
         ]
       },
