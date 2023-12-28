@@ -19,23 +19,27 @@ export const Cards = ({ cardTesting, setCardTesting }) => {
             <ToggleVisibilityButton></ToggleVisibilityButton><br></br>
             <TogglePseudoVisibilityButton></TogglePseudoVisibilityButton>
         </div>
-        <BackSide imgName={"ingred_back.jpg"}></BackSide>
-        <BackSide imgName={"back3.jpg"}></BackSide>
-        <BackSide imgName={"back4.png"} title={""}></BackSide>
-        <BackSide type={2} imgName={"hat1.png"} title={""}></BackSide>
-        <BackSide type={3} imgName={"hat2.png"} title={""}></BackSide>
-        <BackSide type={4} imgName={"wood_back.png"} ></BackSide>
-        <BackSide imgName={"secret_back.png"}></BackSide>
-        <BackSide imgName={"tire_back.png"}></BackSide>
-        <BackSide imgName={"ingredient_back2.png"}></BackSide>
-        {secrets.map((secret, index) =>
-            <SecretCard key={index} secret={secret} />
-        )}
         {trucks.map((truck, index) =>
             (<TruckCard key={index} truckData={truck} ingredientsState={ingredients} ></TruckCard>)
         )}
+        {/* <BackSide imgName={"ingred_back.jpg"}></BackSide> */}
+        {/* <BackSide imgName={"back3.jpg"}></BackSide> */}
+        <BackSide imgName={"back.png"}></BackSide>
+        <BackSide imgName={"secret3.png"}></BackSide>
+        {/* <BackSide imgName={"back4.png"} title={""}></BackSide> */}
+        {/* <BackSide type={2} imgName={"hat1.png"} title={""}></BackSide> */}
+        <BackSide type={3} imgName={"hat2.png"} title={""}></BackSide>
+        {/* <BackSide type={4} imgName={"wood_back.png"} ></BackSide> */}
+        <BackSide imgName={"secret_back.png"}></BackSide>
+        <BackSide imgName={"tire_back.png"}></BackSide>
+        {/* <BackSide imgName={"ingredient_back2.png"}></BackSide> */}
+       
+       
         {initialIngredients.map((ingredient, index) =>
             <IngredientCard key={index} ingredient={ingredient} />
+        )}
+         {secrets.map((secret, index) =>
+            <SecretCard key={index} secret={secret} />
         )}
         
     </div></>)

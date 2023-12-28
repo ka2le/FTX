@@ -11,6 +11,7 @@
     { "name": "cheese", "level": 1, "copies": 5, "color": "#FFF78D" , "imgUrl":"/cards/spices.png" },
     { "name": "chicken", "level": 1, "copies": 5, "color": "#FFE16D" , "imgUrl":"/cards/spices.png" },
     { "name": "chili", "level": 1, "copies": 6, "color": "#FF9270" , "imgUrl":"/cards/spices.png" },
+    { "name": "chocolate", "level": 3, "copies": 1, "color": "#c4834b" , "imgUrl":"/cards/chocolate.png" },
     { "name": "cilantro", "level": 3, "copies": 1, "color": "#75E050" , "imgUrl":"/cards/spices.png" },
     { "name": "corn", "level": 1, "copies": 3, "color": "#FFF78D" , "imgUrl":"/cards/spices.png" },
     { "name": "cornbread", "level": 2, "copies": 4, "color": "#FFE16D" , "imgUrl":"/cards/spices.png" },
@@ -33,6 +34,7 @@
     { "name": "onion", "level": 1, "copies": 6, "color": "#EFC5F0" , "imgUrl":"/cards/spices.png" },
     { "name": "pasta", "level": 2, "copies": 2, "color": "#FFEB85" , "imgUrl":"/cards/spices.png" },
     { "name": "peanuts", "level": 3, "copies": 1, "color": "#E1C5A8" , "imgUrl":"/cards/spices.png" },
+    { "name": "peas", "level": 2, "copies": 3, "color": "#71c787" , "imgUrl":"/cards/peas.png" },
     { "name": "pineapple", "level": 3, "copies": 1, "color": "#FFFAB0" , "imgUrl":"/cards/spices.png" },
     { "name": "pork tenderloin", "level": 1, "copies": 4, "color": "#FFB2A0" , "imgUrl":"/cards/spices.png" },
     { "name": "pork belly", "level": 1, "copies": 3, "color": "#FFB2A0" , "imgUrl":"/cards/spices.png" },
@@ -41,10 +43,12 @@
     { "name": "shrimp", "level": 2, "copies": 3, "color": "#FFB2A0" , "imgUrl":"/cards/spices.png" },
     { "name": "soy sauce", "level": 2, "copies": 3, "color": "#B39D8D" , "imgUrl":"/cards/spices.png" },
     { "name": "spices", "level": 1, "copies": 4, "color": "#E6B22D" , "imgUrl":"/cards/spices.png" },
+    { "name": "spinach", "level": 2, "copies": 3, "color": "#71c787" , "imgUrl":"/cards/spinach.png" },
     { "name": "steak", "level": 1, "copies": 3, "color": "#F28580" , "imgUrl":"/cards/spices.png" },
     { "name": "strawberries", "level": 3, "copies": 1, "color": "#FF90B5" , "imgUrl":"/cards/spices.png" },
     { "name": "sugar", "level": 2, "copies": 3, "color": "#FFFDC5" , "imgUrl":"/cards/spices.png" },
     { "name": "tofu", "level": 2, "copies": 3, "color": "#F7F7F7" , "imgUrl":"/cards/spices.png" },
     { "name": "tomato", "level": 1, "copies": 5, "color": "#FF9B90" , "imgUrl":"/cards/spices.png" },
-    { "name": "tortilla", "level": 1, "copies": 4, "color": "#FFEB85" , "imgUrl":"/cards/spices.png"}
+    { "name": "tortilla", "level": 1, "copies": 4, "color": "#FFEB85" , "imgUrl":"/cards/spices.png"},
+    { "name": "vinegar", "level": 2, "copies": 2, "color": "#ffc085" , "imgUrl":"/cards/vinegar.png"}
   ]
