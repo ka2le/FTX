@@ -18,15 +18,6 @@
           },
           {
             "ingredients": [
-              "chicken",
-              "fish",
-              "mushrooms",
-              "tofu"
-            ],
-            "requirements": "0"
-          },
-          {
-            "ingredients": [
               "cucumber",
               "lettuce",
               "tomato",
@@ -54,30 +45,45 @@
         ]
       },
       {
-        "ComboName": "Baby Carrots",
+        "ComboName": "Fish Burger",
         "dependency": "Burgers!",
         "score": 3,
         "type": null,
         "ComboLines": [
           {
             "ingredients": [
-              "carrot"
+              "fish"
             ],
             "requirements": "1"
           }
         ]
       },
       {
-        "ComboName": "Nuggets",
-        "dependency": null,
-        "score": 4,
+        "ComboName": "Vegan Burger",
+        "dependency": "Burgers!",
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
             "ingredients": [
-              "chicken",
-              "oil",
-              "flour"
+              "tofu",
+              "mushrooms"
+            ],
+            "requirements": "1"
+          }
+        ]
+      },
+      {
+        "ComboName": "Pickles",
+        "dependency": null,
+        "score": 3,
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "cucumber",
+              "vinegar",
+              "sugar"
             ],
             "requirements": "3"
           }
@@ -86,7 +92,7 @@
       {
         "ComboName": "Onion Rings",
         "dependency": null,
-        "score": 6,
+        "score": 3,
         "type": null,
         "ComboLines": [
           {
@@ -96,7 +102,7 @@
               "flour",
               "egg"
             ],
-            "requirements": "4"
+            "requirements": "3"
           }
         ]
       },
@@ -120,7 +126,8 @@
               "mango",
               "pineapple",
               "peanuts",
-              "avocado"
+              "avocado",
+              "chocolate"
             ],
             "requirements": "2"
           }
@@ -198,9 +205,10 @@
         "ComboLines": [
           {
             "ingredients": [
-              "rice"
+              "rice",
+              "beans"
             ],
-            "requirements": "1"
+            "requirements": "2"
           }
         ]
       },
@@ -265,7 +273,7 @@
     ]
   },
   {
-    "TruckName": "The Curry Cruiser",
+    "TruckName": "The Eat Indian Company",
     "short": "Curry",
     "combos": [
       {
@@ -276,16 +284,11 @@
         "ComboLines": [
           {
             "ingredients": [
-              "spices"
-            ],
-            "requirements": "1"
-          },
-          {
-            "ingredients": [
+              "spices",
               "rice",
               "naan"
             ],
-            "requirements": "1"
+            "requirements": "3"
           },
           {
             "ingredients": [
@@ -307,7 +310,9 @@
               "carrot",
               "peanuts",
               "aubergine",
-              "potato"
+              "potato",
+              "spinach",
+              "peas"
             ],
             "requirements": "3"
           },
@@ -333,9 +338,10 @@
               "flour",
               "potato",
               "oil",
-              "spices"
+              "spices",
+              "peas"
             ],
-            "requirements": "4"
+            "requirements": "5"
           }
         ]
       },
@@ -349,9 +355,10 @@
             "ingredients": [
               "chicken",
               "spices",
-              "dairy"
+              "dairy",
+              "naan"
             ],
-            "requirements": "3"
+            "requirements": "4"
           },
           {
             "ingredients": [
@@ -379,7 +386,8 @@
           {
             "ingredients": [
               "lime",
-              "lemon"
+              "lemon",
+              "vinegar"
             ],
             "requirements": "1"
           },
@@ -405,7 +413,7 @@
     ]
   },
   {
-    "TruckName": "The Bao Bus",
+    "TruckName": "Bao East",
     "short": "Bao",
     "combos": [
       {
@@ -498,6 +506,14 @@
           },
           {
             "ingredients": [
+              "cabbage",
+              "carrot",
+              "lettuce"
+            ],
+            "requirements": "2"
+          },
+          {
+            "ingredients": [
               "mushrooms",
               "tofu",
               "ground meat"
@@ -506,15 +522,13 @@
           },
           {
             "ingredients": [
-              "cabbage",
-              "carrot",
-              "lettuce",
+              "peas",
               "onion",
               "garlic",
               "chili",
               "ginger"
             ],
-            "requirements": "4"
+            "requirements": "2"
           }
         ]
       }
@@ -544,15 +558,10 @@
               "chicken",
               "bacon",
               "ground meat",
-              "fish"
-            ],
-            "requirements": "6"
-          },
-          {
-            "ingredients": [
+              "fish",
               "spices"
             ],
-            "requirements": "0"
+            "requirements": "6"
           }
         ]
       },
@@ -598,6 +607,29 @@
         ]
       },
       {
+        "ComboName": "Creamy Sides",
+        "dependency": null,
+        "score": 3,
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "dairy"
+            ],
+            "requirements": "1"
+          },
+          {
+            "ingredients": [
+              "corn",
+              "spinach",
+              "potato",
+              "pasta"
+            ],
+            "requirements": "2"
+          }
+        ]
+      },
+      {
         "ComboName": "Shrimp Skewers",
         "dependency": null,
         "score": 3,
@@ -607,21 +639,6 @@
             "ingredients": [
               "shrimp",
               "garlic"
-            ],
-            "requirements": "2"
-          }
-        ]
-      },
-      {
-        "ComboName": "Creamed Corn",
-        "dependency": null,
-        "score": 3,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "corn",
-              "dairy"
             ],
             "requirements": "2"
           }
@@ -644,7 +661,8 @@
           {
             "ingredients": [
               "lime",
-              "lemon"
+              "lemon",
+              "vinegar"
             ],
             "requirements": "1"
           },
@@ -665,22 +683,6 @@
     "short": "Pasta",
     "combos": [
       {
-        "ComboName": "Charcuterie",
-        "dependency": null,
-        "score": 3,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "steak",
-              "pork tenderloin",
-              "cheese"
-            ],
-            "requirements": "3"
-          }
-        ]
-      },
-      {
         "ComboName": "Eggplant Parmesan",
         "dependency": null,
         "score": 7,
@@ -688,26 +690,21 @@
         "ComboLines": [
           {
             "ingredients": [
-              "aubergine",  
+              "aubergine",
               "cheese",
               "egg",
               "flour",
-                "tomato"
-              
-
+              "tomato"
             ],
             "requirements": "5"
           },
           {
             "ingredients": [
-              "basil",  
+              "basil",
               "garlic"
-              
-
             ],
             "requirements": "1"
           }
-          
         ]
       },
       {
@@ -737,17 +734,19 @@
             "ingredients": [
               "shrimp",
               "mushrooms",
+              "aubergine",
               "fish",
               "beans"
             ],
-            "requirements": "1"
+            "requirements": "2"
           },
           {
             "ingredients": [
               "tomato",
               "carrot",
               "onion",
-              "aubergine"
+              "spinach",
+              "peas"
             ],
             "requirements": "2"
           },
@@ -756,7 +755,8 @@
               "basil",
               "garlic",
               "lemon",
-              "oil"
+              "oil",
+              "vinegar"
             ],
             "requirements": "2"
           }
@@ -782,7 +782,8 @@
               "mango",
               "strawberries",
               "pineapple",
-              "lemon"
+              "lemon",
+              "chocolate"
             ],
             "requirements": "3"
           },
