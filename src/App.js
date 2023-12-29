@@ -709,7 +709,7 @@ export function createIngredientDictionary(ingredients) {
 
 
 function calculateComboScore(combo, ingredientDict) {
-  let comboScore = combo.score;
+  let comboScore = 0;//combo.score;
   let totalShortfall = 0;
   let potentialMissingIngredients = [];
 
