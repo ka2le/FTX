@@ -106,7 +106,6 @@ export default function App() {
     );
   };
   const incrementAmount = (name) => {
-    console.log("incrementAmount")
     setIngredients((prevIngredients) =>
       prevIngredients.map((ingredient) =>
         ingredient.name === name
@@ -117,7 +116,6 @@ export default function App() {
   };
 
   const decrementAmount = (name) => {
-    console.log("decrementAmount")
     setIngredients((prevIngredients) =>
       prevIngredients.map((ingredient) =>
         ingredient.name === name && ingredient.amount > 0
@@ -177,7 +175,7 @@ export default function App() {
     }
 
     const [, modifiedScore] = checkCompleteCombos(modifiedIngredients);
-    console.log("calculateScoreDifference", name, isIncrement, modifiedScore, initalScore)
+    //console.log("calculateScoreDifference", name, isIncrement, modifiedScore, initalScore)
     return modifiedScore - initalScore;
   };
 
@@ -360,7 +358,7 @@ export default function App() {
 
 export const MyTruckMenu = ({ ingredientsState, incrementAmount, decrementAmount }) => {
   const [completeCombos, , , , , comboStatuses] = checkCompleteCombos(ingredientsState);
-  console.log(comboStatuses)
+  //console.log(comboStatuses)
 
   const myTruckCombos = completeCombos.flatMap(comboName =>
     trucks.flatMap(truck =>
@@ -495,10 +493,12 @@ export const TruckMenu = ({ truckData, ingredientsState, incrementAmount, decrem
 
                   {line.ingredients.map((ingredientName, ingIndex) => {
                     const matchedIngredient = findMatchingIngredient(ingredientName, workingIngredients);
+                    const initalIngredient = initialIngredients.find(ing => ing.name === ingredientName);
                     const className = matchedIngredient ? 'ingredient-match' : '';
                     const color = matchedIngredient ? matchedIngredient.color : 'white'
                     return (
                       <span key={ingIndex}>
+                        {/* {initalIngredient?.level} */}
                         <div key={ingIndex} className={`ingredient ${className}`} style={{ display: 'inline-block', color: color }}>
                           {ingredientName}
                         </div>
@@ -577,7 +577,7 @@ const IngredientList = ({ ingredients, setIngredients, scoreDifferences }) => {
       )
     );
   };
-  console.log("scoreDifferences", scoreDifferences)
+  //console.log("scoreDifferences", scoreDifferences)
   return (
     <div className="ingredient-container">
       {ingredients.map((ingredient) => {
