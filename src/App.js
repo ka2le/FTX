@@ -274,9 +274,7 @@ export default function App() {
             {false ? <Button className="dialog-actions-button" onClick={toggleAutoSlide} >
               {(autoSlide) ? 'Disable Auto-Slide' : 'Enable Auto-Slide'}
             </Button> : null}
-            {/* <Button className="dialog-actions-button" onClick={toggleTradeInterface} >
-              {(!tradeInterface) ? '👥' : "👤"}
-            </Button> */}
+           
             {tradeInterface ? <>
               <Select
                 labelId="player-label"
@@ -320,7 +318,9 @@ export default function App() {
                 <Button className="dialog-actions-button" onClick={handleClose} >
                   x
                 </Button></>}
-
+                <Button className="dialog-actions-button" onClick={toggleTradeInterface} >
+              {(!tradeInterface) ? '👥' : "👤"}
+            </Button>
 
 
           </DialogActions>

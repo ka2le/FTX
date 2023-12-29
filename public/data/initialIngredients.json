@@ -1,7 +1,7 @@
 [
     { "name": "aubergine", "level": 2, "copies": 2, "color": "#B085B7" , "imgUrl":"aubergine.png" },
     { "name": "avocado", "level": 3, "copies": 1, "color": "#B2EABD" , "imgUrl":"/cards/spices.png" },
-    { "name": "banana", "level": 3, "copies": 1, "color": "#FFF58D" , "imgUrl":"/cards/spices.png" },
+    { "name": "banana", "level": 2, "copies": 2, "color": "#FFF58D" , "imgUrl":"/cards/spices.png" },
     { "name": "bacon", "level": 2, "copies": 2, "color": "#F28580" , "imgUrl":"/cards/spices.png" },
     { "name": "bao buns", "level": 1, "copies": 3, "color": "#F2F2F2" , "imgUrl":"/cards/spices.png" },
     { "name": "basil", "level": 3, "copies": 1, "color": "#75E050" , "imgUrl":"/cards/spices.png" },
