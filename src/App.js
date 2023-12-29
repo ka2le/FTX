@@ -276,9 +276,9 @@ export default function App() {
             {false ? <Button className="dialog-actions-button" onClick={toggleAutoSlide} >
               {(autoSlide) ? 'Disable Auto-Slide' : 'Enable Auto-Slide'}
             </Button> : null}
-            <Button className="dialog-actions-button" onClick={toggleTradeInterface} >
+            {/* <Button className="dialog-actions-button" onClick={toggleTradeInterface} >
               {(!tradeInterface) ? '👥' : "👤"}
-            </Button>
+            </Button> */}
             {tradeInterface ? <>
               <Select
                 labelId="player-label"
@@ -317,7 +317,7 @@ export default function App() {
                 🖨️
               </Button> : null}
                 <Button className="dialog-actions-button" onClick={reset} >
-                  Reset
+                🗑️
                 </Button>
                 <Button className="dialog-actions-button" onClick={handleClose} >
                   x
@@ -465,7 +465,7 @@ export const TruckMenu = ({ truckData, ingredientsState, incrementAmount, decrem
           <h2 className={currentStyle.titleFont} style={{
             color: currentStyle.color,
           }}>{combo.ComboName}<span className='dependecy-indicator'>{combo.dependency ? "Requires: " + combo.dependency : null}</span></h2>
-          <div className='combo-score' style={{
+          <div className={'combo-score '+ currentStyle.titleFont} style={{
             color: currentStyle.color,
           }}>{calculateMinMaxScore(combo)}</div>
           {combo.ComboLines?.map((line, lineIndex) => {
@@ -500,25 +500,7 @@ export const TruckMenu = ({ truckData, ingredientsState, incrementAmount, decrem
     </div>
   );
 };
-function calculateTotalIngredients() {
-  let totalIngredients = 0;
-  const levelCount = {}; // Object to store counts per level
 
-  for (let i = 0; i < initialIngredients.length; i++) {
-    const ingredient = initialIngredients[i];
-    totalIngredients += ingredient.copies;
-
-    // If the level doesn't exist in the object, initialize it with 0
-    if (!levelCount[ingredient.level]) {
-      levelCount[ingredient.level] = 0;
-    }
-
-    // Increment the count for the ingredient's level
-    levelCount[ingredient.level] += ingredient.copies;
-  }
-
-  return { totalIngredients, levelCount };
-}
 
 
 const TruckThumbnail = ({ truckData, goTo, index }) => {
@@ -619,112 +601,7 @@ const IngredientList = ({ ingredients, setIngredients, scoreDifferences }) => {
 };
 
 
-const defaultFont = "font-1";
 
-
-const myTruckColor = '#4fe394';
-const truckStyles = {
-  taco: {
-    titleFont: 'caveatBrush',
-    mainFont: defaultFont,
-    color: '#97d66b', // Lime Green
-  },
-  mytruck: {
-    titleFont: 'mytruck',
-    mainFont: 'mytruck',
-    color: myTruckColor,
-  },
-  burger: {
-    titleFont: "sedgwickAveDisplay",
-    mainFont: defaultFont,
-    color: '#d14b4b', // Ketchup Red
-  },
-  curry: {
-    titleFont: "sedgwickAveDisplay",
-    mainFont: defaultFont,
-    color: '#FFA07A', // Curry Orange
-  },
-  pasta: {
-    titleFont: "grechenFuemen",
-    mainFont: defaultFont,
-    color: '#e8d25a', // Pasta Yellow
-  },
-  bbq: {
-    titleFont: "loveYaLikeASister",
-    mainFont: defaultFont,
-    color: '#9a7bdb', // Purple (Unchanged)
-  },
-  bao: {
-    titleFont: "caveatBrush",
-    mainFont: defaultFont,
-    color: '#7bc8db', // Light Blue (Unchanged)
-  },
-  // Add more styles here
-  default: {
-    titleFont: defaultFont,
-    mainFont: defaultFont,
-    color: '#FFFFFF', // White
-  },
-};
-
-const processComboLine = (line, ingredientDict) => {
-  const requirement = parseInt(line.requirements, 10);
-  let count = 0;
-  let ingredientLevelSum = 0;
-  let updatedIngredientDict = JSON.parse(JSON.stringify(ingredientDict));
-
-  for (let ingredient of line.ingredients) {
-    if (updatedIngredientDict[ingredient] && updatedIngredientDict[ingredient].amount >= 1) {
-      count++;
-      updatedIngredientDict[ingredient].amount--;
-      ingredientLevelSum += updatedIngredientDict[ingredient].level;
-    }
-  }
-  const shortfall = Math.max(0, requirement - count);
-
-
-  let missingIngredients = [];
-  if (shortfall === 1) {
-    missingIngredients = line.ingredients.filter(ing => !ingredientDict[ing] || ingredientDict[ing].amount < 1);
-  }
-
-  return {
-    count,
-    shortfall,
-    missingIngredients,
-    ingredientLevelSum
-  };
-};
-
-export function createIngredientDictionary(ingredients) {
-  const ingredientDict = {};
-  ingredients.forEach((ingredient) => {
-    ingredientDict[ingredient.name] = {
-      amount: ingredient.amount,
-      level: ingredient.level
-    };
-  });
-  return ingredientDict;
-}
-
-
-function calculateComboScore(combo, ingredientDict) {
-  let comboScore = 0;//combo.score;
-  let totalShortfall = 0;
-  let potentialMissingIngredients = [];
-
-  for (let line of combo.ComboLines) {
-    const { shortfall, missingIngredients, ingredientLevelSum } = processComboLine(line, ingredientDict);
-
-    comboScore += ingredientLevelSum;
-    totalShortfall += shortfall;
-    if (shortfall === 1) {
-      potentialMissingIngredients.push(...missingIngredients);
-    }
-  }
-
-  return [comboScore, totalShortfall, potentialMissingIngredients];
-}
 
 
 //CHECK ALL SCORES
@@ -824,6 +701,66 @@ export function checkCompleteCombos(ingredients) {
 }
 
 
+function calculateComboScore(combo, ingredientDict) {
+  let comboScore = 0;//combo.score;
+  let totalShortfall = 0;
+  let potentialMissingIngredients = [];
+
+  for (let line of combo.ComboLines) {
+    const { shortfall, missingIngredients, ingredientLevelSum } = processComboLine(line, ingredientDict);
+
+    comboScore += ingredientLevelSum+parseInt(line.requirements)*2;
+    totalShortfall += shortfall;
+    if (shortfall === 1) {
+      potentialMissingIngredients.push(...missingIngredients);
+    }
+  }
+
+  return [comboScore, totalShortfall, potentialMissingIngredients];
+}
+
+const processComboLine = (line, ingredientDict) => {
+  const requirement = parseInt(line.requirements, 10);
+  let count = 0;
+  let ingredientLevelSum = 0;
+  let updatedIngredientDict = JSON.parse(JSON.stringify(ingredientDict));
+
+  for (let ingredient of line.ingredients) {
+    if (updatedIngredientDict[ingredient] && updatedIngredientDict[ingredient].amount >= 1) {
+      count++;
+      updatedIngredientDict[ingredient].amount--;
+      ingredientLevelSum += updatedIngredientDict[ingredient].level;
+    }
+  }
+  const shortfall = Math.max(0, requirement - count);
+
+
+  let missingIngredients = [];
+  if (shortfall === 1) {
+    missingIngredients = line.ingredients.filter(ing => !ingredientDict[ing] || ingredientDict[ing].amount < 1);
+  }
+
+  return {
+    count,
+    shortfall,
+    missingIngredients,
+    ingredientLevelSum
+  };
+};
+
+export function createIngredientDictionary(ingredients) {
+  const ingredientDict = {};
+  ingredients.forEach((ingredient) => {
+    ingredientDict[ingredient.name] = {
+      amount: ingredient.amount,
+      level: ingredient.level
+    };
+  });
+  return ingredientDict;
+}
+
+
+
 
 
 
@@ -832,9 +769,6 @@ const getComboLineState = (line, ingredientState) => {
   const { count, shortfall, missingIngredients } = processComboLine(line, ingredientDict);
   return shortfall === 0 ? true : false;
 }
-
-
-
 
 
 
@@ -935,3 +869,75 @@ function createIngredientDictionaryFromIntials(initialIngredients) {
 
 //   ]
 // },
+
+
+
+
+const defaultFont = "font-1";
+
+
+const myTruckColor = '#4fe394';
+const truckStyles = {
+  taco: {
+    titleFont: 'caveatBrush',
+    mainFont: defaultFont,
+    color: '#97d66b', // Lime Green
+  },
+  mytruck: {
+    titleFont: 'mytruck',
+    mainFont: 'mytruck',
+    color: myTruckColor,
+  },
+  burger: {
+    titleFont: "sedgwickAveDisplay",
+    mainFont: defaultFont,
+    color: '#d14b4b', // Ketchup Red
+  },
+  curry: {
+    titleFont: "sedgwickAveDisplay",
+    mainFont: defaultFont,
+    color: '#FFA07A', // Curry Orange
+  },
+  pasta: {
+    titleFont: "grechenFuemen",
+    mainFont: defaultFont,
+    color: '#e8d25a', // Pasta Yellow
+  },
+  bbq: {
+    titleFont: "loveYaLikeASister",
+    mainFont: defaultFont,
+    color: '#9a7bdb', // Purple (Unchanged)
+  },
+  bao: {
+    titleFont: "caveatBrush",
+    mainFont: defaultFont,
+    color: '#7bc8db', // Light Blue (Unchanged)
+  },
+  // Add more styles here
+  default: {
+    titleFont: defaultFont,
+    mainFont: defaultFont,
+    color: '#FFFFFF', // White
+  },
+};
+
+
+function calculateTotalIngredients() {
+  let totalIngredients = 0;
+  const levelCount = {}; // Object to store counts per level
+
+  for (let i = 0; i < initialIngredients.length; i++) {
+    const ingredient = initialIngredients[i];
+    totalIngredients += ingredient.copies;
+
+    // If the level doesn't exist in the object, initialize it with 0
+    if (!levelCount[ingredient.level]) {
+      levelCount[ingredient.level] = 0;
+    }
+
+    // Increment the count for the ingredient's level
+    levelCount[ingredient.level] += ingredient.copies;
+  }
+
+  return { totalIngredients, levelCount };
+}

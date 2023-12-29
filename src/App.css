@@ -392,7 +392,7 @@ h2 {
   align-items: center;
   margin-bottom: 8px;
   border-bottom: 1px dotted;
-
+  padding-right: 15px;
 
 }
 
@@ -844,7 +844,13 @@ button.selected {
   font-size: 8px;
   top:-4px
 }
-
+.truck-card .caveatBrush.combo-score{
+  margin-top: -7px;
+}
+ .truck-card .caveatBrush .dependecy-indicator{
+  top: -8px;
+  left: -5px;
+}
 .truck-card .truck-container {
   width: 100% !important;
   height: 100% !important;
