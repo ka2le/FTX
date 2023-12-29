@@ -317,7 +317,7 @@ export default function App() {
                 🖨️
               </Button> : null}
                 <Button className="dialog-actions-button" onClick={reset} >
-                🗑️
+                  🗑️
                 </Button>
                 <Button className="dialog-actions-button" onClick={handleClose} >
                   x
@@ -452,8 +452,24 @@ export const TruckMenu = ({ truckData, ingredientsState, incrementAmount, decrem
     return ingredient;
   };
 
+  const handleComboLineClick = (event) => {
+    const target = event.target;
+
+    // Check if the clicked target or its parent is the desired clickable element
+    if (target.classList.contains('ingredient') || target.parentNode.classList.contains('ingredient')) {
+      const ingredientName = target.textContent.trim();
+      // Logic to determine whether to increment or decrement
+      const matchedIngredient = findMatchingIngredient(ingredientName, ingredientsState);
+      if (matchedIngredient) {
+        decrementAmount(ingredientName);
+      } else {
+        incrementAmount(ingredientName);
+      }
+    }
+  };
+
   return (
-    <div className={`truck-container ${currentStyle.mainFont}`}>
+    <div className={`truck-container ${currentStyle.mainFont}`} onClick={handleComboLineClick}>
       <h1
         className={currentStyle.titleFont}
         style={{
@@ -465,7 +481,7 @@ export const TruckMenu = ({ truckData, ingredientsState, incrementAmount, decrem
           <h2 className={currentStyle.titleFont} style={{
             color: currentStyle.color,
           }}>{combo.ComboName}<span className='dependecy-indicator'>{combo.dependency ? "Requires: " + combo.dependency : null}</span></h2>
-          <div className={'combo-score '+ currentStyle.titleFont} style={{
+          <div className={'combo-score ' + currentStyle.titleFont} style={{
             color: currentStyle.color,
           }}>{calculateMinMaxScore(combo)}</div>
           {combo.ComboLines?.map((line, lineIndex) => {
@@ -483,7 +499,7 @@ export const TruckMenu = ({ truckData, ingredientsState, incrementAmount, decrem
                     const color = matchedIngredient ? matchedIngredient.color : 'white'
                     return (
                       <span key={ingIndex}>
-                        <div key={ingIndex} onClick={() => matchedIngredient ? decrementAmount(ingredientName) : incrementAmount(ingredientName)} className={`ingredient ${className}`} style={{ display: 'inline', color: color }}>
+                        <div key={ingIndex} className={`ingredient ${className}`} style={{ display: 'inline-block', color: color }}>
                           {ingredientName}
                         </div>
                         {ingIndex < line.ingredients.length - 1 && <span style={{ display: 'inline' }}> - </span>}
@@ -709,7 +725,7 @@ function calculateComboScore(combo, ingredientDict) {
   for (let line of combo.ComboLines) {
     const { shortfall, missingIngredients, ingredientLevelSum } = processComboLine(line, ingredientDict);
 
-    comboScore += ingredientLevelSum+parseInt(line.requirements)*2;
+    comboScore += ingredientLevelSum + parseInt(line.requirements) * 2;
     totalShortfall += shortfall;
     if (shortfall === 1) {
       potentialMissingIngredients.push(...missingIngredients);

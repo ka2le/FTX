@@ -563,7 +563,7 @@
               "fish",
               "spices"
             ],
-            "requirements": "6"
+            "requirements": "5"
           }
         ]
       },
@@ -590,21 +590,22 @@
           {
             "ingredients": [
               "cornbread",
-              "corn",
-              "mushrooms",
-              "tofu",
-              "beans"
+              "corn"
+             
             ],
-            "requirements": "5"
+            "requirements": "2"
           },
           {
             "ingredients": [
               "cabbage",
               "lettuce",
               "aubergine",
-              "carrot"
+              "carrot",
+              "mushrooms",
+              "tofu",
+              "beans"
             ],
-            "requirements": "2"
+            "requirements": "5"
           }
         ]
       },

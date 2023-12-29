@@ -120,7 +120,7 @@
 
 .mytruck .combo-line .requirements {
   font-size: 12px;
-  
+
 }
 
 .mytruck .combo-line .ingredients {
@@ -132,7 +132,7 @@
 .mytruck .dependecy-indicator {
   font-size: 13px;
   top: -2px;
-  font-style: normal ;
+  font-style: normal;
   left: 8px;
   font-family: 'CormorantUprightLight' !important;
 }
@@ -170,13 +170,14 @@ h1.mytruck {
   background-repeat: repeat-x !important;
   box-shadow: inset 0 -30px 30px -30px #000000; */
 }
+
 .desktop .mytruck-container {
   height: 88vh;
   width: 100%;
 
 }
 
-.desktop .mytruck-container .truck-container{
+.desktop .mytruck-container .truck-container {
   height: fit-content !important;
   margin-bottom: 0px !important;
 }
@@ -375,7 +376,8 @@ h2 {
   margin: 22px;
   background-color: rgba(0, 0, 0, 0.9);
 }
-.ingredient-dialog  .MuiDialogContent-root {
+
+.ingredient-dialog .MuiDialogContent-root {
   padding: 10px 8px;
 }
 
@@ -403,6 +405,12 @@ h2 {
   flex-shrink: 0;
   /* Prevent shrinking */
   font-size: 20px;
+}
+
+.ingredient {
+  height: 14px;
+  margin-bottom: 0px;
+  line-height: 8px;
 }
 
 .ingredient-amount {
@@ -842,15 +850,18 @@ button.selected {
 
 .truck-card .dependecy-indicator {
   font-size: 8px;
-  top:-4px
+  top: -4px
 }
-.truck-card .caveatBrush.combo-score{
+
+.truck-card .caveatBrush.combo-score {
   margin-top: -7px;
 }
- .truck-card .caveatBrush .dependecy-indicator{
+
+.truck-card .caveatBrush .dependecy-indicator {
   top: -8px;
   left: -5px;
 }
+
 .truck-card .truck-container {
   width: 100% !important;
   height: 100% !important;
