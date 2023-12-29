@@ -372,7 +372,11 @@ h2 {
 .ingredient-dialog .MuiPaper-root {
   width: 600px;
   color: white;
+  margin: 22px;
   background-color: rgba(0, 0, 0, 0.9);
+}
+.ingredient-dialog  .MuiDialogContent-root {
+  padding: 10px 8px;
 }
 
 .ingredient-container {

@@ -102,7 +102,7 @@
               "flour",
               "egg"
             ],
-            "requirements": "3"
+            "requirements": "4"
           }
         ]
       },
@@ -684,31 +684,7 @@
     "TruckName": "Vini Vidi Pasta",
     "short": "Pasta",
     "combos": [
-      {
-        "ComboName": "Eggplant Parmesan",
-        "dependency": null,
-        "score": 7,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "aubergine",
-              "cheese",
-              "egg",
-              "flour",
-              "tomato"
-            ],
-            "requirements": "5"
-          },
-          {
-            "ingredients": [
-              "basil",
-              "garlic"
-            ],
-            "requirements": "1"
-          }
-        ]
-      },
+      
       {
         "ComboName": "Pasti",
         "dependency": null,
@@ -761,6 +737,31 @@
               "vinegar"
             ],
             "requirements": "2"
+          }
+        ]
+      },
+      {
+        "ComboName": "Eggplant Parmesan",
+        "dependency": null,
+        "score": 7,
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "aubergine",
+              "cheese",
+              "egg",
+              "flour",
+              "tomato"
+            ],
+            "requirements": "5"
+          },
+          {
+            "ingredients": [
+              "basil",
+              "garlic"
+            ],
+            "requirements": "1"
           }
         ]
       },

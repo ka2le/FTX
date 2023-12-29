@@ -359,8 +359,8 @@ export default function App() {
 
 
 export const MyTruckMenu = ({ ingredientsState, incrementAmount, decrementAmount }) => {
-  const [completeCombos,,,,,comboStatuses] = checkCompleteCombos(ingredientsState);
-    console.log(comboStatuses)
+  const [completeCombos, , , , , comboStatuses] = checkCompleteCombos(ingredientsState);
+  console.log(comboStatuses)
 
   const myTruckCombos = completeCombos.flatMap(comboName =>
     trucks.flatMap(truck =>
@@ -385,9 +385,9 @@ export const MyTruckMenu = ({ ingredientsState, incrementAmount, decrementAmount
 
   // Group incomplete combos
   incompleteCombos.forEach(combo => {
-    if(combo.missingRequirement){
+    if (combo.missingRequirement) {
       groupedCombos.missingReq.push(combo.name);
-    }else if (combo.shortfall === 1) {
+    } else if (combo.shortfall === 1) {
       groupedCombos.shortfall1.push(combo.name);
     } else if (combo.shortfall === 2) {
       groupedCombos.shortfall2.push(combo.name);
@@ -398,10 +398,10 @@ export const MyTruckMenu = ({ ingredientsState, incrementAmount, decrementAmount
 
   // Create trucks for each group
   const createTruckWithCombos = (groupName, shortfallNumber) => ({
-    TruckName: `Missing ${shortfallNumber} ${shortfallNumber == "Requirement" ? "" : "ingredient"}${shortfallNumber == 1 || shortfallNumber == "Requirement"  ? "" : "s"} `,
+    TruckName: `Missing ${shortfallNumber} ${shortfallNumber == "Requirement" ? "" : "ingredient"}${shortfallNumber == 1 || shortfallNumber == "Requirement" ? "" : "s"} `,
     short: "mytruck",
     combos: groupedCombos[groupName].flatMap(comboName =>
-      trucks.flatMap(truck => 
+      trucks.flatMap(truck =>
         truck.combos.filter(combo => combo.ComboName === comboName)
       )
     ),
@@ -425,15 +425,15 @@ export const MyTruckMenu = ({ ingredientsState, incrementAmount, decrementAmount
           decrementAmount={decrementAmount}
         />
         {trucksForRendering.map(truckData => (
-        <TruckMenu
-          key={truckData.TruckName}
-          truckData={truckData}
-          ingredientsState={ingredientsState}
-          incrementAmount={incrementAmount}
-          decrementAmount={decrementAmount}
-        />
-      ))}
-       
+          <TruckMenu
+            key={truckData.TruckName}
+            truckData={truckData}
+            ingredientsState={ingredientsState}
+            incrementAmount={incrementAmount}
+            decrementAmount={decrementAmount}
+          />
+        ))}
+
       </div>
     </>
 
@@ -460,14 +460,14 @@ export const TruckMenu = ({ truckData, ingredientsState, incrementAmount, decrem
           color: currentStyle.color,
         }}
       >{truckData.TruckName}</h1>
-      { truckData.combos?.length < 1 ? <div style={{textAlign:"center"}}>None</div> :  truckData.combos.map((combo, index) => (
+      {truckData.combos?.length < 1 ? <div style={{ textAlign: "center" }}>None</div> : truckData.combos.map((combo, index) => (
         <div key={index}>
           <h2 className={currentStyle.titleFont} style={{
             color: currentStyle.color,
           }}>{combo.ComboName}<span className='dependecy-indicator'>{combo.dependency ? "Requires: " + combo.dependency : null}</span></h2>
           <div className='combo-score' style={{
             color: currentStyle.color,
-          }}>{combo.score}$</div>
+          }}>{calculateMinMaxScore(combo)}</div>
           {combo.ComboLines?.map((line, lineIndex) => {
             const workingIngredients = JSON.parse(JSON.stringify(ingredientsState));
             const comboLineState = getComboLineState(line, ingredientsState);
@@ -632,7 +632,7 @@ const truckStyles = {
   mytruck: {
     titleFont: 'mytruck',
     mainFont: 'mytruck',
-    color: myTruckColor, 
+    color: myTruckColor,
   },
   burger: {
     titleFont: "sedgwickAveDisplay",
@@ -708,6 +708,26 @@ export function createIngredientDictionary(ingredients) {
 }
 
 
+function calculateComboScore(combo, ingredientDict) {
+  let comboScore = combo.score;
+  let totalShortfall = 0;
+  let potentialMissingIngredients = [];
+
+  for (let line of combo.ComboLines) {
+    const { shortfall, missingIngredients, ingredientLevelSum } = processComboLine(line, ingredientDict);
+
+    comboScore += ingredientLevelSum;
+    totalShortfall += shortfall;
+    if (shortfall === 1) {
+      potentialMissingIngredients.push(...missingIngredients);
+    }
+  }
+
+  return [comboScore, totalShortfall, potentialMissingIngredients];
+}
+
+
+//CHECK ALL SCORES
 export function checkCompleteCombos(ingredients) {
   const completeCombos = [];
   const comboStatuses = []; // Array to store the status of all combos
@@ -721,27 +741,7 @@ export function checkCompleteCombos(ingredients) {
 
   // Function to check if a single combo is complete and to calculate its score
   const isSingleComboComplete = (combo) => {
-    const completeCombos = [];
-    let comboScore = 0;
-    let ingredientLevelSum = 0;
-    let ingredientCount = 0;
-    let totalShortfall = 0; // Total shortfall across all combo lines
-    let potentialMissingIngredients = [];
-
-
-
-    for (let line of combo.ComboLines) {
-      const { shortfall, missingIngredients, ingredientLevelSum: lineSum } = processComboLine(line, originalIngredientDict);
-
-      ingredientLevelSum += lineSum;
-      totalShortfall += shortfall;
-      if (shortfall === 1) {
-        potentialMissingIngredients.push(...missingIngredients);
-      }
-    }
-
-    comboScore = combo.score + ingredientLevelSum;
-    //console.log(combo, totalShortfall, potentialMissingIngredients)
+    const [comboScore, totalShortfall, potentialMissingIngredients] = calculateComboScore(combo, originalIngredientDict);
     return [totalShortfall === 0, comboScore, totalShortfall, potentialMissingIngredients];
   };
 
@@ -796,14 +796,14 @@ export function checkCompleteCombos(ingredients) {
               shortfall
             });
           }
-        }else{
+        } else {
           const [isComplete, comboScore, shortfall, missingIngredients] = isSingleComboComplete(combo);
-            comboStatuses.push({
-              name: combo.ComboName,
-              isComplete:false,
-              shortfall,
-              missingRequirement: true,
-            });
+          comboStatuses.push({
+            name: combo.ComboName,
+            isComplete: false,
+            shortfall,
+            missingRequirement: true,
+          });
         }
       }
     }
@@ -835,6 +835,78 @@ const getComboLineState = (line, ingredientState) => {
 
 
 
+
+
+
+
+
+
+
+//CHECK SCORE RANGE FOR A COMBO
+function calculateMinMaxScore(combo) {
+  const ingredientDict = createIngredientDictionary(initialIngredients.map(ingredient => ({ ...ingredient, amount: 0 })));
+
+  // Calculate Max Score
+  let maxDict = createMaxDict(combo, ingredientDict);
+  let maxScore = calculateComboScore(combo, maxDict)[0];
+
+  // Calculate Min Score
+  let minDict = createMinDict(combo, ingredientDict);
+  let minScore = calculateComboScore(combo, minDict)[0];
+
+  // Check if min and max scores are the same
+  if (minScore === maxScore) {
+    return `${minScore}$`;
+  } else {
+    return `${minScore}$ - ${maxScore}$`;
+  }
+}
+function createMaxDict(combo, ingredientDict) {
+  let maxDict = { ...ingredientDict };
+
+  combo.ComboLines.forEach(line => {
+    line.ingredients.forEach(ingredient => {
+      maxDict[ingredient].amount = 1;
+    });
+  });
+
+  return maxDict;
+}
+
+function createMinDict(combo, ingredientDict) {
+  let minDict = { ...ingredientDict };
+  resetDictAmounts(minDict);
+
+  for (const line of combo.ComboLines) {
+    let requirements = line.requirements;
+
+    for (let level = 1; level <= 3 && requirements > 0; level++) {
+      for (const ingredient of line.ingredients) {
+        if (ingredientDict[ingredient].level === level && minDict[ingredient].amount === 0) {
+          minDict[ingredient].amount = 1;
+          requirements--;
+          if (requirements === 0) break;
+        }
+      }
+    }
+  }
+
+  return minDict;
+}
+
+function resetDictAmounts(dict) {
+  for (let key in dict) {
+    dict[key].amount = 0;
+  }
+}
+
+function createIngredientDictionaryFromIntials(initialIngredients) {
+  const dict = {};
+  initialIngredients.forEach(ingredient => {
+    dict[ingredient.name] = { ...ingredient, amount: 0 };
+  });
+  return dict;
+}
 
 
 
