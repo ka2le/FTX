@@ -44,22 +44,9 @@
           }
         ]
       },
+
       {
-        "ComboName": "Fish Burger",
-        "dependency": "Burgers!",
-        "score": 3,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "fish"
-            ],
-            "requirements": "1"
-          }
-        ]
-      },
-      {
-        "ComboName": "Vegan Burger",
+        "ComboName": "Flexitarian Burgers",
         "dependency": "Burgers!",
         "score": 3,
         "type": null,
@@ -67,9 +54,10 @@
           {
             "ingredients": [
               "tofu",
-              "mushrooms"
+              "mushrooms",
+              "fish"
             ],
-            "requirements": "1"
+            "requirements": "2"
           }
         ]
       },
