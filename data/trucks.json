@@ -274,11 +274,16 @@
         "ComboLines": [
           {
             "ingredients": [
-              "spices",
-             
+              "spices"
+            ],
+            "requirements": "1"
+          },
+          {
+            "ingredients": [
+              "rice",
               "naan"
             ],
-            "requirements": "3"
+            "requirements": "1"
           },
           {
             "ingredients": [
@@ -302,16 +307,15 @@
               "aubergine",
               "potato",
               "spinach",
-              "peas",
-              "rice"
+              "peas"
+              
             ],
-            "requirements": "3"
+            "requirements": "2"
           },
           {
             "ingredients": [
               "garlic",
               "ginger",
-              "onion",
               "chili"
             ],
             "requirements": "2"
@@ -393,7 +397,6 @@
           {
             "ingredients": [
               "garlic",
-              "onion",
               "ginger",
               "chili"
             ],
@@ -591,10 +594,9 @@
               "aubergine",
               "carrot",
               "mushrooms",
-              "tofu",
-              "beans"
+              "tofu"
             ],
-            "requirements": "5"
+            "requirements": "4"
           }
         ]
       },
