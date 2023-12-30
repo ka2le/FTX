@@ -656,7 +656,7 @@ const IngredientList = ({ ingredients, setIngredients, scoreDifferences, sortCon
 
         return (
           <div key={ingredient.name} className="ingredient-row" style={{ color: ingredient.color }}>
-            <span className="ingredient-name">{ingredient.name} {'★'.repeat(ingredient.level)}</span>
+            <span className="ingredient-name">{ingredient.name}{ingredient.copies}{'★'.repeat(ingredient.level)}</span>
             <div className="score-difference">
 
               {(scoreDifferenceDecrement !== 0 || (ingredient.amount > 0 && scoreDifferenceDecrement === 0)) && (
