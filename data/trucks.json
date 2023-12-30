@@ -328,13 +328,18 @@
                     {
                         "ingredients": [
                             "flour",
-                            "potato",
                             "oil",
-                            "spices",
-                            "peas"
+                            "spices"
                         ],
-                        "requirements": "5"
-                    }
+                        "requirements": "3"
+                    },
+                    {
+                      "ingredients": [
+                          "potato",
+                          "peas"
+                      ],
+                      "requirements": "1"
+                  }
                 ]
             },
             {
