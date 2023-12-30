@@ -217,7 +217,7 @@
             {
                 "ComboName": "Guacamole",
                 "dependency": "Taco Mix",
-                "score": 0,
+                "score": 2,
                 "type": null,
                 "ComboLines": [
                     {
@@ -564,7 +564,7 @@
             {
                 "ComboName": "BBQ Beans",
                 "dependency": "BBQ Platter",
-                "score": 0,
+                "score": 2,
                 "type": null,
                 "ComboLines": [
                     {
