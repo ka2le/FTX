@@ -44,22 +44,9 @@
           }
         ]
       },
+
       {
-        "ComboName": "Fish Burger",
-        "dependency": "Burgers!",
-        "score": 3,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "fish"
-            ],
-            "requirements": "1"
-          }
-        ]
-      },
-      {
-        "ComboName": "Vegan Burger",
+        "ComboName": "Flexitarian Burgers",
         "dependency": "Burgers!",
         "score": 3,
         "type": null,
@@ -67,9 +54,10 @@
           {
             "ingredients": [
               "tofu",
-              "mushrooms"
+              "mushrooms",
+              "fish"
             ],
-            "requirements": "1"
+            "requirements": "2"
           }
         ]
       },
@@ -102,7 +90,7 @@
               "flour",
               "egg"
             ],
-            "requirements": "3"
+            "requirements": "4"
           }
         ]
       },
@@ -151,13 +139,7 @@
             ],
             "requirements": "1"
           },
-          {
-            "ingredients": [
-              "lime",
-              "cilantro"
-            ],
-            "requirements": "1"
-          },
+         
           {
             "ingredients": [
               "steak",
@@ -175,9 +157,17 @@
               "onion",
               "tomato",
               "garlic",
-              "chili"
+              "chili",
+              "chocolate"
             ],
             "requirements": "2"
+          },
+          {
+            "ingredients": [
+              "lime",
+              "cilantro"
+            ],
+            "requirements": "1"
           }
         ]
       },
@@ -284,11 +274,16 @@
         "ComboLines": [
           {
             "ingredients": [
-              "spices",
+              "spices"
+            ],
+            "requirements": "1"
+          },
+          {
+            "ingredients": [
               "rice",
               "naan"
             ],
-            "requirements": "3"
+            "requirements": "1"
           },
           {
             "ingredients": [
@@ -313,14 +308,14 @@
               "potato",
               "spinach",
               "peas"
+              
             ],
-            "requirements": "3"
+            "requirements": "2"
           },
           {
             "ingredients": [
               "garlic",
               "ginger",
-              "onion",
               "chili"
             ],
             "requirements": "2"
@@ -402,7 +397,6 @@
           {
             "ingredients": [
               "garlic",
-              "onion",
               "ginger",
               "chili"
             ],
@@ -561,7 +555,7 @@
               "fish",
               "spices"
             ],
-            "requirements": "6"
+            "requirements": "5"
           }
         ]
       },
@@ -588,21 +582,21 @@
           {
             "ingredients": [
               "cornbread",
-              "corn",
-              "mushrooms",
-              "tofu",
-              "beans"
+              "corn"
+             
             ],
-            "requirements": "5"
+            "requirements": "2"
           },
           {
             "ingredients": [
               "cabbage",
               "lettuce",
               "aubergine",
-              "carrot"
+              "carrot",
+              "mushrooms",
+              "tofu"
             ],
-            "requirements": "2"
+            "requirements": "4"
           }
         ]
       },
@@ -682,31 +676,7 @@
     "TruckName": "Vini Vidi Pasta",
     "short": "Pasta",
     "combos": [
-      {
-        "ComboName": "Eggplant Parmesan",
-        "dependency": null,
-        "score": 7,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "aubergine",
-              "cheese",
-              "egg",
-              "flour",
-              "tomato"
-            ],
-            "requirements": "5"
-          },
-          {
-            "ingredients": [
-              "basil",
-              "garlic"
-            ],
-            "requirements": "1"
-          }
-        ]
-      },
+      
       {
         "ComboName": "Pasti",
         "dependency": null,
@@ -755,9 +725,35 @@
               "basil",
               "garlic",
               "lemon",
-              "oil"
+              "oil",
+              "vinegar"
             ],
             "requirements": "2"
+          }
+        ]
+      },
+      {
+        "ComboName": "Eggplant Parmesan",
+        "dependency": null,
+        "score": 7,
+        "type": null,
+        "ComboLines": [
+          {
+            "ingredients": [
+              "aubergine",
+              "cheese",
+              "egg",
+              "flour",
+              "tomato"
+            ],
+            "requirements": "5"
+          },
+          {
+            "ingredients": [
+              "basil",
+              "garlic"
+            ],
+            "requirements": "1"
           }
         ]
       },

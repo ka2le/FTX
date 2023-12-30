@@ -228,6 +228,19 @@ export default function App() {
     autoplay: false
   };
 
+  const [sortConfig, setSortConfig] = useState({ criteria: 'name', direction: 'asc' });
+
+  const toggleSort = (criteria) => {
+    setSortConfig((prevConfig) => {
+      if (prevConfig.criteria === criteria) {
+        // Toggle direction if the same criteria is clicked
+        return { criteria, direction: prevConfig.direction === 'asc' ? 'desc' : 'asc' };
+      } else {
+        // Reset to descending for 'amount' and ascending for others when switching criteria
+        return { criteria, direction: (criteria === 'amount' || criteria=== "scoreDifferenceIncrement") ? 'desc' : 'asc' };
+      }
+    });
+  };
 
   const toggleAutoSlide = () => {
     setAutoSlide(!autoSlide);
@@ -269,66 +282,95 @@ export default function App() {
       <Dialog open={open} onClose={handleClose} className={`ingredient-dialog ${tradeInterface ? "trade" : null}`}>
         <div className="dialog-title-actions">
 
-          <DialogTitle className="dialog-title">{tradeInterface ? "Trade" : "Ingredients"}</DialogTitle>
-          <DialogActions className="dialog-actions">
-            {false ? <Button className="dialog-actions-button" onClick={toggleAutoSlide} >
-              {(autoSlide) ? 'Disable Auto-Slide' : 'Enable Auto-Slide'}
-            </Button> : null}
-           
-            {tradeInterface ? <>
-              <Select
-                labelId="player-label"
-                id="player-dropdown"
-                value={numberOfPlayers}
-                onChange={handleNumberOfPlayersChange}
-                className='white dialog-dropdown'
-              >
-                {Array.from({ length: 8 }, (_, i) => i + 1).map((number) => (
-                  <MenuItem key={number} value={number}>
-                    {number}
-                  </MenuItem>
-                ))}
-              </Select>
 
-              <Button className="dialog-actions-button" onClick={() => handleDealCards(setDeck, setPlayers, numberOfPlayers)} >
-                🂠
+          <DialogTitle className="dialog-actions">
+            {/* First Row */}
+            <div className="dialog-row">
+              <div className="dialog-title">{tradeInterface ? "Trade" : "Ingredients"}</div>
+              <Button className="dialog-actions-button" onClick={handleClose}>
+                x
               </Button>
+            </div>
 
-
-              <Select
-                labelId="player-label"
-                id="player-dropdown"
-                value={currentPlayerId}
-                onChange={handlePlayerIdChange}
-                className='white dialog-dropdown'
-              >
-                {playerList.map((playerId) => (
-                  <MenuItem key={playerId} value={playerId}>
-                    {playerId}
-                  </MenuItem>
-                ))}
-              </Select></>
-
-              : <> {TESTING ? <Button className="dialog-actions-button" onClick={() => { setCardTesting(!cardTesting) }} >
-                🖨️
+            {/* Second Row */}
+            <div className="dialog-row">
+              {false ? <Button className="dialog-actions-button" onClick={toggleAutoSlide} >
+                {(autoSlide) ? 'Disable Auto-Slide' : 'Enable Auto-Slide'}
               </Button> : null}
-                <Button className="dialog-actions-button" onClick={reset} >
-                  🗑️
+
+              {tradeInterface ? <>
+                <Select
+                  labelId="player-label"
+                  id="player-dropdown"
+                  value={numberOfPlayers}
+                  onChange={handleNumberOfPlayersChange}
+                  className='white dialog-dropdown'
+                >
+                  {Array.from({ length: 8 }, (_, i) => i + 1).map((number) => (
+                    <MenuItem key={number} value={number}>
+                      {number}
+                    </MenuItem>
+                  ))}
+                </Select>
+
+                <Button className="dialog-actions-button" onClick={() => handleDealCards(setDeck, setPlayers, numberOfPlayers)} >
+                  🂠
                 </Button>
-                <Button className="dialog-actions-button" onClick={handleClose} >
-                  x
-                </Button></>}
-                <Button className="dialog-actions-button" onClick={toggleTradeInterface} >
-              {(!tradeInterface) ? '👥' : "👤"}
-            </Button>
 
 
-          </DialogActions>
+                <Select
+                  labelId="player-label"
+                  id="player-dropdown"
+                  value={currentPlayerId}
+                  onChange={handlePlayerIdChange}
+                  className='white dialog-dropdown'
+                >
+                  {playerList.map((playerId) => (
+                    <MenuItem key={playerId} value={playerId}>
+                      {playerId}
+                    </MenuItem>
+                  ))}
+                </Select></>
+
+                : <> {TESTING ? <Button className="dialog-actions-button" onClick={() => { setCardTesting(!cardTesting) }} >
+                  🖨️
+                </Button> : null}
+                  <Button className="dialog-actions-button" onClick={reset} >
+                    🗑️
+                  </Button>
+                </>}
+              <Button className="dialog-actions-button" onClick={toggleTradeInterface} >
+                {(!tradeInterface) ? '👥' : "👤"}
+              </Button>  </div>
+
+            {/* Third Row */}
+            <div className="dialog-row">
+              {tradeInterface ? null : <div className="dialog-title">
+                <button onClick={() => toggleSort('name')}>
+                 Name {sortConfig.criteria === 'name' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                </button>
+                <button onClick={() => toggleSort('level')}>
+                  Tier {sortConfig.criteria === 'level' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                </button>
+                <button onClick={() => toggleSort('amount')}>
+                  Owned {sortConfig.criteria === 'amount' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                </button>
+                <button onClick={() => toggleSort('scoreDifferenceDecrement')}>
+                Lose {sortConfig.criteria === 'scoreDifferenceDecrement' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                </button>
+                <button onClick={() => toggleSort('scoreDifferenceIncrement')}>
+                Gain {sortConfig.criteria === 'scoreDifferenceIncrement' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                </button>
+              </div>}
+            </div>
+          </DialogTitle>
+
+
         </div>
         <DialogContent>
           {tradeInterface ?
             <TradePage ingredients={ingredients} setIngredients={setIngredients} deck={deck} setDeck={setDeck} players={players} setPlayers={setPlayers} currentPlayerId={currentPlayerId}></TradePage> :
-            <IngredientList ingredients={ingredients} setIngredients={setIngredients} scoreDifferences={scoreDifferences} />}
+            <IngredientList  sortConfig={sortConfig} ingredients={ingredients} setIngredients={setIngredients} scoreDifferences={scoreDifferences} />}
         </DialogContent>
 
       </Dialog>
@@ -467,7 +509,7 @@ export const TruckMenu = ({ truckData, ingredientsState, incrementAmount, decrem
   };
 
   return (
-    <div className={`truck-container ${currentStyle.mainFont}`} onClick={handleComboLineClick}>
+    <div className={`truck-container ${currentStyle.mainFont} ${currentStyle.titleFont}-type`} onClick={handleComboLineClick}>
       <h1
         className={currentStyle.titleFont}
         style={{
@@ -555,8 +597,34 @@ const MyTruckThumbnail = ({ goTo, index }) => {
 };
 
 
-const IngredientList = ({ ingredients, setIngredients, scoreDifferences }) => {
+const IngredientList = ({ ingredients, setIngredients, scoreDifferences, sortConfig  }) => {
 
+  const sortedIngredients = useMemo(() => {
+    return [...ingredients].sort((a, b) => {
+      // Handle sorting for scoreDifferenceIncrement and scoreDifferenceDecrement
+      if (sortConfig.criteria === 'scoreDifferenceIncrement' || sortConfig.criteria === 'scoreDifferenceDecrement') {
+        const scoreA = scoreDifferences[a.name] ? scoreDifferences[a.name][sortConfig.criteria] : 0;
+        const scoreB = scoreDifferences[b.name] ? scoreDifferences[b.name][sortConfig.criteria] : 0;
+
+        if (scoreA < scoreB) {
+          return sortConfig.direction === 'asc' ? -1 : 1;
+        }
+        if (scoreA > scoreB) {
+          return sortConfig.direction === 'asc' ? 1 : -1;
+        }
+        return 0;
+      }
+
+      // Default sorting for other criteria
+      if (a[sortConfig.criteria] < b[sortConfig.criteria]) {
+        return sortConfig.direction === 'asc' ? -1 : 1;
+      }
+      if (a[sortConfig.criteria] > b[sortConfig.criteria]) {
+        return sortConfig.direction === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
+  }, [ingredients, scoreDifferences, sortConfig]);
 
   const incrementAmount = (name) => {
     setIngredients((prevIngredients) =>
@@ -580,7 +648,7 @@ const IngredientList = ({ ingredients, setIngredients, scoreDifferences }) => {
   //console.log("scoreDifferences", scoreDifferences)
   return (
     <div className="ingredient-container">
-      {ingredients.map((ingredient) => {
+      {sortedIngredients.map((ingredient) => {
 
         const { scoreDifferenceIncrement, scoreDifferenceDecrement } = scoreDifferences[ingredient.name] || {};
 
@@ -718,9 +786,10 @@ export function checkCompleteCombos(ingredients) {
 
 
 function calculateComboScore(combo, ingredientDict) {
-  let comboScore = 0;//combo.score;
+  let comboScore = combo.score;
   let totalShortfall = 0;
   let potentialMissingIngredients = [];
+  let totalIngredients = new Set();
 
   for (let line of combo.ComboLines) {
     const { shortfall, missingIngredients, ingredientLevelSum } = processComboLine(line, ingredientDict);
@@ -730,10 +799,19 @@ function calculateComboScore(combo, ingredientDict) {
     if (shortfall === 1) {
       potentialMissingIngredients.push(...missingIngredients);
     }
+
+    // Add ingredients to the totalIngredients set
+    for (let ingredient of line.ingredients) {
+      totalIngredients.add(ingredient);
+    }
   }
+
+  // Reduce the combo score by the number of unique ingredients, ensuring it doesn't go negative
+  comboScore = Math.max(0, comboScore - Math.floor(totalIngredients.size / 2));
 
   return [comboScore, totalShortfall, potentialMissingIngredients];
 }
+
 
 const processComboLine = (line, ingredientDict) => {
   const requirement = parseInt(line.requirements, 10);
@@ -808,7 +886,7 @@ function calculateMinMaxScore(combo) {
   if (minScore === maxScore) {
     return `${minScore}$`;
   } else {
-    return `${minScore}$ - ${maxScore}$`;
+    return `${minScore}-${maxScore}$`;
   }
 }
 function createMaxDict(combo, ingredientDict) {

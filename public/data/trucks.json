@@ -1,795 +1,797 @@
 [
-  {
-    "TruckName": "Turbo Burgers",
-    "short": "Burger",
-    "combos": [
-      {
-        "ComboName": "Burgers!",
-        "dependency": null,
-        "score": 14,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "hamburger buns",
-              "ground meat"
-            ],
-            "requirements": "2"
-          },
-          {
-            "ingredients": [
-              "cucumber",
-              "lettuce",
-              "tomato",
-              "onion",
-              "cheese",
-              "bacon"
-            ],
-            "requirements": "3"
-          }
+    {
+        "TruckName": "Turbo Burgers",
+        "short": "Burger",
+        "combos": [
+            {
+                "ComboName": "Burgers!",
+                "dependency": null,
+                "score": 5,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "hamburger buns",
+                            "ground meat"
+                        ],
+                        "requirements": "2"
+                    },
+                    {
+                        "ingredients": [
+                            "cucumber",
+                            "lettuce",
+                            "tomato",
+                            "onion",
+                            "cheese",
+                            "bacon"
+                        ],
+                        "requirements": "3"
+                    }
+                ]
+            },
+            {
+                "ComboName": "Fries",
+                "dependency": "Burgers!",
+                "score": 0,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "oil",
+                            "potato"
+                        ],
+                        "requirements": "2"
+                    }
+                ]
+            },
+            {
+                "ComboName": "Flexitarian Burgers",
+                "dependency": "Burgers!",
+                "score": 0,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "tofu",
+                            "mushrooms",
+                            "fish"
+                        ],
+                        "requirements": "2"
+                    }
+                ]
+            },
+            {
+                "ComboName": "Pickles",
+                "dependency": null,
+                "score": 0,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "cucumber",
+                            "vinegar",
+                            "sugar"
+                        ],
+                        "requirements": "3"
+                    }
+                ]
+            },
+            {
+                "ComboName": "Onion Rings",
+                "dependency": null,
+                "score": 0,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "onion",
+                            "oil",
+                            "flour",
+                            "egg"
+                        ],
+                        "requirements": "4"
+                    }
+                ]
+            },
+            {
+                "ComboName": "Milskshake",
+                "dependency": null,
+                "score": 0,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "sugar",
+                            "dairy",
+                            "strawberries"
+                        ],
+                        "requirements": "3"
+                    },
+                    {
+                        "ingredients": [
+                            "banana",
+                            "mango",
+                            "pineapple",
+                            "peanuts",
+                            "avocado",
+                            "chocolate"
+                        ],
+                        "requirements": "2"
+                    }
+                ]
+            }
         ]
-      },
-      {
-        "ComboName": "Fries",
-        "dependency": "Burgers!",
-        "score": 3,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "oil",
-              "potato"
-            ],
-            "requirements": "2"
-          }
+    },
+    {
+        "TruckName": "Taco o Plomo",
+        "short": "Taco",
+        "combos": [
+            {
+                "ComboName": "Taco Mix",
+                "dependency": null,
+                "score": 4,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "tortilla"
+                        ],
+                        "requirements": "1"
+                    },
+                    {
+                        "ingredients": [
+                            "steak",
+                            "pork tenderloin",
+                            "chicken",
+                            "shrimp",
+                            "beans",
+                            "mushrooms",
+                            "fish"
+                        ],
+                        "requirements": "2"
+                    },
+                    {
+                        "ingredients": [
+                            "onion",
+                            "tomato",
+                            "garlic",
+                            "chili",
+                            "chocolate"
+                        ],
+                        "requirements": "2"
+                    },
+                    {
+                        "ingredients": [
+                            "lime",
+                            "cilantro"
+                        ],
+                        "requirements": "1"
+                    }
+                ]
+            },
+            {
+                "ComboName": "Elotes",
+                "dependency": null,
+                "score": 0,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "corn",
+                            "cheese",
+                            "lime"
+                        ],
+                        "requirements": "3"
+                    }
+                ]
+            },
+            {
+                "ComboName": "Burrito",
+                "dependency": "Taco Mix",
+                "score": 0,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "rice",
+                            "beans"
+                        ],
+                        "requirements": "2"
+                    }
+                ]
+            },
+            {
+                "ComboName": "Quesedilla",
+                "dependency": "Taco Mix",
+                "score": 0,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "cheese"
+                        ],
+                        "requirements": "1"
+                    }
+                ]
+            },
+            {
+                "ComboName": "Guacamole",
+                "dependency": "Taco Mix",
+                "score": 0,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "avocado"
+                        ],
+                        "requirements": "1"
+                    }
+                ]
+            },
+            {
+                "ComboName": "Pineapple Express",
+                "dependency": "Taco Mix",
+                "score": 0,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "pineapple",
+                            "pork tenderloin"
+                        ],
+                        "requirements": "2"
+                    }
+                ]
+            },
+            {
+                "ComboName": "Fish Taco",
+                "dependency": "Taco Mix",
+                "score": 0,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "fish",
+                            "mango"
+                        ],
+                        "requirements": "2"
+                    }
+                ]
+            }
         ]
-      },
-
-      {
-        "ComboName": "Flexitarian Burgers",
-        "dependency": "Burgers!",
-        "score": 3,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "tofu",
-              "mushrooms",
-              "fish"
-            ],
-            "requirements": "2"
-          }
+    },
+    {
+        "TruckName": "The Eat Indian Company",
+        "short": "Curry",
+        "combos": [
+            {
+                "ComboName": "Curry Curry",
+                "dependency": null,
+                "score": 6,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "spices"
+                        ],
+                        "requirements": "1"
+                    },
+                    {
+                        "ingredients": [
+                            "rice",
+                            "naan"
+                        ],
+                        "requirements": "1"
+                    },
+                    {
+                        "ingredients": [
+                            "pork tenderloin",
+                            "ground meat",
+                            "cheese",
+                            "chicken",
+                            "fish",
+                            "beans",
+                            "tofu",
+                            "mushrooms"
+                        ],
+                        "requirements": "2"
+                    },
+                    {
+                        "ingredients": [
+                            "tomato",
+                            "cabbage",
+                            "carrot",
+                            "peanuts",
+                            "aubergine",
+                            "potato",
+                            "spinach",
+                            "peas"
+                        ],
+                        "requirements": "2"
+                    },
+                    {
+                        "ingredients": [
+                            "garlic",
+                            "ginger",
+                            "chili"
+                        ],
+                        "requirements": "2"
+                    }
+                ]
+            },
+            {
+                "ComboName": "Samosas",
+                "dependency": null,
+                "score": 0,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "flour",
+                            "oil",
+                            "spices"
+                        ],
+                        "requirements": "3"
+                    },
+                    {
+                      "ingredients": [
+                          "potato",
+                          "peas"
+                      ],
+                      "requirements": "1"
+                  }
+                ]
+            },
+            {
+                "ComboName": "Tandoori Skewers",
+                "dependency": null,
+                "score": 0,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "chicken",
+                            "spices",
+                            "dairy",
+                            "naan"
+                        ],
+                        "requirements": "4"
+                    },
+                    {
+                        "ingredients": [
+                            "steak",
+                            "cheese",
+                            "pork tenderloin"
+                        ],
+                        "requirements": "1"
+                    }
+                ]
+            },
+            {
+                "ComboName": "Chutney",
+                "dependency": null,
+                "score": 0,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "sugar",
+                            "mango"
+                        ],
+                        "requirements": "2"
+                    },
+                    {
+                        "ingredients": [
+                            "lime",
+                            "lemon",
+                            "vinegar"
+                        ],
+                        "requirements": "1"
+                    },
+                    {
+                        "ingredients": [
+                            "banana",
+                            "pineapple",
+                            "tomato"
+                        ],
+                        "requirements": "1"
+                    },
+                    {
+                        "ingredients": [
+                            "garlic",
+                            "ginger",
+                            "chili"
+                        ],
+                        "requirements": "2"
+                    }
+                ]
+            }
         ]
-      },
-      {
-        "ComboName": "Pickles",
-        "dependency": null,
-        "score": 3,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "cucumber",
-              "vinegar",
-              "sugar"
-            ],
-            "requirements": "3"
-          }
+    },
+    {
+        "TruckName": "Bao East",
+        "short": "Bao",
+        "combos": [
+            {
+                "ComboName": "Bao Dream",
+                "dependency": "Hoisin sauce or Chili Mayo",
+                "score": 8,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "bao buns"
+                        ],
+                        "requirements": "1"
+                    },
+                    {
+                        "ingredients": [
+                            "chicken",
+                            "mushrooms",
+                            "pork belly",
+                            "shrimp",
+                            "tofu"
+                        ],
+                        "requirements": "2"
+                    },
+                    {
+                        "ingredients": [
+                            "peanuts",
+                            "cabbage",
+                            "cucumber"
+                        ],
+                        "requirements": "2"
+                    },
+                    {
+                        "ingredients": [
+                            "cilantro",
+                            "chili",
+                            "ginger",
+                            "spices",
+                            "soy sauce"
+                        ],
+                        "requirements": "2"
+                    }
+                ]
+            },
+            {
+                "ComboName": "Hoisin sauce",
+                "dependency": null,
+                "score": 0,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "sugar",
+                            "spices",
+                            "soy sauce"
+                        ],
+                        "requirements": "3"
+                    }
+                ]
+            },
+            {
+                "ComboName": "Chili Mayo",
+                "dependency": null,
+                "score": 0,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "egg",
+                            "oil",
+                            "chili"
+                        ],
+                        "requirements": "3"
+                    }
+                ]
+            },
+            {
+                "ComboName": "Spring Rolls",
+                "dependency": null,
+                "score": 0,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "oil",
+                            "flour",
+                            "soy sauce"
+                        ],
+                        "requirements": "3"
+                    },
+                    {
+                        "ingredients": [
+                            "cabbage",
+                            "carrot",
+                            "lettuce"
+                        ],
+                        "requirements": "2"
+                    },
+                    {
+                        "ingredients": [
+                            "mushrooms",
+                            "tofu",
+                            "ground meat"
+                        ],
+                        "requirements": "1"
+                    },
+                    {
+                        "ingredients": [
+                            "peas",
+                            "onion",
+                            "garlic",
+                            "chili",
+                            "ginger"
+                        ],
+                        "requirements": "2"
+                    }
+                ]
+            }
         ]
-      },
-      {
-        "ComboName": "Onion Rings",
-        "dependency": null,
-        "score": 3,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "onion",
-              "oil",
-              "flour",
-              "egg"
-            ],
-            "requirements": "4"
-          }
+    },
+    {
+        "TruckName": "Grilluminati's BBQ",
+        "short": "BBQ",
+        "combos": [
+            {
+                "ComboName": "BBQ Platter",
+                "dependency": null,
+                "score": 4,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "cornbread"
+                        ],
+                        "requirements": "1"
+                    },
+                    {
+                        "ingredients": [
+                            "steak",
+                            "pork belly",
+                            "pork tenderloin",
+                            "chicken",
+                            "bacon",
+                            "ground meat",
+                            "fish",
+                            "spices"
+                        ],
+                        "requirements": "5"
+                    }
+                ]
+            },
+            {
+                "ComboName": "BBQ Beans",
+                "dependency": "BBQ Platter",
+                "score": 0,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "beans"
+                        ],
+                        "requirements": "1"
+                    }
+                ]
+            },
+            {
+                "ComboName": "Vegan BBQ",
+                "dependency": null,
+                "score": 0,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "cornbread",
+                            "corn"
+                        ],
+                        "requirements": "2"
+                    },
+                    {
+                        "ingredients": [
+                            "cabbage",
+                            "lettuce",
+                            "aubergine",
+                            "carrot",
+                            "mushrooms",
+                            "tofu"
+                        ],
+                        "requirements": "4"
+                    }
+                ]
+            },
+            {
+                "ComboName": "Creamy Sides",
+                "dependency": null,
+                "score": 0,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "dairy"
+                        ],
+                        "requirements": "1"
+                    },
+                    {
+                        "ingredients": [
+                            "corn",
+                            "spinach",
+                            "potato",
+                            "pasta"
+                        ],
+                        "requirements": "2"
+                    }
+                ]
+            },
+            {
+                "ComboName": "Shrimp Skewers",
+                "dependency": null,
+                "score": 0,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "shrimp",
+                            "garlic"
+                        ],
+                        "requirements": "2"
+                    }
+                ]
+            },
+            {
+                "ComboName": "Coleslaw",
+                "dependency": null,
+                "score": 0,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "cabbage",
+                            "egg",
+                            "oil"
+                        ],
+                        "requirements": "3"
+                    },
+                    {
+                        "ingredients": [
+                            "lime",
+                            "lemon",
+                            "vinegar"
+                        ],
+                        "requirements": "1"
+                    },
+                    {
+                        "ingredients": [
+                            "carrot",
+                            "onion",
+                            "chili"
+                        ],
+                        "requirements": "1"
+                    }
+                ]
+            }
         ]
-      },
-      {
-        "ComboName": "Milskshake",
-        "dependency": null,
-        "score": 3,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "sugar",
-              "dairy",
-              "strawberries"
-            ],
-            "requirements": "3"
-          },
-          {
-            "ingredients": [
-              "banana",
-              "mango",
-              "pineapple",
-              "peanuts",
-              "avocado",
-              "chocolate"
-            ],
-            "requirements": "2"
-          }
+    },
+    {
+        "TruckName": "Vini Vidi Pasta",
+        "short": "Pasta",
+        "combos": [
+            {
+                "ComboName": "Pasti",
+                "dependency": null,
+                "score": 6,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "pasta",
+                            "cheese"
+                        ],
+                        "requirements": "2"
+                    },
+                    {
+                        "ingredients": [
+                            "ground meat",
+                            "pork tenderloin",
+                            "steak",
+                            "chicken",
+                            "bacon"
+                        ],
+                        "requirements": "2"
+                    },
+                    {
+                        "ingredients": [
+                            "shrimp",
+                            "mushrooms",
+                            "aubergine",
+                            "fish",
+                            "beans"
+                        ],
+                        "requirements": "2"
+                    },
+                    {
+                        "ingredients": [
+                            "tomato",
+                            "carrot",
+                            "onion",
+                            "spinach",
+                            "peas"
+                        ],
+                        "requirements": "2"
+                    },
+                    {
+                        "ingredients": [
+                            "basil",
+                            "garlic",
+                            "lemon",
+                            "oil",
+                            "vinegar"
+                        ],
+                        "requirements": "2"
+                    }
+                ]
+            },
+            {
+                "ComboName": "Eggplant Parmesan",
+                "dependency": null,
+                "score": 0,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "aubergine",
+                            "cheese",
+                            "egg",
+                            "flour",
+                            "tomato"
+                        ],
+                        "requirements": "5"
+                    },
+                    {
+                        "ingredients": [
+                            "basil",
+                            "garlic"
+                        ],
+                        "requirements": "1"
+                    }
+                ]
+            },
+            {
+                "ComboName": "Gelato",
+                "dependency": null,
+                "score": 0,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "sugar",
+                            "egg",
+                            "dairy"
+                        ],
+                        "requirements": "3"
+                    },
+                    {
+                        "ingredients": [
+                            "banana",
+                            "mango",
+                            "strawberries",
+                            "pineapple",
+                            "lemon",
+                            "chocolate"
+                        ],
+                        "requirements": "3"
+                    },
+                    {
+                        "ingredients": [
+                            "peanuts",
+                            "avocado",
+                            "spices"
+                        ],
+                        "requirements": "0"
+                    }
+                ]
+            }
         ]
-      }
-    ]
-  },
-  {
-    "TruckName": "Taco o Plomo",
-    "short": "Taco",
-    "combos": [
-      {
-        "ComboName": "Taco Mix",
-        "dependency": null,
-        "score": 14,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "tortilla"
-            ],
-            "requirements": "1"
-          },
-         
-          {
-            "ingredients": [
-              "steak",
-              "pork tenderloin",
-              "chicken",
-              "shrimp",
-              "beans",
-              "mushrooms",
-              "fish"
-            ],
-            "requirements": "2"
-          },
-          {
-            "ingredients": [
-              "onion",
-              "tomato",
-              "garlic",
-              "chili",
-              "chocolate"
-            ],
-            "requirements": "2"
-          },
-          {
-            "ingredients": [
-              "lime",
-              "cilantro"
-            ],
-            "requirements": "1"
-          }
-        ]
-      },
-      {
-        "ComboName": "Elotes",
-        "dependency": null,
-        "score": 4,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "corn",
-              "cheese",
-              "lime"
-            ],
-            "requirements": "3"
-          }
-        ]
-      },
-      {
-        "ComboName": "Burrito",
-        "dependency": "Taco Mix",
-        "score": 3,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "rice",
-              "beans"
-            ],
-            "requirements": "2"
-          }
-        ]
-      },
-      {
-        "ComboName": "Quesedilla",
-        "dependency": "Taco Mix",
-        "score": 4,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "cheese"
-            ],
-            "requirements": "1"
-          }
-        ]
-      },
-      {
-        "ComboName": "Guacamole",
-        "dependency": "Taco Mix",
-        "score": 4,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "avocado"
-            ],
-            "requirements": "1"
-          }
-        ]
-      },
-      {
-        "ComboName": "Pineapple Express",
-        "dependency": "Taco Mix",
-        "score": 3,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "pineapple",
-              "pork tenderloin"
-            ],
-            "requirements": "2"
-          }
-        ]
-      },
-      {
-        "ComboName": "Fish Taco",
-        "dependency": "Taco Mix",
-        "score": 3,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "fish",
-              "mango"
-            ],
-            "requirements": "2"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "TruckName": "The Eat Indian Company",
-    "short": "Curry",
-    "combos": [
-      {
-        "ComboName": "Curry Curry",
-        "dependency": null,
-        "score": 20,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "spices",
-             
-              "naan"
-            ],
-            "requirements": "3"
-          },
-          {
-            "ingredients": [
-              "pork tenderloin",
-              "ground meat",
-              "cheese",
-              "chicken",
-              "fish",
-              "beans",
-              "tofu",
-              "mushrooms"
-            ],
-            "requirements": "2"
-          },
-          {
-            "ingredients": [
-              "tomato",
-              "cabbage",
-              "carrot",
-              "peanuts",
-              "aubergine",
-              "potato",
-              "spinach",
-              "peas",
-              "rice"
-            ],
-            "requirements": "3"
-          },
-          {
-            "ingredients": [
-              "garlic",
-              "ginger",
-              "onion",
-              "chili"
-            ],
-            "requirements": "2"
-          }
-        ]
-      },
-      {
-        "ComboName": "Samosas",
-        "dependency": null,
-        "score": 5,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "flour",
-              "potato",
-              "oil",
-              "spices",
-              "peas"
-            ],
-            "requirements": "5"
-          }
-        ]
-      },
-      {
-        "ComboName": "Tandoori Skewers",
-        "dependency": null,
-        "score": 5,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "chicken",
-              "spices",
-              "dairy",
-              "naan"
-            ],
-            "requirements": "4"
-          },
-          {
-            "ingredients": [
-              "steak",
-              "cheese",
-              "pork tenderloin"
-            ],
-            "requirements": "1"
-          }
-        ]
-      },
-      {
-        "ComboName": "Chutney",
-        "dependency": null,
-        "score": 3,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "sugar",
-              "mango"
-            ],
-            "requirements": "2"
-          },
-          {
-            "ingredients": [
-              "lime",
-              "lemon",
-              "vinegar"
-            ],
-            "requirements": "1"
-          },
-          {
-            "ingredients": [
-              "banana",
-              "pineapple",
-              "tomato"
-            ],
-            "requirements": "1"
-          },
-          {
-            "ingredients": [
-              "garlic",
-              "onion",
-              "ginger",
-              "chili"
-            ],
-            "requirements": "2"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "TruckName": "Bao East",
-    "short": "Bao",
-    "combos": [
-      {
-        "ComboName": "Bao Dream",
-        "dependency": "Hoisin sauce or Chili Mayo",
-        "score": 20,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "bao buns"
-            ],
-            "requirements": "1"
-          },
-          {
-            "ingredients": [
-              "chicken",
-              "mushrooms",
-              "pork belly",
-              "shrimp",
-              "tofu"
-            ],
-            "requirements": "2"
-          },
-          {
-            "ingredients": [
-              "peanuts",
-              "cabbage",
-              "cucumber"
-            ],
-            "requirements": "2"
-          },
-          {
-            "ingredients": [
-              "cilantro",
-              "chili",
-              "ginger",
-              "spices",
-              "soy sauce"
-            ],
-            "requirements": "2"
-          }
-        ]
-      },
-      {
-        "ComboName": "Hoisin sauce",
-        "dependency": null,
-        "score": 3,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "sugar",
-              "spices",
-              "soy sauce"
-            ],
-            "requirements": "3"
-          }
-        ]
-      },
-      {
-        "ComboName": "Chili Mayo",
-        "dependency": null,
-        "score": 3,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "egg",
-              "oil",
-              "chili"
-            ],
-            "requirements": "3"
-          }
-        ]
-      },
-      {
-        "ComboName": "Spring Rolls",
-        "dependency": null,
-        "score": 10,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "oil",
-              "flour",
-              "soy sauce"
-            ],
-            "requirements": "3"
-          },
-          {
-            "ingredients": [
-              "cabbage",
-              "carrot",
-              "lettuce"
-            ],
-            "requirements": "2"
-          },
-          {
-            "ingredients": [
-              "mushrooms",
-              "tofu",
-              "ground meat"
-            ],
-            "requirements": "1"
-          },
-          {
-            "ingredients": [
-              "peas",
-              "onion",
-              "garlic",
-              "chili",
-              "ginger"
-            ],
-            "requirements": "2"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "TruckName": "Grilluminati's BBQ",
-    "short": "BBQ",
-    "combos": [
-      {
-        "ComboName": "BBQ Platter",
-        "dependency": null,
-        "score": 15,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "cornbread"
-            ],
-            "requirements": "1"
-          },
-          {
-            "ingredients": [
-              "steak",
-              "pork belly",
-              "pork tenderloin",
-              "chicken",
-              "bacon",
-              "ground meat",
-              "fish",
-              "spices"
-            ],
-            "requirements": "5"
-          }
-        ]
-      },
-      {
-        "ComboName": "BBQ Beans",
-        "dependency": "BBQ Platter",
-        "score": 4,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "beans"
-            ],
-            "requirements": "1"
-          }
-        ]
-      },
-      {
-        "ComboName": "Vegan BBQ",
-        "dependency": null,
-        "score": 14,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "cornbread",
-              "corn"
-             
-            ],
-            "requirements": "2"
-          },
-          {
-            "ingredients": [
-              "cabbage",
-              "lettuce",
-              "aubergine",
-              "carrot",
-              "mushrooms",
-              "tofu",
-              "beans"
-            ],
-            "requirements": "5"
-          }
-        ]
-      },
-      {
-        "ComboName": "Creamy Sides",
-        "dependency": null,
-        "score": 3,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "dairy"
-            ],
-            "requirements": "1"
-          },
-          {
-            "ingredients": [
-              "corn",
-              "spinach",
-              "potato",
-              "pasta"
-            ],
-            "requirements": "2"
-          }
-        ]
-      },
-      {
-        "ComboName": "Shrimp Skewers",
-        "dependency": null,
-        "score": 3,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "shrimp",
-              "garlic"
-            ],
-            "requirements": "2"
-          }
-        ]
-      },
-      {
-        "ComboName": "Coleslaw",
-        "dependency": null,
-        "score": 4,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "cabbage",
-              "egg",
-              "oil"
-            ],
-            "requirements": "3"
-          },
-          {
-            "ingredients": [
-              "lime",
-              "lemon",
-              "vinegar"
-            ],
-            "requirements": "1"
-          },
-          {
-            "ingredients": [
-              "carrot",
-              "onion",
-              "chili"
-            ],
-            "requirements": "1"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "TruckName": "Vini Vidi Pasta",
-    "short": "Pasta",
-    "combos": [
-      
-      {
-        "ComboName": "Pasti",
-        "dependency": null,
-        "score": 20,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "pasta",
-              "cheese"
-            ],
-            "requirements": "2"
-          },
-          {
-            "ingredients": [
-              "ground meat",
-              "pork tenderloin",
-              "steak",
-              "chicken",
-              "bacon"
-            ],
-            "requirements": "2"
-          },
-          {
-            "ingredients": [
-              "shrimp",
-              "mushrooms",
-              "aubergine",
-              "fish",
-              "beans"
-            ],
-            "requirements": "2"
-          },
-          {
-            "ingredients": [
-              "tomato",
-              "carrot",
-              "onion",
-              "spinach",
-              "peas"
-            ],
-            "requirements": "2"
-          },
-          {
-            "ingredients": [
-              "basil",
-              "garlic",
-              "lemon",
-              "oil",
-              "vinegar"
-            ],
-            "requirements": "2"
-          }
-        ]
-      },
-      {
-        "ComboName": "Eggplant Parmesan",
-        "dependency": null,
-        "score": 7,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "aubergine",
-              "cheese",
-              "egg",
-              "flour",
-              "tomato"
-            ],
-            "requirements": "5"
-          },
-          {
-            "ingredients": [
-              "basil",
-              "garlic"
-            ],
-            "requirements": "1"
-          }
-        ]
-      },
-      {
-        "ComboName": "Gelato",
-        "dependency": null,
-        "score": 3,
-        "type": null,
-        "ComboLines": [
-          {
-            "ingredients": [
-              "sugar",
-              "egg",
-              "dairy"
-            ],
-            "requirements": "3"
-          },
-          {
-            "ingredients": [
-              "banana",
-              "mango",
-              "strawberries",
-              "pineapple",
-              "lemon",
-              "chocolate"
-            ],
-            "requirements": "3"
-          },
-          {
-            "ingredients": [
-              "peanuts",
-              "avocado",
-              "spices"
-            ],
-            "requirements": "0"
-          }
-        ]
-      }
-    ]
-  }
+    }
 ]

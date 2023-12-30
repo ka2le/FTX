@@ -256,7 +256,7 @@ h2 {
 
 .ingredients {
   flex: 4;
-  line-height: 20px;
+  line-height: 14px;
   text-align: left;
 }
 
@@ -373,7 +373,6 @@ h2 {
 .ingredient-dialog .MuiPaper-root {
   width: 600px;
   color: white;
-  margin: 22px;
   background-color: rgba(0, 0, 0, 0.9);
 }
 
@@ -488,21 +487,29 @@ h2 {
 }
 
 .dialog-title-actions {
+  justify-content: space-between;
+  align-items: center;
+  
+}
+.dialog-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  /* Add more styling as needed */
 }
 
-.dialog-title {
-  flex: 1;
 
-  margin: 0;
+.dialog-title {
+  padding: 8px 12px !important;
+  margin: 0 !important;
+  display: inline-block;
 }
 
 .dialog-actions {
   flex: 0;
   margin: 0;
   color: white;
+  padding: 0 !important;
 }
 
 .dialog-actions-button {
@@ -833,12 +840,20 @@ button.selected {
   margin: 0 !important;
   margin-top: -3px !important;
 }
-
+.truck-card  .sedgwickAveDisplay-type .ingredients{
+ line-height: 0; 
+}
 .truck-card .ingredients {
   width: 100% !important;
   max-width: 100% !important;
   padding: 0 !important;
   line-height: 0.77;
+}
+.truck-card .ingredient{
+  font-size: 12px !important;
+  margin-bottom: 0px !important;
+  line-height: 0.77;
+  height: auto;
 }
 
 .truck-card .requirements {
