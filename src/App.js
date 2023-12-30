@@ -344,23 +344,24 @@ export default function App() {
               </Button>  </div>
 
             {/* Third Row */}
-            <div className="dialog-row">
-              {tradeInterface ? null : <div className="dialog-title">
-                <button onClick={() => toggleSort('name')}>
+            <div className="dialog-row center">
+              {tradeInterface ? null : <div className="dialog-title-actions">
+                
+                <Button  className="dialog-actions-button" onClick={() => toggleSort('name')}>
                  Name {sortConfig.criteria === 'name' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
-                </button>
-                <button onClick={() => toggleSort('level')}>
+                </Button>
+                <Button  className="dialog-actions-button" onClick={() => toggleSort('level')}>
                   Tier {sortConfig.criteria === 'level' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
-                </button>
-                <button onClick={() => toggleSort('amount')}>
+                </Button>
+                <Button   className="dialog-actions-button" onClick={() => toggleSort('amount')}>
                   Owned {sortConfig.criteria === 'amount' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
-                </button>
-                <button onClick={() => toggleSort('scoreDifferenceDecrement')}>
+                </Button>
+                <Button   className="dialog-actions-button" onClick={() => toggleSort('scoreDifferenceDecrement')}>
                 Lose {sortConfig.criteria === 'scoreDifferenceDecrement' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
-                </button>
-                <button onClick={() => toggleSort('scoreDifferenceIncrement')}>
+                </Button>
+                <Button  className="dialog-actions-button" onClick={() => toggleSort('scoreDifferenceIncrement')}>
                 Gain {sortConfig.criteria === 'scoreDifferenceIncrement' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
-                </button>
+                </Button>
               </div>}
             </div>
           </DialogTitle>

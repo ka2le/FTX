@@ -495,7 +495,11 @@ h2 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* Add more styling as needed */
+  height: 28px;
+}
+.dialog-row .center {
+  justify-content: center;
+
 }
 
 
