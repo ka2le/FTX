@@ -20,6 +20,9 @@ import './App.css'; // your custom css
 export const TESTING = true;
 const WORKING_ON_CARDS = false;
 
+const RARE_THRESHOLD = 2;
+const UNCOMMON_THRESHOLD = 3;
+const CARD_SCORE_VALUE = 2;
 
 
 export default function App() {
@@ -84,6 +87,8 @@ export default function App() {
 
   console.log("Total Ingredients: ", result.totalIngredients);
   console.log("Ingredients by Level: ", result.levelCount);
+  console.log("Ingredients by Rarity: ", result.rarityCount);
+  console.log("Ingredients by rarityTypeCount: ", result.rarityTypeCount);
   console.log("Split all card 5 players: ", result.totalIngredients / 5)
   console.log("Split all card 9 players: ", result.totalIngredients / 9)
   console.log("Cards left for max " + MAX_HAND_LIMIT + " cards 5 players: ", Math.floor((result.totalIngredients / 5 - MAX_HAND_LIMIT) * 5))
@@ -237,7 +242,7 @@ export default function App() {
         return { criteria, direction: prevConfig.direction === 'asc' ? 'desc' : 'asc' };
       } else {
         // Reset to descending for 'amount' and ascending for others when switching criteria
-        return { criteria, direction: (criteria === 'amount' || criteria=== "scoreDifferenceIncrement") ? 'desc' : 'asc' };
+        return { criteria, direction: (criteria === 'amount' || criteria === "scoreDifferenceIncrement") ? 'desc' : 'asc' };
       }
     });
   };
@@ -346,21 +351,21 @@ export default function App() {
             {/* Third Row */}
             <div className="dialog-row center">
               {tradeInterface ? null : <div className="dialog-title-actions">
-                
-                <Button  className="dialog-actions-button" onClick={() => toggleSort('name')}>
-                 Name {sortConfig.criteria === 'name' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+
+                <Button className="dialog-actions-button" onClick={() => toggleSort('name')}>
+                  Name {sortConfig.criteria === 'name' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
                 </Button>
-                <Button  className="dialog-actions-button" onClick={() => toggleSort('level')}>
-                  Tier {sortConfig.criteria === 'level' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                <Button className="dialog-actions-button" onClick={() => toggleSort('copies')}>
+                  Rarity {sortConfig.criteria === 'copies' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
                 </Button>
-                <Button   className="dialog-actions-button" onClick={() => toggleSort('amount')}>
+                <Button className="dialog-actions-button" onClick={() => toggleSort('amount')}>
                   Owned {sortConfig.criteria === 'amount' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
                 </Button>
-                <Button   className="dialog-actions-button" onClick={() => toggleSort('scoreDifferenceDecrement')}>
-                Lose {sortConfig.criteria === 'scoreDifferenceDecrement' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                <Button className="dialog-actions-button" onClick={() => toggleSort('scoreDifferenceDecrement')}>
+                  Lose {sortConfig.criteria === 'scoreDifferenceDecrement' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
                 </Button>
-                <Button  className="dialog-actions-button" onClick={() => toggleSort('scoreDifferenceIncrement')}>
-                Gain {sortConfig.criteria === 'scoreDifferenceIncrement' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                <Button className="dialog-actions-button" onClick={() => toggleSort('scoreDifferenceIncrement')}>
+                  Gain {sortConfig.criteria === 'scoreDifferenceIncrement' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
                 </Button>
               </div>}
             </div>
@@ -371,7 +376,7 @@ export default function App() {
         <DialogContent>
           {tradeInterface ?
             <TradePage ingredients={ingredients} setIngredients={setIngredients} deck={deck} setDeck={setDeck} players={players} setPlayers={setPlayers} currentPlayerId={currentPlayerId}></TradePage> :
-            <IngredientList  sortConfig={sortConfig} ingredients={ingredients} setIngredients={setIngredients} scoreDifferences={scoreDifferences} />}
+            <IngredientList sortConfig={sortConfig} ingredients={ingredients} setIngredients={setIngredients} scoreDifferences={scoreDifferences} />}
         </DialogContent>
 
       </Dialog>
@@ -598,7 +603,7 @@ const MyTruckThumbnail = ({ goTo, index }) => {
 };
 
 
-const IngredientList = ({ ingredients, setIngredients, scoreDifferences, sortConfig  }) => {
+const IngredientList = ({ ingredients, setIngredients, scoreDifferences, sortConfig }) => {
 
   const sortedIngredients = useMemo(() => {
     return [...ingredients].sort((a, b) => {
@@ -656,7 +661,11 @@ const IngredientList = ({ ingredients, setIngredients, scoreDifferences, sortCon
 
         return (
           <div key={ingredient.name} className="ingredient-row" style={{ color: ingredient.color }}>
-            <span className="ingredient-name">{ingredient.name}{ingredient.copies}{'★'.repeat(ingredient.level)}</span>
+            <span className="ingredient-name">
+              {ingredient.name} 
+              <RarityIcon copies={ingredient.copies}  color={ingredient.color}></RarityIcon>
+              {/* {'★'.repeat(ingredient.level)} */}
+            </span>
             <div className="score-difference">
 
               {(scoreDifferenceDecrement !== 0 || (ingredient.amount > 0 && scoreDifferenceDecrement === 0)) && (
@@ -684,8 +693,73 @@ const IngredientList = ({ ingredients, setIngredients, scoreDifferences, sortCon
     </div>
   );
 };
+const RarityIcon = ({ copies, color }) => {
+  let rarity = 1;
+  if (copies <= RARE_THRESHOLD) {
+    rarity = 3;
+  } else if (copies <= UNCOMMON_THRESHOLD) {
+    rarity = 2;
+  }
 
+  // Enhance color if needed (modify as per your requirement)
+  const enhancedColor = enhanceColor(color); // Function to make color more saturated/darker
 
+  return (
+    <div
+      style={{
+        height: '20px',
+        width: '20px',
+        display: 'inline-block',
+        backgroundImage: `url(/ftx/cards/lvl${rarity}.png)`,
+        backgroundSize: 'cover',
+        backgroundBlendMode: 'multiply', // Adjust blend mode
+        WebkitMask: `url(/ftx/cards/lvl${rarity}.png) no-repeat center / contain`,
+        mask: `url(/ftx/cards/lvl${rarity}.png) no-repeat center / contain`,
+        backgroundColor: enhancedColor, // Use enhanced color
+      }}
+      alt={`Level ${rarity} icon`}
+      className="level-icon"
+    />
+  );
+};
+
+// Function to enhance color saturation or darkness
+const enhanceColor = (color) => {
+  // Implement logic to return a more saturated or darker version of the color
+  // This might involve color manipulation libraries or custom logic
+  return color; // Placeholder for the actual enhanced color
+};
+
+//CALCULATE COMBO SCORE
+//CALCULATE COMBO SCORE
+//CALCULATE COMBO SCORE
+
+function calculateComboScore(combo, ingredientDict) {
+  let comboScore = combo.score;
+  let totalShortfall = 0;
+  let potentialMissingIngredients = [];
+  let totalIngredients = new Set();
+
+  for (let line of combo.ComboLines) {
+    const { shortfall, missingIngredients, ingredientLevelSum } = processComboLine(line, ingredientDict);
+
+    comboScore += ingredientLevelSum + parseInt(line.requirements) * 2;
+    totalShortfall += shortfall;
+    if (shortfall === 1) {
+      potentialMissingIngredients.push(...missingIngredients);
+    }
+
+    // Add ingredients to the totalIngredients set
+    for (let ingredient of line.ingredients) {
+      totalIngredients.add(ingredient);
+    }
+  }
+
+  // Reduce the combo score by the number of unique ingredients, ensuring it doesn't go negative
+  comboScore = Math.max(0, comboScore - Math.floor(totalIngredients.size / 2));
+
+  return [comboScore, totalShortfall, potentialMissingIngredients];
+}
 
 
 
@@ -786,32 +860,6 @@ export function checkCompleteCombos(ingredients) {
 }
 
 
-function calculateComboScore(combo, ingredientDict) {
-  let comboScore = combo.score;
-  let totalShortfall = 0;
-  let potentialMissingIngredients = [];
-  let totalIngredients = new Set();
-
-  for (let line of combo.ComboLines) {
-    const { shortfall, missingIngredients, ingredientLevelSum } = processComboLine(line, ingredientDict);
-
-    comboScore += ingredientLevelSum + parseInt(line.requirements) * 2;
-    totalShortfall += shortfall;
-    if (shortfall === 1) {
-      potentialMissingIngredients.push(...missingIngredients);
-    }
-
-    // Add ingredients to the totalIngredients set
-    for (let ingredient of line.ingredients) {
-      totalIngredients.add(ingredient);
-    }
-  }
-
-  // Reduce the combo score by the number of unique ingredients, ensuring it doesn't go negative
-  comboScore = Math.max(0, comboScore - Math.floor(totalIngredients.size / 2));
-
-  return [comboScore, totalShortfall, potentialMissingIngredients];
-}
 
 
 const processComboLine = (line, ingredientDict) => {
@@ -824,7 +872,7 @@ const processComboLine = (line, ingredientDict) => {
     if (updatedIngredientDict[ingredient] && updatedIngredientDict[ingredient].amount >= 1) {
       count++;
       updatedIngredientDict[ingredient].amount--;
-      ingredientLevelSum += updatedIngredientDict[ingredient].level;
+      ingredientLevelSum +=  CARD_SCORE_VALUE ??  updatedIngredientDict[ingredient].level;
     }
   }
   const shortfall = Math.max(0, requirement - count);
@@ -1020,19 +1068,31 @@ const truckStyles = {
 function calculateTotalIngredients() {
   let totalIngredients = 0;
   const levelCount = {}; // Object to store counts per level
+  const rarityCount = { rare: 0, uncommon: 0, common: 0 }; // Object to store rarity counts
+  const rarityTypeCount = { rare: 0, uncommon: 0, common: 0 }; // Object to store unique rarity types
 
   for (let i = 0; i < initialIngredients.length; i++) {
     const ingredient = initialIngredients[i];
     totalIngredients += ingredient.copies;
 
-    // If the level doesn't exist in the object, initialize it with 0
+    // Update level count
     if (!levelCount[ingredient.level]) {
       levelCount[ingredient.level] = 0;
     }
-
-    // Increment the count for the ingredient's level
     levelCount[ingredient.level] += ingredient.copies;
+
+    // Update rarity count and rarity type count
+    if (ingredient.copies <= RARE_THRESHOLD) {
+      rarityCount.rare += ingredient.copies;
+      rarityTypeCount.rare += 1;
+    } else if (ingredient.copies <= UNCOMMON_THRESHOLD) {
+      rarityCount.uncommon += ingredient.copies;
+      rarityTypeCount.uncommon += 1;
+    } else {
+      rarityCount.common += ingredient.copies;
+      rarityTypeCount.common += 1;
+    }
   }
 
-  return { totalIngredients, levelCount };
+  return { totalIngredients, levelCount, rarityCount, rarityTypeCount };
 }
