@@ -497,7 +497,7 @@ h2 {
   align-items: center;
   height: 28px;
 }
-.dialog-row .center {
+.dialog-row.center {
   justify-content: center;
 
 }
