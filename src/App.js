@@ -78,9 +78,13 @@ export default function App() {
   useEffect(() => {
     if (testInterface) {
       const intervalId = setInterval(async () => {
-        const gameState = await getGameState();
-        if (gameState) {
-          setPlayers(gameState.players);
+        if (testInterface) {
+          const gameState = await getGameState();
+          if (gameState) {
+            setPlayers(gameState.players);
+          } else {
+            clearInterval(intervalId);
+          }
         }
       }, 1000); // Set the interval to 1 second or as appropriate
 
@@ -325,6 +329,12 @@ export default function App() {
             {/* First Row */}
             <div className="dialog-row">
               <div className="dialog-title">{testInterface ? "Trade" : "Ingredients"}</div>
+              <Button className="dialog-actions-button" onClick={reset} >
+                🗑️
+              </Button>
+              <Button className="dialog-actions-button" onClick={toggleTradeInterface} >
+                {(!testInterface) ? '👥' : "👤"}
+              </Button>
               <Button className="dialog-actions-button" onClick={handleClose}>
                 x
               </Button>
@@ -335,60 +345,60 @@ export default function App() {
               {false ? <Button className="dialog-actions-button" onClick={toggleAutoSlide} >
                 {(autoSlide) ? 'Disable Auto-Slide' : 'Enable Auto-Slide'}
               </Button> : null}
-              <Button className="dialog-actions-button" onClick={reset} >
-                🗑️
-              </Button>
+
 
               {testInterface ? <>
                 <Button onClick={toggleLocalChanges}>
-                  {hasLocalChanges ? <LinkOffIcon /> : <LinkIcon />}
+                {isLandscapeOrDesktop ? (hasLocalChanges ? "Unsynced" : "Synced") : null} {hasLocalChanges ? <LinkOffIcon /> : <LinkIcon />}
                 </Button>
-
-                <Select
-                  labelId="player-label"
-                  id="player-dropdown"
-                  value={numberOfPlayers}
-                  onChange={handleNumberOfPlayersChange}
-                  className='white dialog-dropdown'
-                >
-                  {Array.from({ length: 8 }, (_, i) => i + 1).map((number) => (
-                    <MenuItem key={number} value={number}>
-                      {number}
-                    </MenuItem>
-                  ))}
-                </Select>
-
-                <Button className="dialog-actions-button" onClick={() => handleDealCards(setDeck, setPlayers, numberOfPlayers)} >
-                  🂠
-                </Button>
-
-
-
-
-                <Select
-                  labelId="player-label"
-                  id="player-dropdown"
-                  value={currentPlayerId}
-                  onChange={handlePlayerIdChange}
-                  className='white dialog-dropdown'
-                >
-                  {playerList.map((playerId) => (
-                    <MenuItem key={playerId} value={playerId}>
-                      {playerId}
-                    </MenuItem>
-                  ))}
-                </Select></>
-
-                : <> {TESTING ? <Button className="dialog-actions-button" onClick={() => { setCardTesting(!cardTesting) }} >
+                {TESTING ? <Button className="dialog-actions-button" onClick={() => { setCardTesting(!cardTesting) }} >
                   🖨️
                 </Button> : null}
+                <div>   {isLandscapeOrDesktop ? "# of Players:" : null}
+                  <Select
+                    labelId="player-label"
+                    id="player-dropdown"
+                    value={numberOfPlayers}
+                    onChange={handleNumberOfPlayersChange}
+                    className='white dialog-dropdown'
+                  >
+                    {Array.from({ length: 8 }, (_, i) => i + 1).map((number) => (
+                      <MenuItem key={number} value={number}>
+                        {number}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  <Button className="dialog-actions-button" onClick={() => handleDealCards(setDeck, setPlayers, numberOfPlayers)} >
+                    {isLandscapeOrDesktop ? "Deal Cards" : "🂠"}
+                  </Button></div>
+
+
+
+
+
+
+                <div> {isLandscapeOrDesktop ? "Current:" : null}
+                  <Select
+                    labelId="player-label"
+                    id="player-dropdown"
+                    value={currentPlayerId}
+                    onChange={handlePlayerIdChange}
+                    className='white dialog-dropdown'
+                  >
+                    {playerList.map((playerId) => (
+                      <MenuItem key={playerId} value={playerId}>
+                        {playerId}
+                      </MenuItem>
+                    ))}
+                  </Select></div>
+              </>
+
+                : <>
 
 
 
                 </>}
-              <Button className="dialog-actions-button" onClick={toggleTradeInterface} >
-                {(!testInterface) ? '👥' : "👤"}
-              </Button>  </div>
+            </div>
 
             {/* Third Row */}
             <div className="dialog-row">
@@ -428,7 +438,7 @@ export default function App() {
 
 
 
-       
+
         </DialogContent>
 
       </Dialog>
