@@ -151,7 +151,7 @@ const Hand = ({ players, setPlayers, id, ingredients, currentPlayerId }) => {
 
         Player {player?.id}
         {!(player?.id == currentPlayerId) && <Button className="trade-with-player-button" onClick={handleTrade}>Trade</Button>}
-        <div className="combo-info"> <b> S: {score} {TESTING ? `C: ${totalIngredientCount} L: ${combinedLevel}` : null} </b> {completeCombos.join(", ")} </div>
+        <div className="combo-info"> <b> S: {score} {TESTING ? `C: ${player?.cards?.length}` : null} </b> {completeCombos.join(", ")} </div>
       </div>
 
       <div className="cards">
