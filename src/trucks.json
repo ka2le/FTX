@@ -96,7 +96,7 @@
             {
                 "ComboName": "Milskshake",
                 "dependency": null,
-                "score": 0,
+                "score": 4,
                 "type": null,
                 "ComboLines": [
                     {
@@ -291,8 +291,7 @@
                             "chicken",
                             "fish",
                             "beans",
-                            "tofu",
-                            "mushrooms"
+                            "tofu"
                         ],
                         "requirements": "2"
                     },
@@ -370,7 +369,7 @@
             {
                 "ComboName": "Chutney",
                 "dependency": null,
-                "score": 0,
+                "score": 4,
                 "type": null,
                 "ComboLines": [
                     {
@@ -760,7 +759,7 @@
             {
                 "ComboName": "Gelato",
                 "dependency": null,
-                "score": 0,
+                "score": 4,
                 "type": null,
                 "ComboLines": [
                     {
