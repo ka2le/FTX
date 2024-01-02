@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const port = 4000; // You can choose any port
+const host = '0.0.0.0'; 
 const cors = require('cors');
 
 // Middleware to parse JSON bodies
@@ -37,7 +38,7 @@ app.get('/test-endpoint', (req, res) => {
 
 
 // Start the server
-app.listen(port, () => {
+app.listen(port, host, () => {
   console.log(`Server is running on port ${port}`);
 });
 
