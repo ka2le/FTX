@@ -12,7 +12,7 @@ import { checkCompleteCombos, TESTING } from "./App"
 
 export const MAX_HAND_LIMIT = 15;
 
-export const TradePage = ({ deck, setDeck, players, setPlayers, ingredients, setIngredients, currentPlayerId }) => {
+export const TradePage = ({ deck, setDeck, players, setPlayers, ingredients, setIngredients, currentPlayerId, hasLocalChanges }) => {
   useEffect(() => {
     const sortedPlayers = players.map(player => {
       // Clone the player object to avoid direct state mutation
@@ -29,7 +29,7 @@ export const TradePage = ({ deck, setDeck, players, setPlayers, ingredients, set
   }, [players]);
 
   useEffect(() => {
-    processIngredients(players, ingredients, currentPlayerId, setIngredients);
+    processIngredients(players, ingredients, currentPlayerId, setIngredients, hasLocalChanges);
   }, [players, currentPlayerId]);
 
   return (
@@ -73,29 +73,29 @@ const Hand = ({ players, setPlayers, id, ingredients, currentPlayerId }) => {
   const handleTradeConfirm = async () => {
     // Fetch the current game state from the server
     const currentGameState = await getGameState();
-  
+
     // Determine the source of truth for player data based on currentGameState
     const sourceOfTruthPlayers = (!currentGameState || currentGameState.players.length === 0) ? players : currentGameState.players;
-  
+
     // Fetch the corresponding players from the source of truth
     const sourceCurrentPlayer = sourceOfTruthPlayers.find(player => player.id === currentPlayerId);
     const sourceOtherPlayer = sourceOfTruthPlayers.find(player => player.id === id);
-  
+
     // Check if both players have the required cards for the trade
-    const currentPlayerHasCards = selectedCardsCurrentPlayer.every(cardWithIndex => 
+    const currentPlayerHasCards = selectedCardsCurrentPlayer.every(cardWithIndex =>
       sourceCurrentPlayer.cards.includes(cardWithIndex.split('-')[0]));
-    const otherPlayerHasCards = selectedCardsOtherPlayer.every(cardWithIndex => 
+    const otherPlayerHasCards = selectedCardsOtherPlayer.every(cardWithIndex =>
       sourceOtherPlayer.cards.includes(cardWithIndex.split('-')[0]));
-  
+
     if (currentPlayerHasCards && otherPlayerHasCards) {
       // Proceed with trade
       const updatedPlayers = JSON.parse(JSON.stringify(players));
       const currentPlayerIndex = updatedPlayers.findIndex(player => player.id === currentPlayerId);
       const otherPlayerIndex = updatedPlayers.findIndex(player => player.id === id);
-  
+
       executeTrade(selectedCardsCurrentPlayer, currentPlayerIndex, updatedPlayers, otherPlayerIndex);
       executeTrade(selectedCardsOtherPlayer, otherPlayerIndex, updatedPlayers, currentPlayerIndex);
-  
+
       // Prepare the trade history object
       const tradeHistory = {
         timestamp: new Date().toISOString(),
@@ -105,12 +105,12 @@ const Hand = ({ players, setPlayers, id, ingredients, currentPlayerId }) => {
           otherPlayer: selectedCardsOtherPlayer.map(cardWithIndex => cardWithIndex.split('-')[0])
         }
       };
-  
+
       // Update the state and send to server
       setPlayers(updatedPlayers);
       const updatedGameState = { players: updatedPlayers, tradeHistory };
       await updateGameState(updatedGameState);
-  
+
       // Reset selected cards and close the trade dialog
       setSelectedCardsCurrentPlayer([]);
       setSelectedCardsOtherPlayer([]);
@@ -120,19 +120,19 @@ const Hand = ({ players, setPlayers, id, ingredients, currentPlayerId }) => {
       alert("Trade invalid: One or both players do not have the required cards.");
     }
   };
-  
+
   const executeTrade = (selectedCards, fromPlayerIndex, players, toPlayerIndex) => {
     selectedCards.forEach(cardWithIndex => {
       const [card] = cardWithIndex.split('-');
       const fromPlayerCards = players[fromPlayerIndex].cards;
       const toPlayerCards = players[toPlayerIndex].cards;
-  
+
       // Remove the card from fromPlayer and add it to toPlayer
       fromPlayerCards.splice(fromPlayerCards.indexOf(card), 1);
       toPlayerCards.push(card);
     });
   };
-  
+
 
   useEffect(() => {
     const ingredientsForPlayer = makeIngredientsArray(players, ingredients, player?.id);
@@ -230,10 +230,25 @@ const TradeInterface = ({ currentPlayer, otherPlayer, setSelectedCardsCurrentPla
   );
 }
 
-export const processIngredients = (players, ingredients, currentPlayerId, setIngredientsFn) => {
-  let newIngredients = makeIngredientsArray(players, ingredients, currentPlayerId);
-  newIngredients = newIngredients.sort((a, b) => a.name.localeCompare(b.name));
-  setIngredientsFn([...newIngredients]);
+export const processIngredients = (players, ingredients, currentPlayerId, setIngredientsFn, hasLocalChanges) => {
+  if (!hasLocalChanges) {
+    let newIngredients = makeIngredientsArray(players, ingredients, currentPlayerId);
+    newIngredients = newIngredients.sort((a, b) => a.name.localeCompare(b.name));
+    setIngredientsFn([...newIngredients]);
+  }
+};
+
+export const checkIngredientsMatch = (players, ingredients, currentPlayerId) => {
+  const currentPlayer = players.find(p => p.id === currentPlayerId);
+  if (!currentPlayer) return false;
+
+  const currentPlayerIngredients = makeIngredientsArray(players, ingredients, currentPlayerId)
+    .map(ing => ing.name)
+    .sort();
+
+  const currentIngredients = ingredients.map(ing => ing.name).sort();
+
+  return JSON.stringify(currentPlayerIngredients) === JSON.stringify(currentIngredients);
 };
 
 

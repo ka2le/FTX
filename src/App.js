@@ -12,8 +12,10 @@ import trucks from './trucks.json';
 import TestApiComponent from './Api';
 import { updateGameState, getGameState } from "./Api";
 import initialIngredients from './initialIngredients.json';
-import { TradePage, makeIngredientsArray, createDeck, handleDealCards, MAX_HAND_LIMIT, processIngredients } from './TradePage';
+import { TradePage, makeIngredientsArray, createDeck, handleDealCards, MAX_HAND_LIMIT, processIngredients, checkIngredientsMatch } from './TradePage';
 import { Cards } from './Cards';
+import LinkIcon from '@mui/icons-material/Link';
+import LinkOffIcon from '@mui/icons-material/LinkOff';
 
 
 import 'slick-carousel/slick/slick.css';
@@ -68,6 +70,10 @@ export default function App() {
     return storedplayers ? JSON.parse(storedplayers) : [];
   };
   const [players, setPlayers] = useState(loadPlayersFromLocalStorage);
+  const [hasLocalChanges, setHasLocalChanges] = useState(false);
+  const toggleLocalChanges = () => {
+    setHasLocalChanges(!hasLocalChanges);
+  };
 
   useEffect(() => {
     if (testInterface) {
@@ -82,9 +88,14 @@ export default function App() {
     }
   }, []);
 
+  useEffect(() => {
+    console.log("hasLocalChanges", hasLocalChanges)
+  }, [hasLocalChanges]);
+
 
 
   const [ingredients, setIngredients] = useState(loadFromLocalStorage);
+
   useEffect(() => {
     localStorage.setItem('ingredients', JSON.stringify(ingredients));
   }, [ingredients]);
@@ -130,6 +141,7 @@ export default function App() {
     );
   };
   const incrementAmount = (name) => {
+    setHasLocalChanges(true)
     setIngredients((prevIngredients) =>
       prevIngredients.map((ingredient) =>
         ingredient.name === name
@@ -305,7 +317,7 @@ export default function App() {
 
 
       </div>
-      <Dialog fullScreen={!isLandscapeOrDesktop} maxWidth={'lg'} fullWidth={true} open={open} onClose={handleClose} className={`ingredient-dialog ${testInterface ? "trade" : null}  ${isLandscapeOrDesktop ? "desktop" : null}`}>
+      <Dialog keepMounted={true} fullScreen={!isLandscapeOrDesktop} maxWidth={'lg'} fullWidth={true} open={open} onClose={handleClose} className={`ingredient-dialog ${testInterface ? "trade" : null}  ${isLandscapeOrDesktop ? "desktop" : null}`}>
         <div className="dialog-title-actions">
 
 
@@ -323,8 +335,15 @@ export default function App() {
               {false ? <Button className="dialog-actions-button" onClick={toggleAutoSlide} >
                 {(autoSlide) ? 'Disable Auto-Slide' : 'Enable Auto-Slide'}
               </Button> : null}
+              <Button className="dialog-actions-button" onClick={reset} >
+                🗑️
+              </Button>
 
               {testInterface ? <>
+                <Button onClick={toggleLocalChanges}>
+                  {hasLocalChanges ? <LinkOffIcon /> : <LinkIcon />}
+                </Button>
+
                 <Select
                   labelId="player-label"
                   id="player-dropdown"
@@ -344,6 +363,8 @@ export default function App() {
                 </Button>
 
 
+
+
                 <Select
                   labelId="player-label"
                   id="player-dropdown"
@@ -361,12 +382,7 @@ export default function App() {
                 : <> {TESTING ? <Button className="dialog-actions-button" onClick={() => { setCardTesting(!cardTesting) }} >
                   🖨️
                 </Button> : null}
-                  <Button className="dialog-actions-button" onClick={reset} >
-                    🗑️
-                  </Button>
-                  <Button className="dialog-actions-button" onClick={() => { processIngredients(players, ingredients, currentPlayerId, setIngredients) }} >
-                    Refresh
-                  </Button>
+
 
 
                 </>}
@@ -403,10 +419,10 @@ export default function App() {
 
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
-              <IngredientList sortConfig={sortConfig} ingredients={ingredients} setIngredients={setIngredients} scoreDifferences={scoreDifferences} />
+              <IngredientList setHasLocalChanges={setHasLocalChanges} sortConfig={sortConfig} ingredients={ingredients} setIngredients={setIngredients} scoreDifferences={scoreDifferences} />
             </Grid>
             <Grid item xs={12} md={6}>
-              {testInterface ? <TradePage ingredients={ingredients} setIngredients={setIngredients} deck={deck} setDeck={setDeck} players={players} setPlayers={setPlayers} currentPlayerId={currentPlayerId}></TradePage> : null}
+              {testInterface ? <TradePage hasLocalChanges={hasLocalChanges} ingredients={ingredients} setIngredients={setIngredients} deck={deck} setDeck={setDeck} players={players} setPlayers={setPlayers} currentPlayerId={currentPlayerId}></TradePage> : null}
             </Grid>
           </Grid>
 
@@ -639,7 +655,7 @@ const MyTruckThumbnail = ({ goTo, index }) => {
 };
 
 
-const IngredientList = ({ ingredients, setIngredients, scoreDifferences, sortConfig }) => {
+const IngredientList = ({ ingredients, setIngredients, scoreDifferences, sortConfig, setHasLocalChanges }) => {
 
   const sortedIngredients = useMemo(() => {
     return [...ingredients].sort((a, b) => {
@@ -669,6 +685,7 @@ const IngredientList = ({ ingredients, setIngredients, scoreDifferences, sortCon
   }, [ingredients, scoreDifferences, sortConfig]);
 
   const incrementAmount = (name) => {
+    setHasLocalChanges(true)
     setIngredients((prevIngredients) =>
       prevIngredients.map((ingredient) =>
         ingredient.name === name
@@ -679,6 +696,7 @@ const IngredientList = ({ ingredients, setIngredients, scoreDifferences, sortCon
   };
 
   const decrementAmount = (name) => {
+    setHasLocalChanges(true)
     setIngredients((prevIngredients) =>
       prevIngredients.map((ingredient) =>
         ingredient.name === name && ingredient.amount > 0
