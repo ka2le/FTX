@@ -2,14 +2,17 @@ import React, { useRef, useState, useEffect, useMemo } from 'react';
 import Slider from 'react-slick';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
+import Grid from '@mui/material/Grid';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import trucks from './trucks.json';
+import TestApiComponent from './Api';
+import { updateGameState, getGameState } from "./Api";
 import initialIngredients from './initialIngredients.json';
-import { TradePage, makeIngredientsArray, createDeck, handleDealCards, MAX_HAND_LIMIT } from './TradePage';
+import { TradePage, makeIngredientsArray, createDeck, handleDealCards, MAX_HAND_LIMIT, processIngredients } from './TradePage';
 import { Cards } from './Cards';
 
 
@@ -36,7 +39,7 @@ export default function App() {
     return storedPlayerId ? JSON.parse(storedPlayerId) : 1;
   };
 
-  const [tradeInterface, setTradeInterface] = useState(loadTradeInterfaceFromLocalStorage);
+  const [testInterface, setTradeInterface] = useState(loadTradeInterfaceFromLocalStorage);
   const [currentPlayerId, setCurrentPlayerId] = useState(loadPlayerIdFromLocalStorage);
   const handlePlayerIdChange = (event) => {
     setCurrentPlayerId(event.target.value);
@@ -48,7 +51,7 @@ export default function App() {
   };
   const playerList = Array.from({ length: numberOfPlayers }, (_, i) => i + 1);
   const toggleTradeInterface = () => {
-    setTradeInterface(!tradeInterface);
+    setTradeInterface(!testInterface);
   }
   const [deck, setDeck] = useState(createDeck());
 
@@ -65,6 +68,22 @@ export default function App() {
     return storedplayers ? JSON.parse(storedplayers) : [];
   };
   const [players, setPlayers] = useState(loadPlayersFromLocalStorage);
+
+  useEffect(() => {
+    if (testInterface) {
+      const intervalId = setInterval(async () => {
+        const gameState = await getGameState();
+        if (gameState) {
+          setPlayers(gameState.players);
+        }
+      }, 1000); // Set the interval to 1 second or as appropriate
+
+      return () => clearInterval(intervalId); // Cleanup function to clear the interval
+    }
+  }, []);
+
+
+
   const [ingredients, setIngredients] = useState(loadFromLocalStorage);
   useEffect(() => {
     localStorage.setItem('ingredients', JSON.stringify(ingredients));
@@ -73,25 +92,25 @@ export default function App() {
     localStorage.setItem('players', JSON.stringify(players));
   }, [players]);
   useEffect(() => {
-    localStorage.setItem('tradeInterface', JSON.stringify(tradeInterface));
-  }, [tradeInterface]);
+    localStorage.setItem('tradeInterface', JSON.stringify(testInterface));
+  }, [testInterface]);
   useEffect(() => {
     localStorage.setItem('currentPlayerId', JSON.stringify(currentPlayerId));
   }, [currentPlayerId]);
 
-  console.log(trucks);
-  console.log(initialIngredients)
-  console.log(ingredients)
-  console.log(players[0])
-  const result = calculateTotalIngredients();
+  // console.log(trucks);
+  // console.log(initialIngredients)
+  // console.log(ingredients)
+  // console.log(players[0])
+  // const result = calculateTotalIngredients();
 
-  console.log("Total Ingredients: ", result.totalIngredients);
-  console.log("Ingredients by Level: ", result.levelCount);
-  console.log("Ingredients by Rarity: ", result.rarityCount);
-  console.log("Ingredients by rarityTypeCount: ", result.rarityTypeCount);
-  console.log("Split all card 5 players: ", result.totalIngredients / 5)
-  console.log("Split all card 9 players: ", result.totalIngredients / 9)
-  console.log("Cards left for max " + MAX_HAND_LIMIT + " cards 5 players: ", Math.floor((result.totalIngredients / 5 - MAX_HAND_LIMIT) * 5))
+  // console.log("Total Ingredients: ", result.totalIngredients);
+  // console.log("Ingredients by Level: ", result.levelCount);
+  // console.log("Ingredients by Rarity: ", result.rarityCount);
+  // console.log("Ingredients by rarityTypeCount: ", result.rarityTypeCount);
+  // console.log("Split all card 5 players: ", result.totalIngredients / 5)
+  // console.log("Split all card 9 players: ", result.totalIngredients / 9)
+  // console.log("Cards left for max " + MAX_HAND_LIMIT + " cards 5 players: ", Math.floor((result.totalIngredients / 5 - MAX_HAND_LIMIT) * 5))
 
 
   const reset = () => {
@@ -247,6 +266,7 @@ export default function App() {
     });
   };
 
+
   const toggleAutoSlide = () => {
     setAutoSlide(!autoSlide);
     setKey(Math.random()); // Force re-render by changing the key
@@ -277,21 +297,22 @@ export default function App() {
           setOpen(true)
 
         }}>
-          {tradeInterface ? null : <span className='ingredient-counter'>{countIngredients()}</span>}
-          {tradeInterface ? <span >⬌</span> : "+"}
+          {testInterface ? null : <span className='ingredient-counter'>{countIngredients()}</span>}
+          {testInterface ? <span >⬌</span> : "+"}
 
         </Button>
+        <TestApiComponent></TestApiComponent>
 
 
       </div>
-      <Dialog open={open} onClose={handleClose} className={`ingredient-dialog ${tradeInterface ? "trade" : null}`}>
+      <Dialog fullScreen={!isLandscapeOrDesktop} maxWidth={'lg'} fullWidth={true} open={open} onClose={handleClose} className={`ingredient-dialog ${testInterface ? "trade" : null}  ${isLandscapeOrDesktop ? "desktop" : null}`}>
         <div className="dialog-title-actions">
 
 
           <DialogTitle className="dialog-actions">
             {/* First Row */}
             <div className="dialog-row">
-              <div className="dialog-title">{tradeInterface ? "Trade" : "Ingredients"}</div>
+              <div className="dialog-title">{testInterface ? "Trade" : "Ingredients"}</div>
               <Button className="dialog-actions-button" onClick={handleClose}>
                 x
               </Button>
@@ -303,7 +324,7 @@ export default function App() {
                 {(autoSlide) ? 'Disable Auto-Slide' : 'Enable Auto-Slide'}
               </Button> : null}
 
-              {tradeInterface ? <>
+              {testInterface ? <>
                 <Select
                   labelId="player-label"
                   id="player-dropdown"
@@ -343,14 +364,19 @@ export default function App() {
                   <Button className="dialog-actions-button" onClick={reset} >
                     🗑️
                   </Button>
+                  <Button className="dialog-actions-button" onClick={() => { processIngredients(players, ingredients, currentPlayerId, setIngredients) }} >
+                    Refresh
+                  </Button>
+
+
                 </>}
               <Button className="dialog-actions-button" onClick={toggleTradeInterface} >
-                {(!tradeInterface) ? '👥' : "👤"}
+                {(!testInterface) ? '👥' : "👤"}
               </Button>  </div>
 
             {/* Third Row */}
-            <div className="dialog-row center">
-              {tradeInterface ? null : <div className="dialog-title-actions">
+            <div className="dialog-row">
+              {testInterface ? null : <div className="dialog-title-actions">
 
                 <Button className="dialog-actions-button" onClick={() => toggleSort('name')}>
                   Name {sortConfig.criteria === 'name' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
@@ -373,10 +399,20 @@ export default function App() {
 
 
         </div>
-        <DialogContent>
-          {tradeInterface ?
-            <TradePage ingredients={ingredients} setIngredients={setIngredients} deck={deck} setDeck={setDeck} players={players} setPlayers={setPlayers} currentPlayerId={currentPlayerId}></TradePage> :
-            <IngredientList sortConfig={sortConfig} ingredients={ingredients} setIngredients={setIngredients} scoreDifferences={scoreDifferences} />}
+        <DialogContent >
+
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <IngredientList sortConfig={sortConfig} ingredients={ingredients} setIngredients={setIngredients} scoreDifferences={scoreDifferences} />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              {testInterface ? <TradePage ingredients={ingredients} setIngredients={setIngredients} deck={deck} setDeck={setDeck} players={players} setPlayers={setPlayers} currentPlayerId={currentPlayerId}></TradePage> : null}
+            </Grid>
+          </Grid>
+
+
+
+         }
         </DialogContent>
 
       </Dialog>
@@ -662,8 +698,8 @@ const IngredientList = ({ ingredients, setIngredients, scoreDifferences, sortCon
         return (
           <div key={ingredient.name} className="ingredient-row" style={{ color: ingredient.color }}>
             <span className="ingredient-name">
-              {ingredient.name} 
-              <RarityIcon copies={ingredient.copies}  color={ingredient.color}></RarityIcon>
+              {ingredient.name}
+              <RarityIcon copies={ingredient.copies} color={ingredient.color}></RarityIcon>
               {/* {'★'.repeat(ingredient.level)} */}
             </span>
             <div className="score-difference">
@@ -872,7 +908,7 @@ const processComboLine = (line, ingredientDict) => {
     if (updatedIngredientDict[ingredient] && updatedIngredientDict[ingredient].amount >= 1) {
       count++;
       updatedIngredientDict[ingredient].amount--;
-      ingredientLevelSum +=  CARD_SCORE_VALUE ??  updatedIngredientDict[ingredient].level;
+      ingredientLevelSum += CARD_SCORE_VALUE ?? updatedIngredientDict[ingredient].level;
     }
   }
   const shortfall = Math.max(0, requirement - count);
