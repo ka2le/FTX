@@ -758,15 +758,21 @@ const IngredientList = ({ ingredients, setIngredients, scoreDifferences, sortCon
     </div>
   );
 };
-const RarityIcon = ({ copies, color }) => {
+
+export const getRarity = (value) => {
   let rarity = 1;
-  if (copies <= RARE_THRESHOLD) {
+  if (value <= RARE_THRESHOLD) {
     rarity = 3;
-  } else if (copies <= UNCOMMON_THRESHOLD) {
+  } else if (value <= UNCOMMON_THRESHOLD) {
     rarity = 2;
   }
+  return rarity;
+}
 
-  // Enhance color if needed (modify as per your requirement)
+
+const RarityIcon = ({ copies, color }) => {
+  let rarity =getRarity(copies);
+    // Enhance color if needed (modify as per your requirement)
   const enhancedColor = enhanceColor(color); // Function to make color more saturated/darker
 
   return (

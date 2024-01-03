@@ -6,7 +6,7 @@ import initialIngredients from './initialIngredients.json';
 import secrets from './secrets.json';
 import React from 'react';
 import img1 from './cards/spices.png';
-import { TruckMenu } from "./App";
+import { TruckMenu, getRarity} from "./App";
 
 const save_size = 6;
 const BRIGHTNESS_ADJUSTMENT = 1.1;
@@ -140,8 +140,8 @@ const IngredientCard = ({ ingredient }) => {
     const [cardRef, saveAsImage] = useSave(ingredient.name);
     const renderIcons = () => {
         return (<img
-            src={`/ftx/cards/lvl${ingredient.level}.png`}
-            alt={`Level ${ingredient.level} icon`}
+            src={`/ftx/cards/lvl${getRarity(ingredient.copies)}.png`}
+            alt={`Level ${getRarity(ingredient.copies)} icon`}
             className="level-icon"
         />)
     };
