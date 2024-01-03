@@ -6,7 +6,7 @@
             {
                 "ComboName": "Burgers!",
                 "dependency": null,
-                "score": 5,
+                "score": 4,
                 "type": null,
                 "ComboLines": [
                     {
@@ -345,7 +345,7 @@
             {
                 "ComboName": "Tandoori Skewers",
                 "dependency": null,
-                "score": 3,
+                "score": 2,
                 "type": null,
                 "ComboLines": [
                     {
@@ -415,7 +415,7 @@
             {
                 "ComboName": "Bao Dream",
                 "dependency": "Hoisin sauce or Chili Mayo",
-                "score": 8,
+                "score": 6,
                 "type": null,
                 "ComboLines": [
                     {
@@ -578,7 +578,7 @@
             {
                 "ComboName": "Vegan BBQ",
                 "dependency": null,
-                "score": 3,
+                "score": 4,
                 "type": null,
                 "ComboLines": [
                     {
@@ -680,7 +680,7 @@
             {
                 "ComboName": "Pasti",
                 "dependency": null,
-                "score": 3,
+                "score": 4,
                 "type": null,
                 "ComboLines": [
                     {
