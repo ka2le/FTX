@@ -377,6 +377,7 @@ h2 {
 
 .ingredient-dialog .MuiDialogContent-root {
   padding: 10px 8px;
+  min-width: min(90vw, 600px);
 }
 
 .ingredient-container {
@@ -384,8 +385,12 @@ h2 {
   padding: 0;
   color: white !important;
   margin: 0;
-  height: calc(100vh - 170px);
+  
+  
+}
+.trade .ingredient-container {
   overflow-y: scroll;
+  height: calc(100vh - 170px);
 }
 
 .ingredient-row {
@@ -496,7 +501,8 @@ h2 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 28px;
+  height: 32px;
+  border-bottom: 1px dotted rgba(255, 255, 255, 0.171);
 }
 .dialog-row.center {
   justify-content: center;

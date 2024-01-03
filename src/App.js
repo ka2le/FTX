@@ -80,11 +80,11 @@ export default function App() {
       const intervalId = setInterval(async () => {
         if (testInterface) {
           const gameState = await getGameState();
-          if (gameState) {
+          if (gameState && gameState?.players?.length > 0) {
             setPlayers(gameState.players);
-          } else {
-            clearInterval(intervalId);
           }
+        }else {
+          clearInterval(intervalId);
         }
       }, 1000); // Set the interval to 1 second or as appropriate
 
@@ -317,11 +317,11 @@ export default function App() {
           {testInterface ? <span >⬌</span> : "+"}
 
         </Button>
-        <TestApiComponent></TestApiComponent>
+        {/* <TestApiComponent></TestApiComponent> */}
 
 
       </div>
-      <Dialog keepMounted={true} fullScreen={!isLandscapeOrDesktop} maxWidth={'lg'} fullWidth={true} open={open} onClose={handleClose} className={`ingredient-dialog ${testInterface ? "trade" : null}  ${isLandscapeOrDesktop ? "desktop" : null}`}>
+      <Dialog keepMounted={true} maxWidth={'lg'} fullWidth={testInterface} open={open} onClose={handleClose} className={`ingredient-dialog ${testInterface ? "trade" : null}  ${isLandscapeOrDesktop ? "desktop" : null}`}>
         <div className="dialog-title-actions">
 
 
@@ -341,15 +341,14 @@ export default function App() {
             </div>
 
             {/* Second Row */}
-            <div className="dialog-row">
-              {false ? <Button className="dialog-actions-button" onClick={toggleAutoSlide} >
-                {(autoSlide) ? 'Disable Auto-Slide' : 'Enable Auto-Slide'}
-              </Button> : null}
+            {testInterface ?
+              <div className="dialog-row">
 
 
-              {testInterface ? <>
+
+
                 <Button onClick={toggleLocalChanges}>
-                {isLandscapeOrDesktop ? (hasLocalChanges ? "Unsynced" : "Synced") : null} {hasLocalChanges ? <LinkOffIcon /> : <LinkIcon />}
+                  {isLandscapeOrDesktop ? (hasLocalChanges ? "Unsynced" : "Synced") : null} {hasLocalChanges ? <LinkOffIcon /> : <LinkIcon />}
                 </Button>
                 {TESTING ? <Button className="dialog-actions-button" onClick={() => { setCardTesting(!cardTesting) }} >
                   🖨️
@@ -391,18 +390,18 @@ export default function App() {
                       </MenuItem>
                     ))}
                   </Select></div>
-              </>
 
-                : <>
+              </div>
+              : <>
 
 
 
-                </>}
-            </div>
+              </>}
+
 
             {/* Third Row */}
             <div className="dialog-row">
-              {testInterface ? null : <div className="dialog-title-actions">
+              <div className="dialog-title-actions">
 
                 <Button className="dialog-actions-button" onClick={() => toggleSort('name')}>
                   Name {sortConfig.criteria === 'name' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
@@ -419,7 +418,7 @@ export default function App() {
                 <Button className="dialog-actions-button" onClick={() => toggleSort('scoreDifferenceIncrement')}>
                   Gain {sortConfig.criteria === 'scoreDifferenceIncrement' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
                 </Button>
-              </div>}
+              </div>
             </div>
           </DialogTitle>
 
@@ -428,12 +427,14 @@ export default function App() {
         <DialogContent >
 
           <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={testInterface ? 6 : 12}>
               <IngredientList setHasLocalChanges={setHasLocalChanges} sortConfig={sortConfig} ingredients={ingredients} setIngredients={setIngredients} scoreDifferences={scoreDifferences} />
             </Grid>
-            <Grid item xs={12} md={6}>
-              {testInterface ? <TradePage hasLocalChanges={hasLocalChanges} ingredients={ingredients} setIngredients={setIngredients} deck={deck} setDeck={setDeck} players={players} setPlayers={setPlayers} currentPlayerId={currentPlayerId}></TradePage> : null}
-            </Grid>
+            {testInterface ?
+              <Grid item xs={12} md={6}>
+                <TradePage hasLocalChanges={hasLocalChanges} ingredients={ingredients} setIngredients={setIngredients} deck={deck} setDeck={setDeck} players={players} setPlayers={setPlayers} currentPlayerId={currentPlayerId}></TradePage>
+              </Grid>
+              : null}
           </Grid>
 
 

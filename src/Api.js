@@ -4,7 +4,10 @@ import { Button, CircularProgress, Typography } from '@mui/material';
 
 const ip = "2.248.184.39";
 const port = "4000";
-const base_url = `http://${ip}:${port}`;
+const external_url = "https://tasty-mature-quilt.glitch.me";
+const base_url = external_url;//`https://${ip}:${port}`;
+
+
 
 const TestApiComponent = () => {
     const [loading, setLoading] = useState(false);
