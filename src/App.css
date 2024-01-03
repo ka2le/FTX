@@ -524,6 +524,8 @@ h2 {
 
 .dialog-actions-button {
   color: white !important;
+  border-color: white !important;
+  padding: 0px 8px !important;
 }
 
 .score-row b {
@@ -549,14 +551,18 @@ h2 {
 
 
 .desktop .combo-line {
-  font-size: 20px;
-  margin-bottom: 6px;
+  font-size: 16px;
+  margin-bottom: 4px;
 }
 
 .desktop .ingredients {
   line-height: 14px;
 }
-
+.desktop .ingredient {
+  margin-bottom: 0px;
+  height: 12px;
+  line-height: 12px;
+}
 .desktop .truck-container {
   width: 80%;
   height: 55vh;
@@ -570,6 +576,7 @@ h2 {
 
 .desktop h2 {
   font-size: 18px !important;
+  margin: 0 0 -8px 0 !important;
 }
 
 
@@ -632,7 +639,6 @@ h2 {
 button {
   margin: 3px;
   padding: 5px 10px;
-  border: none;
   border: 1px solid white;
   background-color: black;
   border-radius: 4px;

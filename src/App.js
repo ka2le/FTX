@@ -353,7 +353,7 @@ export default function App() {
                 {TESTING ? <Button className="dialog-actions-button" onClick={() => { setCardTesting(!cardTesting) }} >
                   🖨️
                 </Button> : null}
-                <div>   {isLandscapeOrDesktop ? "# of Players:" : null}
+                <div>   {isLandscapeOrDesktop ? "Number of Players:" : null}
                   <Select
                     labelId="player-label"
                     id="player-dropdown"
@@ -367,7 +367,7 @@ export default function App() {
                       </MenuItem>
                     ))}
                   </Select>
-                  <Button className="dialog-actions-button" onClick={() => handleDealCards(setDeck, setPlayers, numberOfPlayers)} >
+                  <Button variant='outlined' className="dialog-actions-button" onClick={() => handleDealCards(setDeck, setPlayers, numberOfPlayers)} >
                     {isLandscapeOrDesktop ? "Deal Cards" : "🂠"}
                   </Button></div>
 
@@ -376,7 +376,7 @@ export default function App() {
 
 
 
-                <div> {isLandscapeOrDesktop ? "Current:" : null}
+                <div> {isLandscapeOrDesktop ? "My Player Id:" : null}
                   <Select
                     labelId="player-label"
                     id="player-dropdown"
