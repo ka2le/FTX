@@ -826,8 +826,8 @@ function calculateComboScore(combo, ingredientDict) {
     }
   }
 
-  // Reduce the combo score by the number of unique ingredients, ensuring it doesn't go negative
-  comboScore = Math.max(0, comboScore - Math.floor(totalIngredients.size / 2));
+  // Reduce the combo score by the number of unique ingredients, ensuring it doesn't go negative  - Math.floor(totalIngredients.size / 2
+  comboScore = Math.max(0, comboScore );
 
   return [comboScore, totalShortfall, potentialMissingIngredients];
 }

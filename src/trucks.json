@@ -312,7 +312,8 @@
                         "ingredients": [
                             "garlic",
                             "ginger",
-                            "chili"
+                            "chili",
+                            "cilantro"
                         ],
                         "requirements": "2"
                     }
@@ -344,7 +345,7 @@
             {
                 "ComboName": "Tandoori Skewers",
                 "dependency": null,
-                "score": 0,
+                "score": 3,
                 "type": null,
                 "ComboLines": [
                     {
@@ -536,7 +537,7 @@
             {
                 "ComboName": "BBQ Platter",
                 "dependency": null,
-                "score": 4,
+                "score": 6,
                 "type": null,
                 "ComboLines": [
                     {
@@ -577,7 +578,7 @@
             {
                 "ComboName": "Vegan BBQ",
                 "dependency": null,
-                "score": 0,
+                "score": 3,
                 "type": null,
                 "ComboLines": [
                     {
@@ -734,7 +735,7 @@
             {
                 "ComboName": "Eggplant Parmesan",
                 "dependency": null,
-                "score": 0,
+                "score": 4,
                 "type": null,
                 "ComboLines": [
                     {

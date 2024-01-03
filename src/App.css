@@ -876,6 +876,7 @@ button.selected {
   flex: 0.01 0.1;
   margin-right: 8px;
   font-size: 12px;
+  color: white !important;
 }
 
 
