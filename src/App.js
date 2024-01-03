@@ -27,7 +27,7 @@ const WORKING_ON_CARDS = false;
 
 const RARE_THRESHOLD = 2;
 const UNCOMMON_THRESHOLD = 3;
-const CARD_SCORE_VALUE = 2;
+const CARD_SCORE_VALUE = 1;
 
 
 export default function App() {
@@ -814,7 +814,7 @@ function calculateComboScore(combo, ingredientDict) {
   for (let line of combo.ComboLines) {
     const { shortfall, missingIngredients, ingredientLevelSum } = processComboLine(line, ingredientDict);
 
-    comboScore += ingredientLevelSum + parseInt(line.requirements) * 2;
+    comboScore += ingredientLevelSum + parseInt(line.requirements) * 1;
     totalShortfall += shortfall;
     if (shortfall === 1) {
       potentialMissingIngredients.push(...missingIngredients);
