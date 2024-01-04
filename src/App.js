@@ -16,6 +16,7 @@ import { TradePage, makeIngredientsArray, createDeck, handleDealCards, MAX_HAND_
 import { Cards } from './Cards';
 import LinkIcon from '@mui/icons-material/Link';
 import LinkOffIcon from '@mui/icons-material/LinkOff';
+import GameAnalysis from './GameAnalysis';
 
 
 import 'slick-carousel/slick/slick.css';
@@ -296,6 +297,7 @@ export default function App() {
   return (
     <> {cardTesting ? <Cards cardTesting={cardTesting} setCardTesting={setCardTesting} ></Cards> : <div className={`container ${isLandscapeOrDesktop ? "desktop" : null}`} >
       {/* <div className="title">FTX</div> */}
+      <GameAnalysis></GameAnalysis>
       <Slider key={key} ref={slider1} {...settings}>
         {trucks.map((truck, index) =>
           (<TruckMenu key={index} truckData={truck} ingredientsState={ingredients} decrementAmount={decrementAmount} incrementAmount={incrementAmount}></TruckMenu>)
@@ -933,7 +935,7 @@ export function checkCompleteCombos(ingredients) {
 
 
 
-const processComboLine = (line, ingredientDict) => {
+export const processComboLine = (line, ingredientDict) => {
   const requirement = parseInt(line.requirements, 10);
   let count = 0;
   let ingredientLevelSum = 0;
@@ -950,7 +952,7 @@ const processComboLine = (line, ingredientDict) => {
 
 
   let missingIngredients = [];
-  if (shortfall === 1) {
+  if (shortfall >= 1) {
     missingIngredients = line.ingredients.filter(ing => !ingredientDict[ing] || ingredientDict[ing].amount < 1);
   }
 
@@ -967,7 +969,7 @@ export function createIngredientDictionary(ingredients) {
   ingredients.forEach((ingredient) => {
     ingredientDict[ingredient.name] = {
       amount: ingredient.amount,
-      level: ingredient.level
+      level: ingredient?.level ?? 1
     };
   });
   return ingredientDict;
