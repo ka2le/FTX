@@ -4,6 +4,7 @@ import trucks from './trucks.json';
 import { checkCompleteCombos, createIngredientDictionary, processComboLine } from './App.js';
 import { Card, CardContent, Typography, List, ListItem, Grid } from '@mui/material';
 
+const ROUNDS =  16;
 
 export default function GameAnalysisComponent() {
     const [analysisResult, setAnalysisResult] = useState(null);
@@ -26,6 +27,33 @@ export default function GameAnalysisComponent() {
             </div>
         </div>
     );
+}
+
+function generateGameResults(deck, playersHands, playerProfiles) {
+    // Getting items with value > 0 and their quantities
+    const availableItems = Object.entries(deck)
+        .filter(([key, value]) => value > 0)
+        .map(([key, value]) => ({ [key]: value }));
+
+    const results = playerProfiles.map((profile, index) => {
+        const hand = playersHands[index];
+        const [completedCombos, totalScore] = combosFromHand(hand);
+        return {
+            profile,
+            totalScore: totalScore,
+            handCount: hand.length,
+            hand,
+            completedCombos
+        };
+    });
+
+    // Add the availableItems to the results
+    return {
+        availableItemsInDeck: availableItems,
+        meta: {cardsLeft:availableItems.length, totalPlayers: playerProfiles.length},
+        playerResults: results,
+
+    };
 }
 
 const GameResultsDisplay = ({ gameResults }) => {
@@ -58,7 +86,8 @@ const GameResultsDisplay = ({ gameResults }) => {
       <div>
         <Card variant="outlined">
           <CardContent>
-            <Typography variant="h5">Available Items in Deck</Typography>
+            <Typography variant="h5">Available Items in Deck {gameResults?.meta?.cardsLeft} from total {gameResults?.meta?.totalPlayers}
+             </Typography>
             {renderItemsList(gameResults.availableItemsInDeck)}
           </CardContent>
         </Card>
@@ -72,6 +101,8 @@ const GameResultsDisplay = ({ gameResults }) => {
                   <Typography>Hand Count: {player.handCount}</Typography>
                   <Typography>Wish Ingredients:</Typography>
                   {renderWishIngredients(player.profile.wishIngredients)}
+                  <Typography>Strategy: {player.profile.strategy.join(', ')}</Typography>
+
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <Typography>Hand:</Typography>
@@ -95,36 +126,36 @@ const createPlayerProfiles = () => {
         },
         {
             truckName: "Turbo Burgers",
-            strategy: ["Burgers!", "Fries", "Flexitarian Burgers", "Pickles", "Onion Rings", "Milkshake"]
+            strategy: ["Burgers!", "Fries", "Flexitarian Burgers", "Pickles",  "BBQ Platter", "BBQ Beans", "Vegan BBQ",]
         },
         {
-            truckName: "Taco o Plomo",
-            strategy: ["Taco Mix", "Elotes", "Burrito", "Quesedilla", "Guacamole", "Pineapple Express", "Fish Taco"]
+            truckName: "Taco o Plomo 1",
+            strategy: ["Taco Mix", "Elotes", "Burrito", "Quesedilla", "Pineapple Express", "Fish Taco", "BBQ Platter", "BBQ Beans", "Vegan BBQ",]
         },
         {
-            truckName: "The Eat Indian Company",
-            strategy: ["Curry Curry", "Samosas", "Tandoori Skewers", "Chutney"]
+            truckName: "The Eat Indian Company 1",
+            strategy: ["Curry Curry", "Samosas", "Tandoori Skewers", "Chutney","Burgers!", "Fries", "Flexitarian Burgers", "Pickles", "Onion Rings",]
         },
         {
-            truckName: "Bao East",
-            strategy: ["Bao Dream", "Hoisin sauce", "Chili Mayo", "Spring Rolls"]
+            truckName: "Bao East 1",
+            strategy: ["Bao Dream", "Hoisin sauce", "Chili Mayo", "Spring Rolls","BBQ Platter", "BBQ Beans", "Vegan BBQ", "Taco Mix"]
         },
         {
-            truckName: "Bao East",
-            strategy: ["Bao Dream", "Hoisin sauce", "Chili Mayo", "Spring Rolls"]
+            truckName: "Bao East 2",
+            strategy: ["Bao Dream", "Hoisin sauce", "Chili Mayo", "Spring Rolls", "Taco Mix","BBQ Platter", "BBQ Beans", "Vegan BBQ",]
         },
         {
-            truckName: "Grilluminati's BBQ",
+            truckName: "Grilluminati's BBQ 3",
             strategy: ["BBQ Platter", "BBQ Beans", "Vegan BBQ", "Creamy Sides", "Shrimp Skewers", "Coleslaw"]
         },
 
         {
-            truckName: "Vini Vidi Pasta",
-            strategy: ["Pasti", "Eggplant Parmesan", "Gelato"]
+            truckName: "Vini Vidi Pasta 4",
+            strategy: ["Pasti", "Eggplant Parmesan", "Gelato", "Burgers!", "Fries", "Flexitarian Burgers", "Pickles", "Onion Rings", "Milkshake"]
         },
         {
             truckName: "Vini Vidi Pasta",
-            strategy: ["Pasti", "Eggplant Parmesan", "Gelato"]
+            strategy: ["Pasti", "Eggplant Parmesan", "Gelato", "Taco Mix", "Elotes", "Burrito", "Quesedilla", "Guacamole", "Pineapple Express", "Fish Taco"]
         },
         {
             truckName: "Turbo Burgers",
@@ -168,7 +199,7 @@ export const simulateGame = (deck, playerProfiles) => {
         console.log("--------RoundNumber-------------------", roundNumber)
         playRound(deck, playersHands, playerProfiles, roundNumber);
         roundNumber++;
-        if (roundNumber > 13) {
+        if (roundNumber > ROUNDS-1) {
             gameInProgress = false;
         }
     }
@@ -262,31 +293,6 @@ const findBestCardForCombo = (deck, comboName, ingredientList) => {
     // If no ingredient is found or no shortfall in any line, return null
     return { bestIngredient: null, missingIngredients: [] };
 };
-function generateGameResults(deck, playersHands, playerProfiles) {
-    // Getting items with value > 0 and their quantities
-    const availableItems = Object.entries(deck)
-        .filter(([key, value]) => value > 0)
-        .map(([key, value]) => ({ [key]: value }));
-
-    const results = playerProfiles.map((profile, index) => {
-        const hand = playersHands[index];
-        const [completedCombos, totalScore] = combosFromHand(hand);
-        return {
-            profile,
-            totalScore: totalScore,
-            handCount: hand.length,
-            hand,
-            completedCombos
-        };
-    });
-
-    // Add the availableItems to the results
-    return {
-        availableItemsInDeck: availableItems,
-        playerResults: results,
-
-    };
-}
 
 
 function combosFromHand(hand) {
