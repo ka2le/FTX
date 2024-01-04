@@ -4,7 +4,7 @@ import trucks from './trucks.json';
 import { checkCompleteCombos, createIngredientDictionary, processComboLine } from './App.js';
 import { Card, CardContent, Typography, List, ListItem, Grid } from '@mui/material';
 
-const ROUNDS =  16;
+const ROUNDS =  14;
 
 export default function GameAnalysisComponent() {
     const [analysisResult, setAnalysisResult] = useState(null);
@@ -100,7 +100,7 @@ const GameResultsDisplay = ({ gameResults }) => {
                   <Typography>Score: {player.totalScore}</Typography>
                   <Typography>Hand Count: {player.handCount}</Typography>
                   <Typography>Wish Ingredients:</Typography>
-                  {renderWishIngredients(player.profile.wishIngredients)}
+                  {renderWishIngredients(player.profile.wishIngredients ?? '-') }
                   <Typography>Strategy: {player.profile.strategy.join(', ')}</Typography>
 
                 </Grid>
@@ -226,31 +226,33 @@ const playRound = (deck, playersHands, playerProfiles, roundNumber, comboData) =
 };
 
 export const pickCard = (deck, hand, strategy) => {
-    // Convert hand to ingredient list format
     let ingredientList = handToIngredientList(hand);
     console.log("ingredientList", ingredientList)
 
-
-    // Check which combos are completed
     let [completeCombos] = checkCompleteCombos(ingredientList);
     console.log("completeCombos", completeCombos)
-    // Determine the best card to pick based on strategy and completed combos
+
+    let accumulatedMissingIngredients = [];
+
     for (let comboName of strategy) {
         console.log("comboName", comboName)
         if (!completeCombos?.includes(comboName)) {
-            let { bestIngredient, missingIngredients } = findBestCardForCombo(deck, comboName, ingredientList);
-            if (bestIngredient) {
-                return { cardPicked: bestIngredient };
-            } else if (missingIngredients) {
-                return { cardPicked: null, missingIngredients };
+            let result = findBestCardForCombo(deck, comboName, ingredientList);
+
+            if (result) {
+                const { bestIngredient, missingIngredients } = result;
+                if (bestIngredient) {
+                    return { cardPicked: bestIngredient,  missingIngredients: accumulatedMissingIngredients};
+                }
+                if (missingIngredients && missingIngredients.length > 0) {
+                    accumulatedMissingIngredients = accumulatedMissingIngredients.concat(missingIngredients);
+                }
             }
         }
     }
 
-    return { cardPicked: null };
+    return { cardPicked: null, missingIngredients: accumulatedMissingIngredients };
 };
-
-
 
 const findBestCardForCombo = (deck, comboName, ingredientList) => {
     // Convert ingredientList to a dictionary for faster lookup
@@ -265,14 +267,17 @@ const findBestCardForCombo = (deck, comboName, ingredientList) => {
         return null;
     }
 
+    let allMissingIngredients = [];  // To accumulate missing ingredients
+
     for (let line of combo.ComboLines) {
         const { shortfall, missingIngredients } = processComboLine(line, ingredientDict);
-        console.log("shortfall", shortfall, "missingIngredients", missingIngredients)
-        // If there's a shortfall, find the missing ingredient with the most copies in the deck
-        if (shortfall > 0 && missingIngredients.length > 0) {
+
+        if (shortfall > 0) {
+            allMissingIngredients = allMissingIngredients.concat(missingIngredients);
+
+            // Find the missing ingredient with the most copies in the deck
             let maxCopies = 0;
             let bestIngredient = null;
-
             for (let ingredient of missingIngredients) {
                 if (deck[ingredient] > maxCopies) {
                     maxCopies = deck[ingredient];
@@ -280,18 +285,15 @@ const findBestCardForCombo = (deck, comboName, ingredientList) => {
                 }
             }
 
-            if (shortfall > 0 && missingIngredients.length > 0) {
-                if (!bestIngredient) {
-                    return { bestIngredient: null, missingIngredients };
-                } else {
-                    return { bestIngredient, missingIngredients: [] };
-                }
+            // If a best ingredient is found, return it immediately
+            if (bestIngredient) {
+                return { bestIngredient,  missingIngredients: allMissingIngredients  };
             }
         }
     }
 
-    // If no ingredient is found or no shortfall in any line, return null
-    return { bestIngredient: null, missingIngredients: [] };
+    // If no ingredient is found, return all accumulated missing ingredients
+    return { bestIngredient: null, missingIngredients: allMissingIngredients };
 };
 
 
