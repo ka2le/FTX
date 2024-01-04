@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import initialIngredients from './initialIngredients.json';
 import trucks from './trucks.json';
 import { checkCompleteCombos, createIngredientDictionary, processComboLine } from './App.js';
+import { Card, CardContent, Typography, List, ListItem, Grid } from '@mui/material';
+
 
 export default function GameAnalysisComponent() {
     const [analysisResult, setAnalysisResult] = useState(null);
@@ -19,17 +21,77 @@ export default function GameAnalysisComponent() {
             <h2>Game Analysis</h2>
             <button onClick={handleRunAnalysis}>Run Analysis</button>
             <div>
+            {analysisResult && <GameResultsDisplay gameResults={analysisResult} />}
                 {analysisResult ? <pre>{JSON.stringify(analysisResult, null, 2)}</pre> : 'No analysis data yet.'}
             </div>
         </div>
     );
 }
 
+const GameResultsDisplay = ({ gameResults }) => {
+    const renderItemsList = (items, isCombo = false) => (
+      <Grid container spacing={2}>
+        {items.map((item, index) => (
+          <Grid item key={index} xs={isCombo ? 6 : 12} sm={isCombo ? 3 : 6} md={2}>
+            <ListItem>
+              {Object.keys(item)[0]}{isCombo ? '' : `: ${item[Object.keys(item)[0]]}`}
+            </ListItem>
+          </Grid>
+        ))}
+      </Grid>
+    );
+  
+    const renderWishIngredients = ingredients => {
+      const uniqueIngredients = new Set(ingredients);
+      return (
+        <Grid container spacing={2}>
+          {[...uniqueIngredients].map((ingredient, index) => (
+            <Grid item key={index} xs={6} sm={3} md={2}>
+              <ListItem>{ingredient}</ListItem>
+            </Grid>
+          ))}
+        </Grid>
+      );
+    };
+  
+    return (
+      <div>
+        <Card variant="outlined">
+          <CardContent>
+            <Typography variant="h5">Available Items in Deck</Typography>
+            {renderItemsList(gameResults.availableItemsInDeck)}
+          </CardContent>
+        </Card>
+        {gameResults.playerResults.map((player, index) => (
+          <Card variant="outlined" key={index}>
+            <CardContent>
+              <Typography variant="h6">{player.profile.truckName}</Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <Typography>Score: {player.totalScore}</Typography>
+                  <Typography>Hand Count: {player.handCount}</Typography>
+                  <Typography>Wish Ingredients:</Typography>
+                  {renderWishIngredients(player.profile.wishIngredients)}
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Typography>Hand:</Typography>
+                  {renderItemsList(player.hand.map(card => ({ [card]: '' })), true)}
+                  <Typography>Completed Combos:</Typography>
+                  {renderItemsList(player.completedCombos.map(combo => ({ [combo]: '' })), true)}
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    );
+  };
+  
 const createPlayerProfiles = () => {
     return [
         {
             truckName: "Sweet",
-            strategy: ["Milskshake", "Gelato", "Chutney","Chili Mayo", "Shrimp Skewers", "Coleslaw" ]
+            strategy: ["Milskshake", "Gelato", "Chutney", "Chili Mayo", "Shrimp Skewers", "Coleslaw"]
         },
         {
             truckName: "Turbo Burgers",
@@ -55,7 +117,7 @@ const createPlayerProfiles = () => {
             truckName: "Grilluminati's BBQ",
             strategy: ["BBQ Platter", "BBQ Beans", "Vegan BBQ", "Creamy Sides", "Shrimp Skewers", "Coleslaw"]
         },
-       
+
         {
             truckName: "Vini Vidi Pasta",
             strategy: ["Pasti", "Eggplant Parmesan", "Gelato"]
@@ -116,13 +178,16 @@ export const simulateGame = (deck, playerProfiles) => {
 const playRound = (deck, playersHands, playerProfiles, roundNumber, comboData) => {
     playerProfiles.forEach((profile, index) => {
         console.log("profilename", profile.truckName)
-        let cardPicked = pickCard(deck, playersHands[index], profile.strategy, comboData);
+        let { cardPicked, missingIngredients } = pickCard(deck, playersHands[index], profile.strategy, comboData);
         if (cardPicked) {
             playersHands[index].push(cardPicked);
             console.log("cardPicked", cardPicked)
             removeCardFromDeck(deck, cardPicked);
 
             // Optionally update combo completion and score here
+        }
+        if (missingIngredients && missingIngredients.length > 0) {
+            profile.wishIngredients = (profile.wishIngredients || []).concat(missingIngredients);
         }
     });
     // Additional logic for a round
@@ -136,21 +201,22 @@ export const pickCard = (deck, hand, strategy) => {
 
 
     // Check which combos are completed
-    let [ completeCombos ] = checkCompleteCombos(ingredientList);
+    let [completeCombos] = checkCompleteCombos(ingredientList);
     console.log("completeCombos", completeCombos)
     // Determine the best card to pick based on strategy and completed combos
     for (let comboName of strategy) {
         console.log("comboName", comboName)
         if (!completeCombos?.includes(comboName)) {
-            let cardToPick = findBestCardForCombo(deck, comboName, ingredientList);
-            console.log("cardToPick", cardToPick)
-            if (cardToPick) {
-                return cardToPick;
+            let { bestIngredient, missingIngredients } = findBestCardForCombo(deck, comboName, ingredientList);
+            if (bestIngredient) {
+                return { cardPicked: bestIngredient };
+            } else if (missingIngredients) {
+                return { cardPicked: null, missingIngredients };
             }
         }
     }
 
-    return null; // Return null if no card can be picked
+    return { cardPicked: null };
 };
 
 
@@ -183,14 +249,18 @@ const findBestCardForCombo = (deck, comboName, ingredientList) => {
                 }
             }
 
-            if (bestIngredient) {
-                return bestIngredient;
+            if (shortfall > 0 && missingIngredients.length > 0) {
+                if (!bestIngredient) {
+                    return { bestIngredient: null, missingIngredients };
+                } else {
+                    return { bestIngredient, missingIngredients: [] };
+                }
             }
         }
     }
 
     // If no ingredient is found or no shortfall in any line, return null
-    return null;
+    return { bestIngredient: null, missingIngredients: [] };
 };
 function generateGameResults(deck, playersHands, playerProfiles) {
     // Getting items with value > 0 and their quantities
@@ -214,7 +284,7 @@ function generateGameResults(deck, playersHands, playerProfiles) {
     return {
         availableItemsInDeck: availableItems,
         playerResults: results,
-        
+
     };
 }
 
@@ -223,7 +293,7 @@ function combosFromHand(hand) {
     // Convert hand to ingredient list format
     let ingredientList = handToIngredientList(hand);
     // Check which combos are completed
-    let [ completeCombos, totalScore ] = checkCompleteCombos(ingredientList);
+    let [completeCombos, totalScore] = checkCompleteCombos(ingredientList);
     return [completeCombos, totalScore];
 }
 
