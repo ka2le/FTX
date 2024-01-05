@@ -128,6 +128,10 @@ export default function App() {
   // console.log("Split all card 9 players: ", result.totalIngredients / 9)
   // console.log("Cards left for max " + MAX_HAND_LIMIT + " cards 5 players: ", Math.floor((result.totalIngredients / 5 - MAX_HAND_LIMIT) * 5))
 
+  const [analysisOn,setAnalysisOn] = useState(true);
+  const toggleAnalisys = () => {
+    setAnalysisOn(!analysisOn);
+  }
 
   const reset = () => {
     const userConfirmed = window.confirm('Are you sure you want to reset all ingredients?');
@@ -297,7 +301,7 @@ export default function App() {
   return (
     <> {cardTesting ? <Cards cardTesting={cardTesting} setCardTesting={setCardTesting} ></Cards> : <div className={`container ${isLandscapeOrDesktop ? "desktop" : null}`} >
       {/* <div className="title">FTX</div> */}
-      <GameAnalysis></GameAnalysis>
+      {analysisOn && <GameAnalysis></GameAnalysis>}
       <Slider key={key} ref={slider1} {...settings}>
         {trucks.map((truck, index) =>
           (<TruckMenu key={index} truckData={truck} ingredientsState={ingredients} decrementAmount={decrementAmount} incrementAmount={incrementAmount}></TruckMenu>)
@@ -355,6 +359,8 @@ export default function App() {
                 {TESTING ? <Button className="dialog-actions-button" onClick={() => { setCardTesting(!cardTesting) }} >
                   🖨️
                 </Button> : null}
+                {TESTING ? <Button className="dialog-actions-button" onClick={() => { toggleAnalisys() }} >
+                ▁▂▃                </Button> : null}
                 <div>   {isLandscapeOrDesktop ? "Number of Players:" : null}
                   <Select
                     labelId="player-label"
