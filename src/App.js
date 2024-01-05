@@ -25,6 +25,7 @@ import './App.css'; // your custom css
 
 export const TESTING = true;
 const WORKING_ON_CARDS = false;
+const WORKING_ON_ANALYSIS = false;
 
 const RARE_THRESHOLD = 2;
 const UNCOMMON_THRESHOLD = 3;
@@ -128,7 +129,7 @@ export default function App() {
   // console.log("Split all card 9 players: ", result.totalIngredients / 9)
   // console.log("Cards left for max " + MAX_HAND_LIMIT + " cards 5 players: ", Math.floor((result.totalIngredients / 5 - MAX_HAND_LIMIT) * 5))
 
-  const [analysisOn,setAnalysisOn] = useState(true);
+  const [analysisOn,setAnalysisOn] = useState(WORKING_ON_ANALYSIS);
   const toggleAnalisys = () => {
     setAnalysisOn(!analysisOn);
   }

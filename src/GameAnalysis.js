@@ -54,10 +54,16 @@ function generateGameResults(deck, playersHands, playerProfiles) {
     const maxScore = Math.max(...scores);
 
     // Aggregate combo completion data
-    const comboStats = {};
+    const allUniqueCombos = [...new Set(trucks.flatMap(truck => truck.combos.map(combo => combo.ComboName)))];
+    const comboStats = allUniqueCombos.reduce((acc, combo) => {
+        acc[combo] = 0;
+        return acc;
+    }, {});
+
+    // Update comboStats with completed combo counts
     results.forEach(result => {
         result.completedCombos.forEach(combo => {
-            comboStats[combo] = (comboStats[combo] || 0) + 1;
+            comboStats[combo] += 1;
         });
     });
 
@@ -133,8 +139,8 @@ const GameResultsDisplay = ({ gameResults }) => {
             {/* New Card for Unique Wish Ingredients */}
             <Card variant="outlined">
                 <CardContent>
-                    <Typography variant="h5">Unique Wish Ingredients</Typography>
-                    {renderWishIngredients(gameResults.uniqueWishIngredients)}
+                    <Typography variant="h5">Unique Wish Ingredients - {gameResults.uniqueWishIngredients?.length}</Typography>
+                    {renderWishIngredients(gameResults.uniqueWishIngredients)} 
                 </CardContent>
             </Card>
             {
@@ -174,45 +180,47 @@ const createPlayerProfiles = () => {
         },
         {
             truckName: "Turbo Burgers",
-            strategy: ["Burgers!", "Fries", "Flexitarian Burgers", "Pickles", "BBQ Platter", "BBQ Beans", "Vegan BBQ",]
+            strategy: ["Burgers!", "Fries", "Flexitarian Burgers", "Halloumi Burger","Pickles","Chutney", ]
         },
         {
-            truckName: "Taco o Plomo 1",
-            strategy: ["Taco Mix", "Elotes", "Burrito", "Quesedilla", "Pineapple Express", "Fish Taco", "BBQ Platter", "BBQ Beans", "Vegan BBQ",]
+            truckName: "Forgotten",
+            strategy: ["Coleslaw", "Vegan BBQ", "Creamy Sides", "Eggplant Parmesan", "BBQ Platter", "BBQ Beans", "Vegan BBQ",]
+        },
+        // {
+        //     truckName: "Taco o Plomo 1",
+        //     strategy: ["Samosas","Taco Mix", "Fish Taco", "Burrito", "Quesedilla", "Pineapple Express", "Fish Taco", "BBQ Platter", "BBQ Beans", "Vegan BBQ",]
+        // },
+        {
+            truckName: "Turbo Burgers",
+            strategy: ["Burgers!",   "Pickles", "Flexitarian Burgers","Taco Mix", "Fish Taco","Fries", "Burrito", "Quesedilla", "Pineapple Express", "Fish Taco", "BBQ Platter", "BBQ Beans", "Vegan BBQ",]
         },
         {
             truckName: "The Eat Indian Company 1",
-            strategy: ["Curry Curry", "Samosas", "Tandoori Skewers", "Chutney", "Burgers!", "Fries", "Flexitarian Burgers", "Pickles", "Onion Rings",]
+            strategy: ["Curry Curry",  "Creamy Sides","Shrimp Skewers", "Coleslaw"]
         },
         {
             truckName: "Bao East 1",
-            strategy: ["Bao Dream", "Hoisin sauce", "Chili Mayo", "Spring Rolls", "BBQ Platter", "BBQ Beans", "Vegan BBQ", "Taco Mix"]
+            strategy: ["Bao Dream", "Hoisin sauce", "Taco Mix", "Fish Taco", "Burrito", "Quesedilla", "Pineapple Express", "Fish Taco", "BBQ Platter", "BBQ Beans", "Vegan BBQ",]
         },
         {
             truckName: "Bao East 2",
-            strategy: ["Bao Dream", "Hoisin sauce", "Chili Mayo", "Spring Rolls", "Taco Mix", "BBQ Platter", "BBQ Beans", "Vegan BBQ",]
+            strategy: ["Spring Rolls", "Coleslaw", "Chili Mayo", "Bao Dream", "Taco Mix", "BBQ Platter", "BBQ Beans", "Vegan BBQ",]
         },
         {
             truckName: "Grilluminati's BBQ 3",
-            strategy: ["BBQ Platter", "BBQ Beans", "Vegan BBQ", "Creamy Sides", "Shrimp Skewers", "Coleslaw"]
+            strategy: ["BBQ Platter",  "Tandoori Skewers", "Creamy Sides", "BBQ Beans","Shrimp Skewers", "Coleslaw"]
         },
 
         {
             truckName: "Vini Vidi Pasta 4",
-            strategy: ["Pasti", "Eggplant Parmesan", "Gelato", "Burgers!", "Fries", "Flexitarian Burgers", "Pickles", "Onion Rings", "Milkshake"]
+            strategy: ["Pasti", "Taco Mix", "Fish Taco", "Burrito", "Quesedilla", "Pineapple Express", "Fish Taco", "BBQ Platter", "BBQ Beans", "Vegan BBQ",]
         },
-        {
-            truckName: "Vini Vidi Pasta",
-            strategy: ["Pasti", "Eggplant Parmesan", "Gelato", "Taco Mix", "Elotes", "Burrito", "Quesedilla", "Guacamole", "Pineapple Express", "Fish Taco"]
-        },
+        
         {
             truckName: "Turbo Burgers",
-            strategy: ["Burgers!", "Fries", "Flexitarian Burgers", "Pickles", "Onion Rings", "Milkshake"]
+            strategy: ["Eggplant Parmesan", "Onion Rings", "Samosas", "Pickles", "Onion Rings", "Milkshake"]
         },
-        {
-            truckName: "Taco o Plomo",
-            strategy: ["Taco Mix", "Elotes", "Burrito", "Quesedilla", "Guacamole", "Pineapple Express", "Fish Taco"]
-        },
+       
     ];
 };
 
@@ -248,7 +256,7 @@ export const simulateGame = (deck, playerProfiles) => {
         playRound(deck, playersHands, playerProfiles, roundNumber);
 
         // Check if all players have reached the hand size limit or 100 rounds have been played
-        gameInProgress = playersHands.some(hand => hand.length < ROUNDS - 1) && roundNumber < 100;
+        gameInProgress = playersHands.some(hand => hand.length < ROUNDS) && roundNumber < 200;
         roundNumber++;
     }
 
@@ -311,13 +319,14 @@ export const pickCard = (deck, hand, strategy, blockedCombos) => {
     }
 
     // If no card is picked based on the strategy, pick a random card from the deck
-    if (!deck.length) {
+    let availableIngredients = Object.keys(deck).filter(key => deck[key] > 0);
+    if (availableIngredients.length === 0) {
         console.log("No card is available in the deck.");
         return { cardPicked: null, missingIngredients: accumulatedMissingIngredients, blockedCombos: blockedCombosList };
     }
 
-    let randomCardIndex = Math.floor(Math.random() * deck.length);
-    let randomCard = deck[randomCardIndex];
+    let randomCardIndex = Math.floor(Math.random() * availableIngredients.length);
+    let randomCard = availableIngredients[randomCardIndex];
     return { cardPicked: randomCard, missingIngredients: accumulatedMissingIngredients, blockedCombos: blockedCombosList };
 };
 
