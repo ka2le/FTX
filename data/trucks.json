@@ -61,6 +61,21 @@
                 ]
             },
             {
+                "ComboName": "Halloumi Burger",
+                "dependency": "Burgers!",
+                "score": 2,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "cheese",
+                            "avocado"
+                        ],
+                        "requirements": "2"
+                    }
+                ]
+            },
+            {
                 "ComboName": "Pickles",
                 "dependency": null,
                 "score": 0,
@@ -96,7 +111,7 @@
             {
                 "ComboName": "Milskshake",
                 "dependency": null,
-                "score": 4,
+                "score": 2,
                 "type": null,
                 "ComboLines": [
                     {
@@ -370,7 +385,7 @@
             {
                 "ComboName": "Chutney",
                 "dependency": null,
-                "score": 4,
+                "score": 2,
                 "type": null,
                 "ComboLines": [
                     {
