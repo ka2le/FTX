@@ -25,7 +25,7 @@ import './App.css'; // your custom css
 
 export const TESTING = true;
 const WORKING_ON_CARDS = false;
-const WORKING_ON_ANALYSIS = true;
+const WORKING_ON_ANALYSIS = false;
 
 const RARE_THRESHOLD = 2;
 const UNCOMMON_THRESHOLD = 3;
@@ -1145,7 +1145,7 @@ const truckStyles = {
 };
 
 
-function calculateTotalIngredients() {
+export function calculateTotalIngredients() {
   let totalIngredients = 0;
   const levelCount = {}; // Object to store counts per level
   const rarityCount = { rare: 0, uncommon: 0, common: 0 }; // Object to store rarity counts

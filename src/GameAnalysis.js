@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import initialIngredients from './initialIngredients.json';
 import trucks from './trucks.json';
-import { checkCompleteCombos, createIngredientDictionary, processComboLine } from './App.js';
+import { checkCompleteCombos, createIngredientDictionary, processComboLine,calculateTotalIngredients } from './App.js';
 import { Card, CardContent, Typography, List, ListItem, Grid } from '@mui/material';
 
 const ROUNDS = 14;
@@ -70,7 +70,7 @@ const createPlayerProfiles = () => {
         },
         {
             truckName: "Forgotten",
-            strategy: ["Coleslaw", "Vegan BBQ", "Creamy Sides", "Eggplant Parmesan", "BBQ Platter", "BBQ Beans", "Vegan BBQ",]
+            strategy: ["Coleslaw", "Vegan BBQ", "Creamy Sides", "Eggplant Parmesan", "BBQ Platter","Choco bananas","Onion Rings", "BBQ Beans", "Vegan BBQ",]
         },
         {
             truckName: "Taco o Plomo 1",
@@ -83,19 +83,19 @@ const createPlayerProfiles = () => {
 
         {
             truckName: "The Eat Indian Company 1",
-            strategy: ["Burgers!", "Curry Curry", "Creamy Sides", "Shrimp Skewers", "Coleslaw"]
+            strategy: [ "Curry Curry", "Creamy Sides", "Shrimp Skewers", "Coleslaw", "Burgers!"]
         },
         {
             truckName: "The Eat Indian Company 2",
-            strategy: ["Curry Curry", "Creamy Sides", "Shrimp Skewers", "Coleslaw"]
+            strategy: ["Curry Curry", "Creamy Sides", "Shrimp Skewers", "Coleslaw", , "Soy-Glazed Mushrooms"]
         },
-        {
-            truckName: "The Eat Indian Company 3",
-            strategy: ["Burgers!", "Curry Curry", "Creamy Sides", "Shrimp Skewers", "Coleslaw"]
-        },
+        // {
+        //     truckName: "The Eat Indian Company 3",
+        //     strategy: ["Burgers!", "Curry Curry", "Creamy Sides", "Shrimp Skewers", "Coleslaw", , "Soy-Glazed Mushrooms"]
+        // },
         {
             truckName: "Bao East 1",
-            strategy: ["Hoisin sauce", "Taco Mix", "Bao Dream", "Taco Mix", "Fish Taco", "Burrito", "Quesedilla", "Pineapple Express", "Fish Taco", "BBQ Platter", "BBQ Beans", "Vegan BBQ",]
+            strategy: ["Hoisin sauce", "Taco Mix", "Bao Dream", "Taco Mix", "Fish Taco", "Soy-Glazed Mushrooms", "Burrito", "Quesedilla", "Pineapple Express", "Fish Taco", "BBQ Platter", "BBQ Beans", "Vegan BBQ",]
         },
         {
             truckName: "Bao East 2",
@@ -103,7 +103,7 @@ const createPlayerProfiles = () => {
         },
         {
             truckName: "Grilluminati's BBQ 3",
-            strategy: ["BBQ Platter", "Taco Mix", "Tandoori Skewers", "Creamy Sides", "BBQ Beans", "Shrimp Skewers", "Coleslaw"]
+            strategy: ["BBQ Platter", "Taco Mix", , "Soy-Glazed Mushrooms","Tandoori Skewers", "Creamy Sides", "BBQ Beans", "Shrimp Skewers", "Coleslaw"]
         },
 
         {
@@ -138,7 +138,15 @@ const createPlayerProfiles = () => {
           {
             truckName: "BASE Vini Vidi Pasta",
             strategy: ["Pasti", "Eggplant Parmesan", "Gelato"]
-          }
+          },
+          {
+            truckName: "Sweet 2",
+            strategy: ["Milskshake", "Gelato", "Chutney", "Chili Mayo", "Shrimp Skewers", "Coleslaw", "Soy-Glazed Mushrooms"]
+        },
+        {
+            truckName: "Sweet 3",
+            strategy: ["Milskshake", "Gelato", "Chutney", "Chili Mayo", "Shrimp Skewers", "Coleslaw"]
+        },
 
     ];
 };
@@ -147,6 +155,8 @@ const createPlayerProfiles = () => {
 
 function generateGameResults(deck, playersHands, playerProfiles) {
     // Getting items with value > 0 and their quantities
+
+    const { totalIngredients, levelCount, rarityCount, rarityTypeCount } =calculateTotalIngredients();
     const availableItems = Object.entries(deck)
         .filter(([key, value]) => value > 0)
         .map(([key, value]) => ({ [key]: value }));
@@ -176,6 +186,7 @@ function generateGameResults(deck, playersHands, playerProfiles) {
     const maxScore = results.reduce((acc, result) =>
     (result.totalScore === maxScoreValue && (!acc || result.totalScore > acc.totalScore)) ? result.profile : acc, null);
 
+
     // Aggregate combo completion data
     const allUniqueCombos = [...new Set(trucks.flatMap(truck => truck.combos.map(combo => combo.ComboName)))];
     const comboStats = allUniqueCombos.reduce((acc, combo) => {
@@ -197,7 +208,7 @@ function generateGameResults(deck, playersHands, playerProfiles) {
     // Add the availableItems to the results
     return {
         availableItemsInDeck: availableItems,
-        meta: { cardsLeft: availableItems.length, totalPlayers: playerProfiles.length },
+        meta: { cardsLeft: availableItems.length, totalPlayers: playerProfiles.length,totalIngredients:totalIngredients,levelCount:levelCount,rarityCount:rarityCount,rarityTypeCount:rarityTypeCount },
         playerResults: results,
         scoreStats: { averageScore, minScore: minScore.truckName+" "+minScoreValue, maxScore: maxScore.truckName+" "+maxScoreValue },
         comboStats,
@@ -236,7 +247,7 @@ const GameResultsDisplay = ({ gameResults }) => {
         <div>
             <Card variant="outlined">
                 <CardContent>
-                    <Typography variant="h5">Available Items in Deck {gameResults?.meta?.cardsLeft} from total {gameResults?.meta?.totalPlayers}
+                    <Typography variant="h5">Available Items in Deck {gameResults?.meta?.cardsLeft} from total {gameResults?.meta?.totalPlayers} players and {JSON.stringify(gameResults?.meta?.totalIngredients)} ingredients and {JSON.stringify(gameResults?.meta?.rarityCount)} rarities and {JSON.stringify(gameResults?.meta?.rarityTypeCount)} rarity types   
                     </Typography>
                     {renderItemsList(gameResults.availableItemsInDeck)}
                 </CardContent>
@@ -314,12 +325,13 @@ export const createDeck = (playerProfiles) => {
     let totalCardsInDeck = Object.values(deck).reduce((a, b) => a + b, 0);
 
     while (totalCardsInDeck > totalCardsNeeded) {
-        let cardNames = Object.keys(deck).filter(cardName => deck[cardName] > 0);
+        let cardNames = Object.keys(deck).filter(cardName => deck[cardName] > 1);
+        if (cardNames.length === 0) break; // Break if all cards are at minimum count
+    
         let randomCard = cardNames[Math.floor(Math.random() * cardNames.length)];
         removeCardFromDeck(deck, randomCard);
         totalCardsInDeck--;
     }
-
     return deck;
 };
 
