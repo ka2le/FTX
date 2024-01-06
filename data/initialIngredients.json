@@ -32,7 +32,7 @@
     { "name": "naan", "level": 2, "copies": 2, "color": "#FFE6C0" , "imgUrl":"/cards/spices.png" },
     { "name": "oil", "level": 3, "copies": 5, "color": "#F2F2F2" , "imgUrl":"/cards/spices.png" },
     { "name": "onion", "level": 1, "copies": 5, "color": "#EFC5F0" , "imgUrl":"/cards/spices.png" },
-    { "name": "pasta", "level": 2, "copies": 2, "color": "#FFEB85" , "imgUrl":"/cards/spices.png" },
+    { "name": "pasta", "level": 2, "copies": 3, "color": "#FFEB85" , "imgUrl":"/cards/spices.png" },
     { "name": "peanuts", "level": 3, "copies": 1, "color": "#E1C5A8" , "imgUrl":"/cards/spices.png" },
     { "name": "peas", "level": 2, "copies": 3, "color": "#71c787" , "imgUrl":"/cards/peas.png" },
     { "name": "pineapple", "level": 3, "copies": 1, "color": "#FFFAB0" , "imgUrl":"/cards/spices.png" },
@@ -49,6 +49,6 @@
     { "name": "sugar", "level": 3, "copies": 5, "color": "#FFFDC5" , "imgUrl":"/cards/spices.png" },
     { "name": "tofu", "level": 1, "copies": 3, "color": "#F7F7F7" , "imgUrl":"/cards/spices.png" },
     { "name": "tomato", "level": 1, "copies": 4, "color": "#FF9B90" , "imgUrl":"/cards/spices.png" },
-    { "name": "tortilla", "level": 1, "copies": 6, "color": "#FFEB85" , "imgUrl":"/cards/spices.png"},
+    { "name": "tortilla", "level": 1, "copies": 5, "color": "#FFEB85" , "imgUrl":"/cards/spices.png"},
     { "name": "vinegar", "level": 2, "copies": 2, "color": "#ffc085" , "imgUrl":"/cards/vinegar.png"}
   ]

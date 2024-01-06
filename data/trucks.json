@@ -6,7 +6,7 @@
             {
                 "ComboName": "Burgers!",
                 "dependency": null,
-                "score": 4,
+                "score": 2,
                 "type": null,
                 "ComboLines": [
                     {
@@ -32,7 +32,7 @@
             {
                 "ComboName": "Fries",
                 "dependency": "Burgers!",
-                "score": 0,
+                "score": 1,
                 "type": null,
                 "ComboLines": [
                     {
@@ -47,7 +47,7 @@
             {
                 "ComboName": "Flexitarian Burgers",
                 "dependency": "Burgers!",
-                "score": 0,
+                "score": 1,
                 "type": null,
                 "ComboLines": [
                     {
@@ -349,12 +349,12 @@
                         "requirements": "3"
                     },
                     {
-                      "ingredients": [
-                          "potato",
-                          "peas"
-                      ],
-                      "requirements": "1"
-                  }
+                        "ingredients": [
+                            "potato",
+                            "peas"
+                        ],
+                        "requirements": "1"
+                    }
                 ]
             },
             {
@@ -502,6 +502,21 @@
                 ]
             },
             {
+                "ComboName": "Soy-Glazed Mushrooms",
+                "dependency": null,
+                "score": 0,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "mushrooms",
+                            "soy sauce"
+                        ],
+                        "requirements": "2"
+                    }
+                ]
+            },
+            {
                 "ComboName": "Spring Rolls",
                 "dependency": null,
                 "score": 0,
@@ -640,21 +655,6 @@
                 ]
             },
             {
-                "ComboName": "Shrimp Skewers",
-                "dependency": null,
-                "score": 0,
-                "type": null,
-                "ComboLines": [
-                    {
-                        "ingredients": [
-                            "shrimp",
-                            "garlic"
-                        ],
-                        "requirements": "2"
-                    }
-                ]
-            },
-            {
                 "ComboName": "Coleslaw",
                 "dependency": null,
                 "score": 0,
@@ -685,6 +685,21 @@
                         "requirements": "1"
                     }
                 ]
+            },
+            {
+                "ComboName": "Choco bananas",
+                "dependency": null,
+                "score": 2,
+                "type": null,
+                "ComboLines": [
+                    {
+                        "ingredients": [
+                            "chocolate",
+                            "banana"
+                        ],
+                        "requirements": "2"
+                    }
+                ]
             }
         ]
     },
@@ -695,7 +710,7 @@
             {
                 "ComboName": "Pasti",
                 "dependency": null,
-                "score": 4,
+                "score": 5,
                 "type": null,
                 "ComboLines": [
                     {
