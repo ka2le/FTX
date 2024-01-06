@@ -25,7 +25,7 @@ import './App.css'; // your custom css
 
 export const TESTING = true;
 const WORKING_ON_CARDS = false;
-const WORKING_ON_ANALYSIS = false;
+const WORKING_ON_ANALYSIS = true;
 
 const RARE_THRESHOLD = 2;
 const UNCOMMON_THRESHOLD = 3;

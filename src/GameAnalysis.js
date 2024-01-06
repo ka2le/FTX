@@ -6,20 +6,49 @@ import { Card, CardContent, Typography, List, ListItem, Grid } from '@mui/materi
 
 const ROUNDS = 14;
 
+
 export default function GameAnalysisComponent() {
+
+
+    const playerProfiles = createPlayerProfiles();
+    const initialSelectedProfiles = playerProfiles.reduce((acc, profile, index) => {
+        acc[profile.truckName] = index < 10; // True for first 10, false for the rest
+        return acc;
+    }, {});
+
     const [analysisResult, setAnalysisResult] = useState(null);
+    const [selectedProfiles, setSelectedProfiles] = useState(initialSelectedProfiles);
 
     const handleRunAnalysis = () => {
-        const playerProfiles = createPlayerProfiles();
-        console.log(playerProfiles)
-        const result = runAnalysis(playerProfiles);
+        // Filter the profiles based on selected state
+        const profilesToAnalyze = playerProfiles.filter(profile => selectedProfiles[profile.truckName]);
+        const result = runAnalysis(profilesToAnalyze);
         console.log(result)
         setAnalysisResult(result);
+    };
+
+    const handleCheckboxChange = (truckName) => {
+        setSelectedProfiles(prev => ({
+            ...prev,
+            [truckName]: !prev[truckName]
+        }));
     };
 
     return (
         <div style={{ color: "white", height: "90vh", overflow: "scroll" }}>
             <h2>Game Analysis</h2>
+            <div>
+                {playerProfiles.map(profile => (
+                    <div key={profile.truckName}>
+                        <input
+                            type="checkbox"
+                            checked={!!selectedProfiles[profile.truckName]}
+                            onChange={() => handleCheckboxChange(profile.truckName)}
+                        />
+                        {profile.truckName} ---- ({profile.strategy.join(', ')})
+                    </div>
+                ))}
+            </div>
             <button onClick={handleRunAnalysis}>Run Analysis</button>
             <div>
                 {analysisResult && <GameResultsDisplay gameResults={analysisResult} />}
@@ -28,6 +57,93 @@ export default function GameAnalysisComponent() {
         </div>
     );
 }
+
+const createPlayerProfiles = () => {
+    return [
+        {
+            truckName: "Sweet",
+            strategy: ["Milskshake", "Gelato", "Chutney", "Chili Mayo", "Shrimp Skewers", "Coleslaw"]
+        },
+        {
+            truckName: "Turbo Burgers1",
+            strategy: ["Burgers!", "Fries", "Flexitarian Burgers", "Halloumi Burger", "Pickles", "Chutney",]
+        },
+        {
+            truckName: "Forgotten",
+            strategy: ["Coleslaw", "Vegan BBQ", "Creamy Sides", "Eggplant Parmesan", "BBQ Platter", "BBQ Beans", "Vegan BBQ",]
+        },
+        {
+            truckName: "Taco o Plomo 1",
+            strategy: ["Taco Mix", "Fish Taco", "Burrito", "Quesedilla", "Pineapple Express", "Fish Taco", "BBQ Platter", "BBQ Beans", "Vegan BBQ",]
+        },
+        {
+            truckName: "Turbo Burgers2",
+            strategy: ["Burgers!", "Pickles", "Flexitarian Burgers", "Taco Mix", "Fish Taco", "Fries", "Burrito", "Quesedilla", "Pineapple Express", "Fish Taco", "BBQ Platter", "BBQ Beans", "Vegan BBQ",]
+        },
+
+        {
+            truckName: "The Eat Indian Company 1",
+            strategy: ["Burgers!", "Curry Curry", "Creamy Sides", "Shrimp Skewers", "Coleslaw"]
+        },
+        {
+            truckName: "The Eat Indian Company 2",
+            strategy: ["Curry Curry", "Creamy Sides", "Shrimp Skewers", "Coleslaw"]
+        },
+        {
+            truckName: "The Eat Indian Company 3",
+            strategy: ["Burgers!", "Curry Curry", "Creamy Sides", "Shrimp Skewers", "Coleslaw"]
+        },
+        {
+            truckName: "Bao East 1",
+            strategy: ["Hoisin sauce", "Taco Mix", "Bao Dream", "Taco Mix", "Fish Taco", "Burrito", "Quesedilla", "Pineapple Express", "Fish Taco", "BBQ Platter", "BBQ Beans", "Vegan BBQ",]
+        },
+        {
+            truckName: "Bao East 2",
+            strategy: ["Spring Rolls", "Taco Mix", "Coleslaw", "Chili Mayo", "Bao Dream", "Taco Mix", "BBQ Platter", "BBQ Beans", "Vegan BBQ",]
+        },
+        {
+            truckName: "Grilluminati's BBQ 3",
+            strategy: ["BBQ Platter", "Taco Mix", "Tandoori Skewers", "Creamy Sides", "BBQ Beans", "Shrimp Skewers", "Coleslaw"]
+        },
+
+        {
+            truckName: "Vini Vidi Pasta 4",
+            strategy: ["Pasti", "Eggplant Parmesan", "Creamy Sides", "Coleslaw", "Chili Mayo", "Shrimp Skewers", "Coleslaw"]
+        },
+
+        {
+            truckName: "Turbo Burgers3",
+            strategy: ["Burgers!", "Pickles", "Flexitarian Burgers", "Taco Mix", "Fish Taco", "Fries", "Burrito", "Quesedilla", "Pineapple Express", "Fish Taco", "BBQ Platter", "BBQ Beans", "Vegan BBQ",]
+        },
+        {
+            truckName: "BASE Turbo Burgers",
+            strategy: ["Burgers!", "Fries", "Flexitarian Burgers", "Pickles", "Onion Rings", "Milkshake"]
+          },
+          {
+            truckName: "BASE Taco o Plomo",
+            strategy: ["Taco Mix", "Elotes", "Burrito", "Quesedilla", "Guacamole", "Pineapple Express", "Fish Taco"]
+          },
+          {
+            truckName: "BASE The Eat Indian Company",
+            strategy: ["Curry Curry", "Samosas", "Tandoori Skewers", "Chutney"]
+          },
+          {
+            truckName: "BASE Bao East",
+            strategy: ["Bao Dream", "Hoisin sauce", "Chili Mayo", "Spring Rolls"]
+          },
+          {
+            truckName: "BASE  Grilluminati's BBQ",
+            strategy: ["BBQ Platter", "BBQ Beans", "Vegan BBQ", "Creamy Sides", "Shrimp Skewers", "Coleslaw"]
+          },
+          {
+            truckName: "BASE Vini Vidi Pasta",
+            strategy: ["Pasti", "Eggplant Parmesan", "Gelato"]
+          }
+
+    ];
+};
+
+
 
 function generateGameResults(deck, playersHands, playerProfiles) {
     // Getting items with value > 0 and their quantities
@@ -48,10 +164,17 @@ function generateGameResults(deck, playersHands, playerProfiles) {
             completedCombos
         };
     });
+
+   
     const scores = results.map(result => result.totalScore);
     const averageScore = scores.reduce((a, b) => a + b, 0) / scores.length;
-    const minScore = Math.min(...scores);
-    const maxScore = Math.max(...scores);
+    const minScoreValue = Math.min(...scores);
+    const maxScoreValue = Math.max(...scores);
+    const minScore = results.reduce((acc, result) =>
+    (result.totalScore === minScoreValue && (!acc || result.totalScore < acc.totalScore)) ? result.profile : acc, null);
+
+    const maxScore = results.reduce((acc, result) =>
+    (result.totalScore === maxScoreValue && (!acc || result.totalScore > acc.totalScore)) ? result.profile : acc, null);
 
     // Aggregate combo completion data
     const allUniqueCombos = [...new Set(trucks.flatMap(truck => truck.combos.map(combo => combo.ComboName)))];
@@ -76,7 +199,7 @@ function generateGameResults(deck, playersHands, playerProfiles) {
         availableItemsInDeck: availableItems,
         meta: { cardsLeft: availableItems.length, totalPlayers: playerProfiles.length },
         playerResults: results,
-        scoreStats: { averageScore, minScore, maxScore },
+        scoreStats: { averageScore, minScore: minScore.truckName+" "+minScoreValue, maxScore: maxScore.truckName+" "+maxScoreValue },
         comboStats,
         uniqueWishIngredients
 
@@ -140,7 +263,7 @@ const GameResultsDisplay = ({ gameResults }) => {
             <Card variant="outlined">
                 <CardContent>
                     <Typography variant="h5">Unique Wish Ingredients - {gameResults.uniqueWishIngredients?.length}</Typography>
-                    {renderWishIngredients(gameResults.uniqueWishIngredients)} 
+                    {renderWishIngredients(gameResults.uniqueWishIngredients)}
                 </CardContent>
             </Card>
             {
@@ -172,71 +295,31 @@ const GameResultsDisplay = ({ gameResults }) => {
     );
 };
 
-const createPlayerProfiles = () => {
-    return [
-        {
-            truckName: "Sweet",
-            strategy: ["Milskshake", "Gelato", "Chutney", "Chili Mayo", "Shrimp Skewers", "Coleslaw"]
-        },
-        {
-            truckName: "Turbo Burgers",
-            strategy: ["Burgers!", "Fries", "Flexitarian Burgers", "Halloumi Burger","Pickles","Chutney", ]
-        },
-        {
-            truckName: "Forgotten",
-            strategy: ["Coleslaw", "Vegan BBQ", "Creamy Sides", "Eggplant Parmesan", "BBQ Platter", "BBQ Beans", "Vegan BBQ",]
-        },
-        // {
-        //     truckName: "Taco o Plomo 1",
-        //     strategy: ["Samosas","Taco Mix", "Fish Taco", "Burrito", "Quesedilla", "Pineapple Express", "Fish Taco", "BBQ Platter", "BBQ Beans", "Vegan BBQ",]
-        // },
-        {
-            truckName: "Turbo Burgers",
-            strategy: ["Burgers!",   "Pickles", "Flexitarian Burgers","Taco Mix", "Fish Taco","Fries", "Burrito", "Quesedilla", "Pineapple Express", "Fish Taco", "BBQ Platter", "BBQ Beans", "Vegan BBQ",]
-        },
-        {
-            truckName: "The Eat Indian Company 1",
-            strategy: ["Curry Curry",  "Creamy Sides","Shrimp Skewers", "Coleslaw"]
-        },
-        {
-            truckName: "Bao East 1",
-            strategy: ["Bao Dream", "Hoisin sauce", "Taco Mix", "Fish Taco", "Burrito", "Quesedilla", "Pineapple Express", "Fish Taco", "BBQ Platter", "BBQ Beans", "Vegan BBQ",]
-        },
-        {
-            truckName: "Bao East 2",
-            strategy: ["Spring Rolls", "Coleslaw", "Chili Mayo", "Bao Dream", "Taco Mix", "BBQ Platter", "BBQ Beans", "Vegan BBQ",]
-        },
-        {
-            truckName: "Grilluminati's BBQ 3",
-            strategy: ["BBQ Platter",  "Tandoori Skewers", "Creamy Sides", "BBQ Beans","Shrimp Skewers", "Coleslaw"]
-        },
-
-        {
-            truckName: "Vini Vidi Pasta 4",
-            strategy: ["Pasti", "Taco Mix", "Fish Taco", "Burrito", "Quesedilla", "Pineapple Express", "Fish Taco", "BBQ Platter", "BBQ Beans", "Vegan BBQ",]
-        },
-        
-        {
-            truckName: "Turbo Burgers",
-            strategy: ["Eggplant Parmesan", "Onion Rings", "Samosas", "Pickles", "Onion Rings", "Milkshake"]
-        },
-       
-    ];
-};
-
 
 export const runAnalysis = (playerProfiles) => {
-    const deck = createDeck();
+    const deck = createDeck(playerProfiles);
     console.log(deck)
     const gameResult = simulateGame(deck, playerProfiles);
     return gameResult;
 };
 
-export const createDeck = () => {
+export const createDeck = (playerProfiles) => {
     let deck = {};
+    let totalCardsNeeded = playerProfiles.length * ROUNDS;
+
     initialIngredients.forEach(ingredient => {
         deck[ingredient.name] = ingredient.copies;
     });
+
+    let totalCardsInDeck = Object.values(deck).reduce((a, b) => a + b, 0);
+
+    while (totalCardsInDeck > totalCardsNeeded) {
+        let cardNames = Object.keys(deck).filter(cardName => deck[cardName] > 0);
+        let randomCard = cardNames[Math.floor(Math.random() * cardNames.length)];
+        removeCardFromDeck(deck, randomCard);
+        totalCardsInDeck--;
+    }
+
     return deck;
 };
 
