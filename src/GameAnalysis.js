@@ -62,7 +62,7 @@ const createPlayerProfiles = () => {
     return [
         {
             truckName: "Sweet",
-            strategy: ["Milskshake", "Gelato", "Chutney", "Chili Mayo", "Shrimp Skewers", "Coleslaw"]
+            strategy: ["Milskshake", "Gelato", "Chutney", "Grilled banana","Chili Mayo", "Shrimp-Fried Rice", "Coleslaw"]
         },
         {
             truckName: "Turbo Burgers1",
@@ -83,15 +83,15 @@ const createPlayerProfiles = () => {
 
         {
             truckName: "The Eat Indian Company 1",
-            strategy: [ "Curry Curry", "Creamy Sides", "Shrimp Skewers", "Coleslaw", "Burgers!"]
+            strategy: [ "Curry Curry", "Creamy Sides", "Shrimp-Fried Rice", "Coleslaw", "Burgers!"]
         },
         {
             truckName: "The Eat Indian Company 2",
-            strategy: ["Curry Curry", "Creamy Sides", "Shrimp Skewers", "Coleslaw", , "Soy-Glazed Mushrooms"]
+            strategy: ["Curry Curry", "Creamy Sides", "Shrimp-Fried Rice", "Coleslaw", , "Soy-Glazed Mushrooms"]
         },
         // {
         //     truckName: "The Eat Indian Company 3",
-        //     strategy: ["Burgers!", "Curry Curry", "Creamy Sides", "Shrimp Skewers", "Coleslaw", , "Soy-Glazed Mushrooms"]
+        //     strategy: ["Burgers!", "Curry Curry", "Creamy Sides", "Shrimp-Fried Rice", "Coleslaw", , "Soy-Glazed Mushrooms"]
         // },
         {
             truckName: "Bao East 1",
@@ -103,12 +103,12 @@ const createPlayerProfiles = () => {
         },
         {
             truckName: "Grilluminati's BBQ 3",
-            strategy: ["BBQ Platter", "Taco Mix", , "Soy-Glazed Mushrooms","Tandoori Skewers", "Creamy Sides", "BBQ Beans", "Shrimp Skewers", "Coleslaw"]
+            strategy: ["BBQ Platter", "Taco Mix", , "Soy-Glazed Mushrooms","Tandoori Skewers", "Creamy Sides", "BBQ Beans", "Shrimp-Fried Rice", "Coleslaw"]
         },
 
         {
             truckName: "Vini Vidi Pasta 4",
-            strategy: ["Pasti", "Eggplant Parmesan", "Creamy Sides", "Coleslaw", "Chili Mayo", "Shrimp Skewers", "Coleslaw"]
+            strategy: ["Pasti", "Eggplant Parmesan", "Creamy Sides", "Coleslaw", "Chili Mayo", "Shrimp-Fried Rice", "Coleslaw"]
         },
 
         {
@@ -133,7 +133,7 @@ const createPlayerProfiles = () => {
           },
           {
             truckName: "BASE  Grilluminati's BBQ",
-            strategy: ["BBQ Platter", "BBQ Beans", "Vegan BBQ", "Creamy Sides", "Shrimp Skewers", "Coleslaw"]
+            strategy: ["BBQ Platter", "BBQ Beans", "Vegan BBQ", "Creamy Sides", "Shrimp-Fried Rice", "Coleslaw"]
           },
           {
             truckName: "BASE Vini Vidi Pasta",
@@ -141,11 +141,11 @@ const createPlayerProfiles = () => {
           },
           {
             truckName: "Sweet 2",
-            strategy: ["Milskshake", "Gelato", "Chutney", "Chili Mayo", "Shrimp Skewers", "Coleslaw", "Soy-Glazed Mushrooms"]
+            strategy: ["Milskshake", "Gelato", "Chutney", "Chili Mayo", "Shrimp-Fried Rice", "Coleslaw", "Soy-Glazed Mushrooms"]
         },
         {
             truckName: "Sweet 3",
-            strategy: ["Milskshake", "Gelato", "Chutney", "Chili Mayo", "Shrimp Skewers", "Coleslaw"]
+            strategy: ["Milskshake", "Gelato", "Chutney", "Chili Mayo", "Shrimp-Fried Rice", "Coleslaw"]
         },
 
     ];

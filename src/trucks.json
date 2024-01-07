@@ -30,21 +30,6 @@
                 ]
             },
             {
-                "ComboName": "Fries",
-                "dependency": "Burgers!",
-                "score": 1,
-                "type": null,
-                "ComboLines": [
-                    {
-                        "ingredients": [
-                            "oil",
-                            "potato"
-                        ],
-                        "requirements": "2"
-                    }
-                ]
-            },
-            {
                 "ComboName": "Flexitarian Burgers",
                 "dependency": "Burgers!",
                 "score": 1,
@@ -54,22 +39,33 @@
                         "ingredients": [
                             "tofu",
                             "mushrooms",
-                            "fish"
+                            "fish",
+                            "beans",
+                            "cheese"
                         ],
-                        "requirements": "2"
+                        "requirements": "3"
+                    },
+                    {
+                        "ingredients": [
+                            "avocado",
+                            "aubergine",
+                            "spinach",
+                            "cilantro"
+                        ],
+                        "requirements": "1"
                     }
                 ]
             },
             {
-                "ComboName": "Halloumi Burger",
+                "ComboName": "Fries",
                 "dependency": "Burgers!",
-                "score": 2,
+                "score": 1,
                 "type": null,
                 "ComboLines": [
                     {
                         "ingredients": [
-                            "cheese",
-                            "avocado"
+                            "oil",
+                            "potato"
                         ],
                         "requirements": "2"
                     }
@@ -502,15 +498,15 @@
                 ]
             },
             {
-                "ComboName": "Soy-Glazed Mushrooms",
+                "ComboName": "Shrimp-Fried Rice",
                 "dependency": null,
                 "score": 0,
                 "type": null,
                 "ComboLines": [
                     {
                         "ingredients": [
-                            "mushrooms",
-                            "soy sauce"
+                            "shrimp",
+                            "rice"
                         ],
                         "requirements": "2"
                     }
@@ -687,7 +683,7 @@
                 ]
             },
             {
-                "ComboName": "Choco bananas",
+                "ComboName": "Grilled banana",
                 "dependency": null,
                 "score": 2,
                 "type": null,

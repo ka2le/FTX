@@ -858,6 +858,7 @@ button.selected {
 }
 .truck-card  .sedgwickAveDisplay-type .ingredients{
  line-height: 0; 
+ margin-bottom: -1px !important;
 }
 .truck-card .ingredients {
   width: 100% !important;
