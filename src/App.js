@@ -23,7 +23,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './App.css'; // your custom css
 
-export const TESTING = true;
+export let TESTING = false;
 const WORKING_ON_CARDS = false;
 const WORKING_ON_ANALYSIS = false;
 
@@ -33,6 +33,12 @@ const CARD_SCORE_VALUE = 1;
 
 
 export default function App() {
+  const [TESTINGSTATE, setTESTINGSTATE] = useState(TESTING);
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    setTESTINGSTATE(searchParams.has('TESTING'));
+  }, []);
   const [cardTesting, setCardTesting] = useState(WORKING_ON_CARDS);
   const loadTradeInterfaceFromLocalStorage = () => {
     const storedTradeInterface = localStorage.getItem('tradeInterface');
@@ -311,7 +317,7 @@ export default function App() {
       </Slider>
       <div className="score-row" >
         <b>Score: {totalScore}</b>
-        {/* {TESTING ? `Cards: ${totalIngredientCount} Levels: ${combinedLevel}` : null}
+        {/* {TESTINGSTATE? `Cards: ${totalIngredientCount} Levels: ${combinedLevel}` : null}
         {closeMissingIngredients?.length > 0 ? " Need: " + closeMissingIngredients?.join(" - ") + "" : null} */}
         <br></br>
         {completeCombos.join(", ")}
@@ -340,7 +346,7 @@ export default function App() {
                 🗑️
               </Button>
               <Button className="dialog-actions-button" onClick={toggleTradeInterface} >
-                {(!testInterface) ? '👥' : "👤"}
+              {TESTINGSTATE?   (!testInterface) ? '👥' : "👤" : null}
               </Button>
               <Button className="dialog-actions-button" onClick={handleClose}>
                 x
@@ -357,10 +363,10 @@ export default function App() {
                 <Button onClick={toggleLocalChanges}>
                   {isLandscapeOrDesktop ? (hasLocalChanges ? "Unsynced" : "Synced") : null} {hasLocalChanges ? <LinkOffIcon /> : <LinkIcon />}
                 </Button>
-                {TESTING ? <Button className="dialog-actions-button" onClick={() => { setCardTesting(!cardTesting) }} >
+                {TESTINGSTATE? <Button className="dialog-actions-button" onClick={() => { setCardTesting(!cardTesting) }} >
                   🖨️
                 </Button> : null}
-                {TESTING ? <Button className="dialog-actions-button" onClick={() => { toggleAnalisys() }} >
+                {TESTINGSTATE? <Button className="dialog-actions-button" onClick={() => { toggleAnalisys() }} >
                 ▁▂▃                </Button> : null}
                 <div>   {isLandscapeOrDesktop ? "Number of Players:" : null}
                   <Select
@@ -435,7 +441,7 @@ export default function App() {
         </div>
         <DialogContent >
 
-          <Grid container spacing={2}>
+          <Grid container spacing={2} sx={{width: "calc(100% - 16px)", minWidth: "0px"}}>
             <Grid item xs={12} md={testInterface ? 6 : 12}>
               <IngredientList setHasLocalChanges={setHasLocalChanges} sortConfig={sortConfig} ingredients={ingredients} setIngredients={setIngredients} scoreDifferences={scoreDifferences} />
             </Grid>

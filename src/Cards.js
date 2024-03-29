@@ -8,8 +8,14 @@ import React from 'react';
 import img1 from './cards/spices.png';
 import { TruckMenu, getRarity} from "./App";
 
-const save_size = 6;
+const save_size = 7;
 const BRIGHTNESS_ADJUSTMENT = 1.1;
+
+const secretIngredients = [
+    { "name": "baconana", "level": 3, "copies": 1, "color": "#E1C5A8" , "imgUrl":"/cards/spices.png" },
+    { "name": "bun shroom", "level": 3, "copies": 1, "color": "#E1C5A8" , "imgUrl":"/cards/spices.png" },
+    { "name": "chicklantro", "level": 3, "copies": 1, "color": "#E1C5A8" , "imgUrl":"/cards/spices.png" },
+]
 
 export const Cards = ({ cardTesting, setCardTesting }) => {
     const ingredients = initialIngredients.map((ingredient) => ({ ...ingredient, amount: 0 }))
@@ -25,7 +31,8 @@ export const Cards = ({ cardTesting, setCardTesting }) => {
         {/* <BackSide imgName={"ingred_back.jpg"}></BackSide> */}
         {/* <BackSide imgName={"back3.jpg"}></BackSide> */}
         <BackSide imgName={"back.png"}></BackSide>
-        <BackSide imgName={"secret3.png"}></BackSide>
+        <BackSide imgName={"secret3.png"} ></BackSide>
+        <BackSide imgName={"singularity_back.jpg"}  type={5}></BackSide>
         {/* <BackSide imgName={"back4.png"} title={""}></BackSide> */}
         {/* <BackSide type={2} imgName={"hat1.png"} title={""}></BackSide> */}
         <BackSide type={3} imgName={"hat2.png"} title={""}></BackSide>
@@ -34,10 +41,13 @@ export const Cards = ({ cardTesting, setCardTesting }) => {
         <BackSide imgName={"tire_back.png"}></BackSide>
         {/* <BackSide imgName={"ingredient_back2.png"}></BackSide> */}
        
-       
+        {secretIngredients.map((ingredient, index) =>
+            <IngredientCard key={index} ingredient={ingredient} />
+        )}
         {initialIngredients.map((ingredient, index) =>
             <IngredientCard key={index} ingredient={ingredient} />
         )}
+        
          {secrets.map((secret, index) =>
             <SecretCard key={index} secret={secret} />
         )}
@@ -53,7 +63,7 @@ const BackSide = ({ imgName, title = null, type=1 }) => {
             <div ref={cardRef}  >
                 <div className={"ingredient-card backside type"+type}>
                     {title ? <h1 className={"type"+type}>{title}</h1> : null}
-                    <img src={`/ftx/img/${imgName}`} alt={imgName} className="ingredient-image-outer" />
+                    {type == 5 ? <div  className="ingredient-image-outer"><div></div></div> : <img src={`/ftx/img/${imgName}`} alt={imgName} className="ingredient-image-outer" />}
                     <img src={`/ftx/img/${imgName}`} alt={imgName} className="ingredient-image" />
                 </div>
             </div>
