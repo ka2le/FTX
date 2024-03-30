@@ -346,7 +346,7 @@ export default function App() {
                 🗑️
               </Button>
               <Button className="dialog-actions-button" onClick={toggleTradeInterface} >
-              {TESTINGSTATE?   (!testInterface) ? '👥' : "👤" : null}
+              {TESTINGSTATE ?   (!testInterface) ? '👥' : "👤" : (!testInterface) ? null : "👤"}
               </Button>
               <Button className="dialog-actions-button" onClick={handleClose}>
                 x
@@ -424,12 +424,13 @@ export default function App() {
                 <Button className="dialog-actions-button" onClick={() => toggleSort('copies')}>
                   Rarity {sortConfig.criteria === 'copies' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
                 </Button>
-                <Button className="dialog-actions-button" onClick={() => toggleSort('amount')}>
-                  Owned {sortConfig.criteria === 'amount' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
-                </Button>
                 <Button className="dialog-actions-button" onClick={() => toggleSort('scoreDifferenceDecrement')}>
                   Lose {sortConfig.criteria === 'scoreDifferenceDecrement' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
                 </Button>
+                <Button className="dialog-actions-button" onClick={() => toggleSort('amount')}>
+                  Owned {sortConfig.criteria === 'amount' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                </Button>
+             
                 <Button className="dialog-actions-button" onClick={() => toggleSort('scoreDifferenceIncrement')}>
                   Gain {sortConfig.criteria === 'scoreDifferenceIncrement' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
                 </Button>
@@ -439,10 +440,10 @@ export default function App() {
 
 
         </div>
-        <DialogContent >
+        <DialogContent   sx={{width: "calc(100%)", minWidth: "0px !important", padding: "0px !important"}} >
 
-          <Grid container spacing={2} sx={{width: "calc(100% - 16px)", minWidth: "0px"}}>
-            <Grid item xs={12} md={testInterface ? 6 : 12}>
+          <Grid container spacing={2} sx={{width: "calc(100%)", minWidth: "0px", marginLeft:"0 !important", }}>
+            <Grid item xs={12} md={testInterface ? 6 : 12}  sx={{paddingLeft:"6px !important" }} >
               <IngredientList setHasLocalChanges={setHasLocalChanges} sortConfig={sortConfig} ingredients={ingredients} setIngredients={setIngredients} scoreDifferences={scoreDifferences} />
             </Grid>
             {testInterface ?
